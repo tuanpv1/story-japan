@@ -10,8 +10,9 @@ namespace frontend\widgets;
 use common\models\Category;
 use yii\base\Widget;
 use Yii;
+use yii\helpers\Url;
 
-class CategoryLeft extends Widget{
+class MenuLeft extends Widget{
 
     public $message;
 
@@ -26,8 +27,19 @@ class CategoryLeft extends Widget{
             ->andWhere(['status' => Category::STATUS_ACTIVE])
             ->andWhere(['parent_id' => null])
             ->all();
-        return $this->render('category-left',[
+        return $this->render('menu-left',[
             'menu'=>$menu
         ]);
+    }
+
+    public static function getChildMenuLeft($id){
+        $all_child = Category::find()
+            ->andWhere(['status'=>Category::STATUS_ACTIVE])
+            ->andWhere(['parent_id'=>$id])
+            ->all();
+        $st = new MenuLeft();
+        if(isset($all_child) && !empty($all_child)){
+            return $st->render('child-menu-left',['all_child'=>$all_child]);
+        }
     }
 }

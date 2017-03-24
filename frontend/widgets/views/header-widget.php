@@ -135,7 +135,7 @@ use yii\widgets\ActiveForm;
     <div id="nav-top-menu" class="nav-top-menu">
         <div class="container">
             <div class="row">
-                <?= MenuRight::widget()?>
+                <?= \frontend\widgets\MenuLeft::widget()?>
                 <?= MenuTop::widget() ?>
             </div>
             <!-- userinfo on top-->
