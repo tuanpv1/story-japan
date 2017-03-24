@@ -30,36 +30,11 @@ $showPreview = !$model->isNewRecord && !empty($model->images);
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 
-    <?php if ($showPreview) { ?>
-        <div class="form-group field-category-icon">
-            <div class="col-sm-offset-3 col-sm-5">
-                <?php echo Html::img($model->getImageLink(), ['class' => 'file-preview-image']) ?>
-            </div>
-        </div>
-    <?php } ?>
-
-    <?= $form->field($model, 'images')->widget(FileInput::classname(), [
-        'options' => ['multiple' => true, 'accept' => 'image/*'],
-        'pluginOptions' => [
-            'previewFileType' => 'image',
-            'showUpload' => false,
-            'showPreview' => (!$showPreview) ? true : false,
-        ]
-    ])->hint(Yii::t('app','Ảnh danh mục cấp 1 có ảnh tỉ lệ 1.2 chính xác 16x13, Yêu cầu up nội dung chính xác.')); ?>
-
-    <?= $form->field($model, 'location_image')->dropDownList(
-        Category::getLocationImage(), ['class' => 'input-circle']
-    ) ?>
 
     <?= $form->field($model, 'status')->dropDownList(
         Category::getListStatus(), ['class' => 'input-circle']
     ) ?>
 
-    <?= $form->field($model, 'is_news')->checkbox() ?>
-    <?= $form->field($model, 'hide')->checkbox() ?>
-
-    <?php $listCheckbox = \common\models\Category::getListType(); ?>
-    <?= $form->field($model, 'type')->dropDownList($listCheckbox)->label(Yii::t('app','Vị trí menu')) ?>
 
     <?php
     $dataList = \common\models\Category::getTreeCategories();

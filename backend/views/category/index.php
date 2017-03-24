@@ -47,17 +47,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             },
                         ],
                         [
-                            'class' => '\kartik\grid\DataColumn',
-                            'format'=>'raw',
-                            'label'=>Yii::t('app','Ảnh đại diện'),
-                            'attribute' => 'images',
-                            'value'=>function ($model, $key, $index, $widget) {
-                                /** @var $model \common\models\Category */
-                                $cat_image=  Yii::getAlias('@cat_image');
-                                return $model->images ? Html::img('@web/'.$cat_image.'/'.$model->images, ['alt' => 'Thumbnail','width'=>'50','height'=>'50']) : '';
-                            },
-                        ],
-                        [
                             'class' => 'kartik\grid\EditableColumn',
                             'attribute' => 'status',
                             'refreshGrid' => true,
@@ -73,33 +62,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             },
                             'filterType' => GridView::FILTER_SELECT2,
                             'filter' => [0 => 'InActive', 10 => 'Active'],
-                            'filterWidgetOptions' => [
-                                'pluginOptions' => ['allowClear' => true],
-                            ],
-                            'filterInputOptions' => ['placeholder' => Yii::t('app','Tất cả')],
-                        ],
-                        [
-                            'class' => 'kartik\grid\DataColumn',
-                            'attribute' => 'type',
-                            'value' => function ($model, $key, $index) {
-                                return $model->type?Category::getListType()[$model->type]:'';
-                            },
-                            'filterType' => GridView::FILTER_SELECT2,
-                            'filter' => Category::getListType(),
-                            'filterWidgetOptions' => [
-                                'pluginOptions' => ['allowClear' => true],
-                            ],
-                            'filterInputOptions' => ['placeholder' => Yii::t('app','Tất cả')],
-                        ],
-                        [
-                            'class' => 'kartik\grid\DataColumn',
-                            'attribute' => 'location_image',
-                            'value' => function ($model, $key, $index, $widget) {
-                                /** @var $model Category*/
-                                return Category::getLocationImage()[$model->location_image];
-                            },
-                            'filterType' => GridView::FILTER_SELECT2,
-                            'filter' => Category::getLocationImage(),
                             'filterWidgetOptions' => [
                                 'pluginOptions' => ['allowClear' => true],
                             ],

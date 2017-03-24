@@ -145,7 +145,7 @@ class UserController extends Controller
         $user->setPassword($password);
         $user->generateAuthKey();
 
-        if ($user->save()) {
+        if ($user->save(false)) {
             echo 'User created!\n';
             return $user;
         }

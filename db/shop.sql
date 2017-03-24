@@ -285,7 +285,6 @@ DROP TABLE IF EXISTS `site_api_credential`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `site_api_credential` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
-  `site_id` int(10) NOT NULL,
   `client_name` varchar(200) NOT NULL,
   `type` smallint(6) NOT NULL DEFAULT '1' COMMENT '1 - web client (can co secret key cho server va apikey)\n2 - android client (can co api key, packagename va certificate fingerprint\n3 - ios\n4 - windows phone',
   `client_api_key` varchar(128) NOT NULL COMMENT 'dung cho tat cac moi client',
@@ -325,7 +324,6 @@ CREATE TABLE `user` (
   `created_at` int(11) DEFAULT NULL,
   `updated_at` int(11) DEFAULT NULL,
   `type` smallint(6) NOT NULL DEFAULT '1' COMMENT '1 - Admin\n2 - SP\n3 - dealer',
-  `site_id` int(10) DEFAULT NULL,
   `dealer_id` int(10) DEFAULT NULL,
   `parent_id` int(11) DEFAULT NULL COMMENT 'ID cua accout me',
   `fullname` varchar(255) DEFAULT NULL,
@@ -364,16 +362,13 @@ CREATE TABLE `user_activity` (
   `created_at` int(11) DEFAULT NULL,
   `description` text,
   `status` varchar(255) DEFAULT NULL,
-  `site_id` int(10) DEFAULT NULL,
   `dealer_id` int(10) DEFAULT NULL,
   `request_detail` varchar(256) DEFAULT NULL,
   `request_params` text,
   PRIMARY KEY (`id`),
   KEY `fk_user_activity_user1_idx` (`user_id`),
-  KEY `fk_user_activity_service_provider1_idx` (`site_id`),
   KEY `fk_user_activity_content_provider1_idx` (`dealer_id`),
   CONSTRAINT `fk_user_activity_content_provider1` FOREIGN KEY (`dealer_id`) REFERENCES `dealer` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_user_activity_service_provider1` FOREIGN KEY (`site_id`) REFERENCES `site` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_user_activity_user1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=160 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
