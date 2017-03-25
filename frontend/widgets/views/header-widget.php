@@ -11,34 +11,22 @@ use yii\widgets\ActiveForm;
     <div class="top-header">
         <div class="container">
             <div class="nav-top-links">
-                <a class="first-item" href="#"><img alt="phone" src="<?= Yii::$app->getUrlManager()->getBaseUrl() ?>/images/phone.png" />00-62-658-658</a>
-                <a href="<?= Url::to(['site/index']) ?>"><img alt="email" src="<?= Yii::$app->getUrlManager()->getBaseUrl() ?>/images/email.png" />Contact us today!</a>
+                <a class="first-item" href="#"><img alt="phone" src="<?= Yii::$app->getUrlManager()->getBaseUrl() ?>/images/phone.png" />(84) 1688 929 947</a>
+                <a href="<?= Url::to(['site/index']) ?>"><img alt="email" src="<?= Yii::$app->getUrlManager()->getBaseUrl() ?>/images/email.png" />Liên hệ với chúng tôi ngay bây giờ!</a>
             </div>
             <div class="currency ">
                 <div class="dropdown">
-                    <a class="current-open" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">USD</a>
+                    <a class="current-open" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Mạng xã hội</a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Dollar</a></li>
-                        <li><a href="#">Euro</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="language ">
-                <div class="dropdown">
-                    <a class="current-open" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
-                        <img alt="email" src="<?= Yii::$app->getUrlManager()->getBaseUrl() ?>/images/fr.jpg" />French
-
-                    </a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#"><img alt="email" src="<?= Yii::$app->getUrlManager()->getBaseUrl() ?>/images/en.jpg" />English</a></li>
-                        <li><a href="#"><img alt="email" src="<?= Yii::$app->getUrlManager()->getBaseUrl() ?>/images/fr.jpg" />French</a></li>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Google+</a></li>
                     </ul>
                 </div>
             </div>
 
             <div class="support-link">
-                <a href="#">Services</a>
-                <a href="#">Support</a>
+                <a href="#">Dịch vụ</a>
+                <a href="#">Hỗ trợ</a>
             </div>
 
             <div id="user-info-top" class="user-info pull-right">
