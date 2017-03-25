@@ -53,6 +53,7 @@ use yii\helpers\Url;
  * @property int $order
  * @property int $type_status
  * @property int $availability
+ * @property int $is_feature
  *
  * @property ContentCategoryAsm[] $contentCategoryAsms
  */
@@ -104,6 +105,9 @@ class Content extends \yii\db\ActiveRecord
     const TYPE_NEWEST = 3;
     const TYPE_DEAL = 4;
     const TYPE_FORYOU = 5;
+
+    const IS_FEATURE = 1;
+    const IS_NO_FEATURE = 0;
 
     const MAX_SIZE_UPLOAD = 10485760; // 10 * 1024 * 1024
 
@@ -159,10 +163,10 @@ class Content extends \yii\db\ActiveRecord
     public function rules()
     {
         return array_merge([
-            [['display_name', 'code', 'status', 'list_cat_id', 'price','expired_at'], 'required', 'on' => 'adminModify', 'message' => '{attribute} không được để trống'],
-            [['started_at', 'ended_at'], 'required', 'message' => Yii::t('app','{attribute} không được để trống'), 'on' => 'adminModifyLiveContent'],
+            [['display_name', 'code', 'status', 'list_cat_id', 'price', 'expired_at'], 'required', 'on' => 'adminModify', 'message' => '{attribute} không được để trống'],
+            [['started_at', 'ended_at'], 'required', 'message' => Yii::t('app', '{attribute} không được để trống'), 'on' => 'adminModifyLiveContent'],
             [['ended_at'], 'validEnded', 'on' => 'adminModifyLiveContent'],
-            [['display_name', 'code'], 'required', 'message' => Yii::t('app','{attribute} không được để trống')],
+            [['display_name', 'code'], 'required', 'message' => Yii::t('app', '{attribute} không được để trống')],
             [
                 [
                     'type',
@@ -186,29 +190,30 @@ class Content extends \yii\db\ActiveRecord
                     'approved_at',
                     'order',
                     'type_status',
-                    'availability'
+                    'availability',
+                    'is_feature'
                 ], 'integer',
             ],
-            [['description','url_thumbnail','url_slide', 'content', 'condition', 'images', 'short_description', 'images', 'highlight','title_short'], 'string'],
+            [['description', 'url_thumbnail', 'url_slide', 'content', 'condition', 'images', 'short_description', 'images', 'highlight', 'title_short'], 'string'],
             [['rating'], 'number'],
             [['display_name', 'ascii_name', 'country'], 'string', 'max' => 128],
             [['code'], 'string', 'max' => 20],
             [['tags', 'address'], 'string', 'max' => 500],
             [['version'], 'string', 'max' => 64],
             [['language'], 'string', 'max' => 10],
-            [['code'], 'unique', 'message' => Yii::t('app','{attribute} đã tồn tại trên hệ thống. Vui lòng thử lại')],
-            [['thumbnail', 'screenshoot', 'slide','slide_category'],
+            [['code'], 'unique', 'message' => Yii::t('app', '{attribute} đã tồn tại trên hệ thống. Vui lòng thử lại')],
+            [['thumbnail', 'screenshoot', 'slide', 'slide_category'],
                 'file',
-                'tooBig' => Yii::t('app','{attribute} vượt quá dung lượng cho phép. Vui lòng thử lại'),
-                'wrongExtension' => Yii::t('app','{attribute} không đúng định dạng'),
+                'tooBig' => Yii::t('app', '{attribute} vượt quá dung lượng cho phép. Vui lòng thử lại'),
+                'wrongExtension' => Yii::t('app', '{attribute} không đúng định dạng'),
                 'extensions' => 'png, jpg, jpeg, gif',
                 'maxSize' => self::MAX_SIZE_UPLOAD],
-            [['thumbnail','slide_category'], 'validateThumb', 'on' => ['adminModify', 'adminModifyLiveContent']],
+            [['thumbnail', 'slide_category'], 'validateThumb', 'on' => ['adminModify', 'adminModifyLiveContent']],
             [['screenshoot'], 'validateScreen', 'on' => 'adminModify'],
-            [['thumbnail','screenshoot', 'slide','slide_category'], 'image', 'extensions' => 'png,jpg,jpeg,gif',
+            [['thumbnail', 'screenshoot', 'slide', 'slide_category'], 'image', 'extensions' => 'png,jpg,jpeg,gif',
 //                'minWidth' => 1, 'maxWidth' => 512,
 //                'minHeight' => 1, 'maxHeight' => 512,
-                'maxSize' => 1024 * 1024 * 10, 'tooBig' => Yii::t('app','Ảnh show  vượt quá dung lượng cho phép. Vui lòng thử lại'),
+                'maxSize' => 1024 * 1024 * 10, 'tooBig' => Yii::t('app', 'Ảnh show  vượt quá dung lượng cho phép. Vui lòng thử lại'),
             ],
             [['image_tmp', 'list_cat_id'], 'safe'],
         ], $this->getValidAttr());
@@ -292,51 +297,52 @@ class Content extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'display_name' => Yii::t('app', 'Tên hiển thị'),
-            'code' => Yii::t('app','Mã code'),
-            'ascii_name' => Yii::t('app','Ascii Name'),
-            'title_short' => Yii::t('app','Tên hiển thị ngắn'),
-            'type' => Yii::t('app','Kiểu hàng sắp xếp'),
-            'tags' => Yii::t('app','Tags'),
-            'type_status'=>Yii::t('app','Tình trạng hàng'),
-            'availability'=>Yii::t('app','Trạng thái hàng'),
-            'short_description' => Yii::t('app','Mô tả ngắn'),
-            'highlight' => Yii::t('app','Điểm nổi bật'),
-            'condition' => Yii::t('app','Điều kiện sử dụng'),
-            'price_promotion' => Yii::t('app','Giá khuyến mãi'),
-            'price' => Yii::t('app','Giá gốc'),
-            'description' => Yii::t('app','Mô tả'),
-            'content' => Yii::t('app','Nội dung'),
-            'urls' =>Yii::t('app', 'Urls'),
-            'version_code' => Yii::t('app','Phiên bản code'),
-            'version' => Yii::t('app','Phiên bản'),
-            'view_count' => Yii::t('app','Tổng lượt xem'),
-            'download_count' => Yii::t('app','Download Count'),
-            'like_count' => Yii::t('app','Tổng lượt thích'),
-            'dislike_count' => Yii::t('app','Tổng lượt ko thích'),
-            'rating' => Yii::t('app','Đánh giá'),
-            'rating_count' => Yii::t('app','Tổng lượt đánh giá'),
-            'expired_at' => Yii::t('app','Ngày hết hạn'),
-            'comment_count' => Yii::t('app','Tổng số nhận xét'),
-            'favorite_count' => Yii::t('app','Tổng lượt thích'),
+            'code' => Yii::t('app', 'Mã code'),
+            'ascii_name' => Yii::t('app', 'Ascii Name'),
+            'title_short' => Yii::t('app', 'Tên hiển thị ngắn'),
+            'type' => Yii::t('app', 'Kiểu hàng sắp xếp'),
+            'tags' => Yii::t('app', 'Tags'),
+            'type_status' => Yii::t('app', 'Tình trạng hàng'),
+            'availability' => Yii::t('app', 'Trạng thái hàng'),
+            'short_description' => Yii::t('app', 'Mô tả ngắn'),
+            'highlight' => Yii::t('app', 'Điểm nổi bật'),
+            'condition' => Yii::t('app', 'Điều kiện sử dụng'),
+            'price_promotion' => Yii::t('app', 'Giá khuyến mãi'),
+            'price' => Yii::t('app', 'Giá gốc'),
+            'description' => Yii::t('app', 'Mô tả'),
+            'content' => Yii::t('app', 'Nội dung'),
+            'urls' => Yii::t('app', 'Urls'),
+            'version_code' => Yii::t('app', 'Phiên bản code'),
+            'version' => Yii::t('app', 'Phiên bản'),
+            'view_count' => Yii::t('app', 'Tổng lượt xem'),
+            'download_count' => Yii::t('app', 'Download Count'),
+            'like_count' => Yii::t('app', 'Tổng lượt thích'),
+            'dislike_count' => Yii::t('app', 'Tổng lượt ko thích'),
+            'rating' => Yii::t('app', 'Đánh giá'),
+            'rating_count' => Yii::t('app', 'Tổng lượt đánh giá'),
+            'expired_at' => Yii::t('app', 'Ngày hết hạn'),
+            'comment_count' => Yii::t('app', 'Tổng số nhận xét'),
+            'favorite_count' => Yii::t('app', 'Tổng lượt thích'),
             'is_catchup' => Yii::t('app', 'Truyền hình xem lại'),
-            'images' => Yii::t('app','Hình ảnh'),
+            'images' => Yii::t('app', 'Hình ảnh'),
             'status' => Yii::t('app', 'Trạng thái'),
-            'created_at' => Yii::t('app','Ngày tạo'),
-            'updated_at' => Yii::t('app','Ngày cập nhật'),
-            'honor' => Yii::t('app','Loại nội dung'),
-            'address' => Yii::t('app','Địa chỉ'),
-            'approved_at' => Yii::t('app','Ngày phê duyệt'),
-            'parent_id' => Yii::t('app','Cha'),
-            'country' => Yii::t('app','Nước'),
-            'language' => Yii::t('app','Ngôn ngữ'),
-            'thumbnail' => Yii::t('app','Ảnh đại diện (*)'),
-            'screenshoot' => Yii::t('app','Ảnh screen show (*)'),
-            'slide' => Yii::t('app','Ảnh slide trang chủ '),
-            'list_cat_id' => Yii::t('app','Danh mục  nội dung'),
-            'started_at' => Yii::t('app','Thời gian bắt đầu'),
-            'ended_at' => Yii::t('app','Thời gian kết thúc'),
-            'order' => Yii::t('app','Sắp xếp'),
-            'slide_category' => Yii::t('app','Ảnh slide Danh mục'),
+            'created_at' => Yii::t('app', 'Ngày tạo'),
+            'updated_at' => Yii::t('app', 'Ngày cập nhật'),
+            'honor' => Yii::t('app', 'Loại nội dung'),
+            'address' => Yii::t('app', 'Địa chỉ'),
+            'approved_at' => Yii::t('app', 'Ngày phê duyệt'),
+            'parent_id' => Yii::t('app', 'Cha'),
+            'country' => Yii::t('app', 'Nước'),
+            'language' => Yii::t('app', 'Ngôn ngữ'),
+            'thumbnail' => Yii::t('app', 'Ảnh đại diện (*)'),
+            'screenshoot' => Yii::t('app', 'Ảnh screen show (*)'),
+            'slide' => Yii::t('app', 'Ảnh slide trang chủ '),
+            'list_cat_id' => Yii::t('app', 'Danh mục  nội dung'),
+            'started_at' => Yii::t('app', 'Thời gian bắt đầu'),
+            'ended_at' => Yii::t('app', 'Thời gian kết thúc'),
+            'order' => Yii::t('app', 'Sắp xếp'),
+            'slide_category' => Yii::t('app', 'Ảnh slide Danh mục'),
+            'is_feature' => Yii::t('app', 'Feature')
         ];
     }
 
@@ -844,21 +850,17 @@ class Content extends \yii\db\ActiveRecord
     }
 
     // tìm breadcrumb
-    public static function GetBreadcrumb($id){
-        $category = ContentCategoryAsm::findOne(['content_id'=>$id]);
+    public static function GetBreadcrumb($id)
+    {
+        $category = ContentCategoryAsm::findOne(['content_id' => $id]);
         $id_cat1 = $category->category_id;
-        $category1 = Category::findOne(['id'=>$id_cat1]);
-        if($category1->parent_id != null){
+        $category1 = Category::findOne(['id' => $id_cat1]);
+        if ($category1->parent_id != null) {
             $id_cat2 = $category1->parent_id;
-        }else{
+        } else {
 
         }
     }
 
-    public function getAllCate($id){
-        $category1 = Category::findOne(['id'=>$id_cat1]);
-        if($category1->parent_id != null){
 
-        }
-    }
 }

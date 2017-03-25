@@ -25,8 +25,7 @@ class ContentBody extends Widget{
     {
         $category = Category::find()
             ->andWhere(['status' => Category::STATUS_ACTIVE])
-            ->andWhere(['parent_id' => null])
-            ->andWhere("hide != :parent_id")->addParams([':parent_id'=>1])
+            ->andWhere('parent_id is null')
             ->all();
         return $this->render('content-body',[
             'category'=>$category,

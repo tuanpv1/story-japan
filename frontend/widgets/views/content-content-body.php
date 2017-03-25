@@ -49,7 +49,7 @@ if($content){
                                 </a>
                             </h5>
                             <div class="content_price">
-                                <span style="font-size: 15px" class="price product-price"><?= Content::formatNumber($item->price_promotion) ?> VND</span>
+                                <span style="font-size: 13px" class="price product-price"><?= Content::formatNumber($item->price_promotion) ?> VND</span>
                                 <span style="font-size: small" class="price old-price"><?= Content::formatNumber($item->price) ?> VND</span>
                             </div>
                             <div class="product-star">

@@ -273,7 +273,7 @@ class Slide extends \yii\db\ActiveRecord
         $listImages = Content::convertJsonToArray($model->images);
         $link = '';
         foreach ($listImages as $key => $row) {
-            if ($row['type'] == Content::IMAGE_TYPE_SLIDECATEGORY) {
+            if ($row['type'] == Content::IMAGE_TYPE_SLIDE) {
                 $link = Url::to('@web/staticdata/content_images/'. $row['name'], true);
             }
         }

@@ -107,7 +107,11 @@ $this->registerJs($js, \yii\web\View::POS_END);
             <?= $form->field($model, 'price_promotion')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle']) ?>
         </div>
     </div>
-
+    <div class="row">
+        <div class="col-md-12">
+            <?= $form->field($model,'is_feature')->checkbox() ?>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-md-12">
