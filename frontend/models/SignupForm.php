@@ -88,8 +88,6 @@ class SignupForm extends Model
         $user->email = $this->email;
         $user->address = $this->address;
         $user->phone = $this->phone_number;
-        $user->password_reset_token = $this->password;
-//        $user->type = User::USER_TYPE_NORMAL;
         $user->setPassword($this->password);
         $user->generateAuthKey();
 
