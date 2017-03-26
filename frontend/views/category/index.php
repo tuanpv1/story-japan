@@ -20,7 +20,7 @@ use yii\helpers\Url;
             <!-- Left colunm -->
             <div class="column col-xs-12 col-sm-3" id="left_column">
                 <!-- block category -->
-                <?= \frontend\widgets\CategoryLeft::widget() ?>
+<!--                --><?//= \frontend\widgets\CategoryLeft::widget() ?>
                 <!-- ./block category  -->
                 <!-- block filter -->
                 <div class="block left-module">
@@ -432,7 +432,7 @@ use yii\helpers\Url;
                                             <a title="Quick view" class="search" href="#"></a>
                                         </div>
                                         <div class="add-to-cart">
-                                            <a title="Add to Cart" href="#">Thêm vào giỏ hàng</a>
+                                            <a title="Add to Cart" href="javascript:void(0)" onclick="addCart(<?= $content->id ?>)">Mua</a>
                                         </div>
                                         <div class="group-price">
                                             <?php if($item->price != $item->price_promotion && $item->price_promotion != 0){ ?>

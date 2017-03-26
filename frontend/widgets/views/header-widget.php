@@ -67,7 +67,9 @@ use yii\widgets\ActiveForm;
                 <a href="<?= Url::to(['site/index']) ?>"><img alt="Kute shop - GFXFree.Net" src="<?= Yii::$app->getUrlManager()->getBaseUrl() ?>/images/logo.png" /></a>
             </div>
             <?= \frontend\widgets\SearchCategory::widget() ?>
-            <?= \frontend\widgets\CartBox::widget() ?>
+            <div id="tp_id_reload">
+                <?= \frontend\widgets\CartBox::widget() ?>
+            </div>
         </div>
 
     </div>

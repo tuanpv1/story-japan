@@ -141,7 +141,7 @@ use yii\helpers\Url;
                             </div>
                             <div class="form-action">
                                 <div class="button-group">
-                                    <a class="btn-add-cart" href="javascript:void(0)" onclick="addCart(<?= $content->id ?>)">Add to cart</a>
+                                    <a class="btn-add-cart" href="javascript:void(0)" onclick="addCart(<?= $content->id ?>)">Mua</a>
                                 </div>
                                 <div class="button-group">
                                     <a class="wishlist" href="#"><i class="fa fa-heart-o"></i>

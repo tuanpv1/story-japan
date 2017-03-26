@@ -22,8 +22,8 @@
                             ?>
                             <li class="product-info">
                                 <div class="p-left">
-                                    <a href="#" class="remove_link"></a>
-                                    <a href="#">
+                                    <a onclick="delCart(<?= $key ?>)" href="javascript:void(0)" class="remove_link"></a>
+                                    <a href="<?= \yii\helpers\Url::to(['content/detail','id'=>$value['id']]) ?>">
                                         <img class="img-responsive" src="<?= \common\models\Content::getFirstImageLinkFeStatic($value['images'])?>" alt="p10">
                                     </a>
                                 </div>
