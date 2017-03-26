@@ -8,6 +8,9 @@
 
 namespace api\models;
 
+use common\models\Subcriber;
+use Yii;
+
 class Subscriber extends \common\models\Subscriber {
     public function fields() {
         $fields = parent::fields();
@@ -32,7 +35,7 @@ class Subscriber extends \common\models\Subscriber {
     }
 
     public static function getLogin($username, $password){
-        $query = Subscriber::find()->andWhere(['msisdn' => $username, 'password' => $password])->all();
+        $query = Subcriber::find()->andWhere(['msisdn' => $username, 'password' => $password])->all();
         if($query){
             return true;
         }else{

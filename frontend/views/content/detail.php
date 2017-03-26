@@ -22,7 +22,6 @@ use yii\helpers\Url;
             <!-- Left colunm -->
             <div class="column col-xs-12 col-sm-3" id="left_column">
                 <!-- block category -->
-                <?= \frontend\widgets\CategoryLeft::widget() ?>
                 <!-- ./block category  -->
                 <!-- block best sellers -->
                 <?= \frontend\widgets\WidgetNewContent::widget() ?>
@@ -142,7 +141,7 @@ use yii\helpers\Url;
                             </div>
                             <div class="form-action">
                                 <div class="button-group">
-                                    <a class="btn-add-cart" href="#">Add to cart</a>
+                                    <a class="btn-add-cart" href="javascript:void(0)" onclick="addCart(<?= $content->id ?>)">Add to cart</a>
                                 </div>
                                 <div class="button-group">
                                     <a class="wishlist" href="#"><i class="fa fa-heart-o"></i>

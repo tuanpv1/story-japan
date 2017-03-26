@@ -64,10 +64,19 @@ class LoginForm extends Model
      *
      * @return boolean whether the user is logged in successfully
      */
+//    public function login()
+//    {
+//        if ($this->validate()) {
+//            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+//        } else {
+//            return false;
+//        }
+//    }
     public function login()
     {
         if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+            Yii::$app->session->set(UserHelper::SESSION_USER_ID,Subcriber::findOne(['user_name' => $this->username])->id );
+            return UserHelper::login($this->getUser());
         } else {
             return false;
         }
@@ -81,8 +90,7 @@ class LoginForm extends Model
     public function getUser()
     {
         if ($this->_user === false) {
-//            $this->_user = User::findSPByUsername($this->username);
-            $this->_user = Subcriber::findOne(['username' => $this->username]);
+            $this->_user = Subcriber::findOne(['user_name' => $this->username]);
         }
 
         return $this->_user;

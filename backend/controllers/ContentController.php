@@ -163,7 +163,6 @@ class ContentController extends BaseBEController
             }
             $model->expired_at = strtotime($model->expired_at);
             $model->ascii_name = CVietnameseTools::makeSearchableStr($model->display_name);
-            $model->status =  Content::STATUS_PENDING;
             $tags = $model->tags;
             if (is_array($tags)) {
                 $model->tags = implode(';', $tags);

@@ -709,6 +709,26 @@ class Content extends \yii\db\ActiveRecord
         return $link;
     }
 
+    public static function getFirstImageLinkFeStatic($image)
+    {
+        // var_dump(Url::base());die;
+        $link = '';
+        if (!$image) {
+            return;
+        }
+        $listImages = self::convertJsonToArray($image);
+        foreach ($listImages as $key => $row) {
+            if ($row['type'] == self::IMAGE_TYPE_THUMBNAIL) {
+                $link = Url::to(Url::base() . '/' . Yii::getAlias('@content_images') . '/' . $row['name'], true);
+            }
+            if ($row['type'] == self::IMAGE_TYPE_THUMBNAIL_EPG) {
+                $link = Url::to(Url::base() . '/' . Yii::getAlias('@content_images') . '/' . $row['name'], true);
+            }
+        }
+
+        return $link;
+    }
+
     public function getImageLinkFE()
     {
         // var_dump(Url::base());die;

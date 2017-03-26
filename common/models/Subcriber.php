@@ -163,4 +163,14 @@ class Subcriber extends \yii\db\ActiveRecord
         return Url::to($pathLink . $filename, true);
 
     }
+
+    public function validatePassword($password)
+    {
+        return Yii::$app->security->validatePassword($password, $this->password_hash);
+    }
+
+    public static function findIdentity($id)
+    {
+        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+    }
 }
