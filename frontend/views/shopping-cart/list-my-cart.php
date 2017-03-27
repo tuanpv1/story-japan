@@ -9,181 +9,90 @@ use common\models\Product;
 use yii\helpers\Url;
 
 ?>
-<section id="cart_items">
-    <div class="container"">
-        <div class="breadcrumbs">
-            <ol class="breadcrumb">
-                <li><a href="<?= Url::to(['site/index']) ?>">Home</a></li>
-                <li class="active">Shopping Cart</li>
-            </ol>
+<div id="tp_id_reload_lmc" class="columns-container">
+    <div class="container" id="columns">
+        <!-- breadcrumb -->
+        <div class="breadcrumb clearfix">
+            <a class="home" href="#" title="Return to Home"><?= Yii::t('app','Trang chủ') ?></a>
+            <span class="navigation-pipe">&nbsp;</span>
+            <span class="navigation_page"><?= Yii::t('app','Giỏ hàng') ?></span>
         </div>
-        <div class="table-responsive cart_info">
-            <table class="table table-condensed">
-                <thead>
-                <tr class="cart_menu">
-                    <td width="20%" class="image">Sản phẩm</td>
-                    <td width="30%" class="description"></td>
-                    <td width="15%" class="price">Giá</td>
-                    <td width="15%" class="quantity">Số Lượng</td>
-                    <td width="15%" class="total">Tổng tiền</td>
-                    <td width="5%"></td>
-                </tr>
-                </thead>
-                <tbody>
-                <?php
-                    if(isset($cart) && $cart != null){
-//                        echo "<pre>"; print_r($cart);die();
-                        foreach($cart as $key =>$value){
-                            $total = 0;
-                            if($value['sale'] == 0){
-                                $total =  $value['amount']*$value['price'];
-                            }else{
-                                $sal = ($value['price']*(100-$value['sale']))/100;
-                                $total = $sal * $value['amount'];
-                            }
-                            ?>
-                            <tr>
-                                <td class="cart_product">
-                                    <a href="<?= Url::to(['product/detail','id'=>$value['id']]) ?>"><img style="width: 150px" src="<?= Product::getFirstImageLinkTP($value['image']) ?>" alt="<?= $value['name'] ?>"></a>
-                                </td>
-                                <td class="cart_description">
-                                    <p><a href="<?= Url::to(['product/detail','id'=>$value['id']]) ?>"><?= $value['name'] ?></a></p>
-                                </td>
-                                <?php
-                                    if($value['sale']==0){
-                                        ?>
-                                        <td class="cart_price">
-                                            <p><?= Product::formatNumber($value['price']).' VND'?></p>
-                                        </td>
-                                        <?php
-                                    }else{
-                                        ?>
-                                        <td class="cart_price">
-                                            <p><?= Product::formatNumber(($value['price']*(100-$value['sale']))/100).' VND'?></p>
-                                            <p style="font-size: 12px">Giá cũ: <span class="tp_002"><?= Product::formatNumber($value['price']) ?></span> VND</p>
-                                        </td>
-                                        <?php
-                                    }
-                                ?>
-                                <td class="cart_quantity">
-                                    <div class="cart_quantity_button">
-                                        <a class="cart_quantity_up" onclick="addition(<?= $key ?>)" href="javascript:void(0)"> + </a>
-                                        <input class="cart_quantity_input" onkeyup="updateCart(<?= $key ?>)" type="text" name="amount_<?= $key ?>" id="amount_<?= $key ?>" value="<?= $value['amount'] ?>" autocomplete="off" size="2">
-                                        <a class="cart_quantity_down" onclick="subtraction(<?= $key ?>)" href="javascript:void(0)"> - </a>
-                                    </div>
-                                </td>
-                                <td class="cart_total">
-                                    <p class="cart_total_price"><?= Product::formatNumber($total).' VND' ?></p>
-                                </td>
-                                <td class="cart_delete">
-                                    <a class="cart_quantity_delete" onclick="delCart(<?= $key ?>)" href="javascript:void(0)"><i class="fa fa-times"></i></a>
-                                </td>
-                            </tr>
-                            <?php
-                        }
-                    }else{
-                        ?>
-                        <tr>
-                            <td colspan="6" class="text-center">
-                                Hiện giỏ hàng của bạn đang trống
-                            </td>
-                        </tr>
-                        <?php
-                    }
-                ?>
-                </tbody>
-            </table>
+        <!-- ./breadcrumb -->
+        <!-- page heading-->
+        <h2 class="page-heading no-line">
+            <span class="page-heading-title2"><?= Yii::t('app','Danh sách sản phẩm') ?></span>
+        </h2>
+        <!-- ../page heading-->
+        <div class="page-content page-order">
+            <ul class="step">
+                <li class="current-step"><span>01. Sản phẩm đã chọn</span></li>
+                <li><span>02. Sign in</span></li>
+                <li><span>03. Address</span></li>
+                <li><span>04. Shipping</span></li>
+                <li><span>05. Payment</span></li>
+            </ul>
+            <div class="heading-counter warning"><?= Yii::t('app','Tổng số sản phẩm trong giỏ hàng của bạn ') ?>:
+                <span><?= $totalAmount?$totalAmount:0 ?> Sản phẩm</span>
+            </div>
+            <?php if(isset($cart) && !empty($cart)){ ?>
+            <div class="order-detail-content">
+                <table class="table table-bordered table-responsive cart_summary">
+                    <thead>
+                    <tr>
+                        <th class="cart_product"></th>
+                        <th>Sản phẩm</th>
+                        <th>Tình trạng.</th>
+                        <th>Giá tiền</th>
+                        <th>Số Lượng</th>
+                        <th>Tổng tiền</th>
+                        <th  class="action"><i class="fa fa-trash-o"></i></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($cart as $key => $value){ ?>
+                    <tr>
+                        <td class="cart_product">
+                            <a href="#"><img src="<?= \common\models\Content::getFirstImageLinkFeStatic($value['images']) ?>" alt="<?= $value['display_name'] ?>"></a>
+                        </td>
+                        <td class="cart_description">
+                            <p class="product-name"><a href="#"><?= $value['display_name'] ?> </a></p>
+                            <small class="cart_ref"><?= Yii::t('app','Mã sản phẩm: #').$value['code']  ?></small><br>
+<!--                            <small><a href="#">Color : Beige</a></small><br>-->
+                        </td>
+                        <td class="cart_avail"><span class="label label-success"><?= \common\models\Content::$listAvailability[$value['availability']] ?></span></td>
+                        <td class="price"><span><?= \common\models\Content::formatNumber($value['price_promotion']?$value['price_promotion']:$value['price']) ?> VND</span></td>
+                        <td class="qty">
+                            <input class="form-control input-sm" type="text" value="<?= $value['amount'] ?>">
+                            <a href="#"><i class="fa fa-caret-up"></i></a>
+                            <a href="#"><i class="fa fa-caret-down"></i></a>
+                        </td>
+                        <td class="price">
+                            <span><?= \common\models\Content::formatNumber(($value['price_promotion']?$value['price_promotion']:$value['price'])*$value['amount']) ?> VND</span>
+                        </td>
+                        <td class="action">
+                            <a onclick="delCart(<?= $key ?>)" href="javascript:void(0)"><?= Yii::t('app','Xóa') ?></a>
+                        </td>
+                    </tr>
+                    <?php } ?>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="2" rowspan="2"></td>
+                        <td colspan="3">Tổng tiền trước thuế</td>
+                        <td colspan="2"><?= \common\models\Content::formatNumber($total_price?$total_price:0) ?> VND</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><strong><?= Yii::t('app','Tổng tiền') ?></strong></td>
+                        <td colspan="2"><strong><?= \common\models\Content::formatNumber($total_price?$total_price:0) ?> VND</strong></td>
+                    </tr>
+                    </tfoot>
+                </table>
+                <div class="cart_navigation">
+                    <a class="prev-btn" href="<?= Url::to(['site/index']) ?>"><?= Yii::t('app','Tiếp tục mua hàng') ?></a>
+                    <a class="next-btn" href="#"><?= Yii::t('app','Thanh toán') ?></a>
+                </div>
+            </div>
+            <?php } ?>
         </div>
     </div>
-</section> <!--/#cart_items-->
-
-<section id="do_action">
-    <div class="container">
-        <div class="heading">
-            <h3>Giá trị đơn hàng</h3>
-        </div>
-        <div class="row">
-
-            <div class="col-sm-6">
-                <div class="total_area">
-                    <ul>
-                        <li>Tổng tiền <span><?=Product::formatNumber($total_all).' VND'?></span></li>
-                        <li>Số lượng sản phẩm <span> <?= $totalAmount ?> Sản phẩm</span></li>
-                        <li>Phí ship <span>Miễn phí</span></li>
-                        <li>Số tiền phải thanh toán <span><?=Product::formatNumber($total_all).' VND'?></span></li>
-                    </ul>
-                    <?php
-                        if($cart){
-                            ?>
-                            <a class="btn btn-default check_out" onclick="inPutInfo()" href="javascript:void(0)">Tiến hành thanh toán</a>
-                            <?php
-                        }else{
-                            ?>
-                            <a class="btn btn-default check_out" href="<?= Url::to(['site/index']) ?>">Tiếp tục mua hàng</a>
-                            <?php
-                        }
-                    ?>
-                </div>
-            </div>
-
-            <div id="show_tp" class="col-sm-6">
-                <div class="shopper-info">
-                    <p>Thông tin người mua</p>
-                    <form>
-                        <input type="text" name="full_name" id="full_name" placeholder="Họ và tên người mua hàng" value="<?= !(Yii::$app->user->isGuest)?Yii::$app->user->identity->fullname:"" ?>">
-                        <label id="name_mua" style="color:red">Không được để trống tên người mua hàng</label>
-                        <input type="email" name="user_email" placeholder="Địa chỉ email người mua hàng" id="user_email" value="<?= !(Yii::$app->user->isGuest)?Yii::$app->user->identity->email:"" ?>">
-                        <label id="email_mua" style="color:red">Không được để trống email người mua hàng</label><br>
-                        <label id="validate_email_mua"  style="color: red">Email không đúng! </label>
-                        <input type="tel" name="user_phone" placeholder="Số điện thoại người mua hàng" id="user_phone" value="<?= !(Yii::$app->user->isGuest)?Yii::$app->user->identity->phone:"" ?>">
-                        <label id="phone_mua" style="color:red">Không được để trống Số điện thoại người mua hàng</label><br>
-                        <label id="validate_phone_mua"  style="color: red" >Số điện thoại bạn nhập không đúng </label>
-                        <input type="text" name="user_adress" placeholder="Địa chỉ người mua hàng" id="user_adress" value="<?= !(Yii::$app->user->isGuest)?Yii::$app->user->identity->address:"" ?>">
-                        <label id="dc_mua" style="color:red">Không được để trống địa chỉ người mua hàng</label>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</section><!--/#do_action-->
-
-<section id="do_action_tp">
-    <div class="container">
-        <div class="shopper-informations">
-            <div class="row">
-                <div class="col-sm-6 clearfix">
-                    <div class="shopper-info">
-                        <p>Thông tin người nhận</p>
-                            <input type="checkbox" name="checked" id="checked">
-                            <label for="checked">Tôi tự mua hàng</label>
-                        <form>
-                            <input type="text" name="fullName" id="fullName" placeholder="Địa chỉ email người nhận hàng" value="">
-                            <label id="name_nhan" style="color:red">Không được để trống tên người nhận hàng</label>
-                            <input type="email" name="userEmail" placeholder="Địa chỉ email người nhận hàng" id="userEmail" value="">
-                            <label id="email_nhan" style="color:red">Không được để trống email người nhận hàng</label><br>
-                            <label id="validate_email_nhan"  style="color: red">Email không đúng! </label>
-                            <input type="tel" name="userPhone" placeholder="Số điện thoại người nhận hàng" id="userPhone" value="">
-                            <label id="phone_nhan" style="color:red">Không được để trống Số điện thoại người nhận hàng</label><br>
-                            <label id="validate_phone_nhan"  style="color: red" >Số điện thoại bạn nhập không đúng </label>
-                            <input type="text" name="userAdress" placeholder="Địa chỉ người nhận hàng" id="userAdress" value="">
-                            <label id="dc_nhan" style="color:red">Không được để trống địa chỉ người nhận hàng</label>
-                        </form>
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="order-message">
-                        <p>Ghi chú thông tin giao hàng</p>
-                        <textarea name="message"  id="message" placeholder="yêu cầu khác khi giao hàng" rows="3"></textarea>
-                        <label>Thanh toán khi nhận hàng</label>
-                    </div>
-                </div>
-            </div>
-            <div class="text-center">
-                <label id="c_validate" style="color:red">Vui lòng nhập đầy đủ các trường có dấu * để gửi yêu cầu đơn hàng</label>
-            </div>
-            <div style="margin-bottom: 20px" class="row text-center">
-                <a class="btn btn-primary" id="btn" href="javascript:void(0)">Gửi yêu cầu đơn hàng</a>
-            </div>
-        </div>
-    </div>
-</section><!--/#do_action-->
+</div>

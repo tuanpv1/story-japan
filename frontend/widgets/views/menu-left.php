@@ -32,7 +32,7 @@ use frontend\widgets\MenuRight;
                 }
                 ?>
             </ul>
-            <div class="all-category"><span class="open-cate">All Categories</span></div>
+            <div class="all-category"><span class="open-cate"><?= Yii::t('app','Hiện tất cả') ?></span></div>
         </div>
     </div>
 </div>

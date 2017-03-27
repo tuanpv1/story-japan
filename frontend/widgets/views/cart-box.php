@@ -7,7 +7,7 @@
  */
 ?>
 <div id="cart-block" class="col-xs-5 col-sm-2 shopping-cart-box">
-    <a class="cart-link" href="order.html">
+    <a class="cart-link" href="<?= \yii\helpers\Url::to(['shopping-cart/list-my-cart']) ?>">
         <span class="title">Giỏ hàng</span>
         <span class="total"><?= $totalAmount?$totalAmount:0 ?> SP - <?= $total_price?\common\models\Content::formatNumber($total_price):0 ?> VND</span>
         <span class="notify notify-left"><?= $totalAmount?$totalAmount:0 ?></span>
@@ -43,7 +43,7 @@
                 <span class="toal-price pull-right"><?= $total_price?\common\models\Content::formatNumber($total_price):0 ?> VND</span>
             </div>
             <div class="cart-buttons">
-                <a href="<?= \yii\helpers\Url::to(['']) ?>" class="btn-check-out">Thanh toán</a>
+                <a href="<?= \yii\helpers\Url::to(['shopping-cart/list-my-cart']) ?>" class="btn-check-out">Thanh toán</a>
             </div>
         </div>
     </div>

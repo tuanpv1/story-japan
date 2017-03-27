@@ -40,18 +40,18 @@ class ShoppingCartController extends Controller
     public function actionListMyCart(){
         $session = Yii::$app->session;
         $cart = $session['cart'];
-        $totalAmount = $total_all=0;
+        $totalAmount = $total_price=0;
         if(isset($cart)){
             foreach($cart as $key => $value){
                 $totalAmount += $value['amount'];
                 if($value['price_promotion'] == 0) {
-                    $total_all += $value['price'] * $value['amount'];
+                    $total_price += $value['price'] * $value['amount'];
                 }else {
-                    $total_all += $value['price_promotion'] * $value['amount'];
+                    $total_price += $value['price_promotion'] * $value['amount'];
                 }
             }
         }
-        return $this->render('list-my-cart',['cart'=>$cart,'total_all'=>$total_all,'totalAmount'=>$totalAmount]);
+        return $this->render('list-my-cart',['cart'=>$cart,'total_price'=>$total_price,'totalAmount'=>$totalAmount]);
     }
 
     public function actionUpdateCart($id,$amount){

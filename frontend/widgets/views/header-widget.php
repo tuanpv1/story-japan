@@ -36,7 +36,7 @@ use yii\widgets\ActiveForm;
                         <?php
                         if(Yii::$app->user->isGuest){
                             ?>
-                            <li><a  data-toggle="modal" data-target="#myModal" href="javascript:void(0)">Đăng nhập</a></li>
+                            <li><a data-toggle="modal" data-target="#myModal" href="javascript:void(0)">Đăng nhập</a></li>
                             <?php
                         }else{
                             ?>

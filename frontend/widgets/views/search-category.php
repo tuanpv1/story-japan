@@ -10,7 +10,7 @@
     <form class="form-inline">
         <div class="form-group form-category">
             <select class="select-category">
-                <option value="2"><?= Yii::t('app','Chọn Danh mục') ?></option>
+                <option value="2"><?= Yii::t('app','Tất cả') ?></option>
                 <?php if(isset($category)){ ?>
                 <?php foreach($category as $item){ ?>
                 <?php /** @var \common\models\Category $item */ ?>

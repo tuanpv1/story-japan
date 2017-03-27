@@ -39,3 +39,27 @@ AppAsset::register($this);
 </body>
 </html>
 <?php $this->endPage() ?>
+
+<div class="modal fade" id="modal_show" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="box-authentication">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="box-authentication">
+                            <img id="image_product" src="">
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="box-authentication">
+                            <div class="row">
+                                <h3 id="name_product" class="text-center"></h3>
+                                <p id="price_product"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

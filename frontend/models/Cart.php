@@ -15,6 +15,8 @@ class Cart
                 'price'=> $arrayData['price'],
                 'price_promotion'=> $arrayData['price_promotion'],
                 'images'=> $arrayData['images'],
+                'availability'=> $arrayData['availability'],
+                'code'=> $arrayData['code'],
                 'amount'=> 1,
             ];
         }else{
@@ -26,6 +28,8 @@ class Cart
                     'price'=> $arrayData['price'],
                     'price_promotion'=> $arrayData['price_promotion'],
                     'images'=> $arrayData['images'],
+                    'availability'=> $arrayData['availability'],
+                    'code'=> $arrayData['code'],
                     'amount'=>$cart[$id]['amount']+1,
                 ];
             }else{
@@ -35,6 +39,8 @@ class Cart
                     'price'=> $arrayData['price'],
                     'price_promotion'=> $arrayData['price_promotion'],
                     'images'=> $arrayData['images'],
+                    'availability'=> $arrayData['availability'],
+                    'code'=> $arrayData['code'],
                     'amount'=> 1,
                 ];
             }
@@ -52,6 +58,8 @@ class Cart
                 'price'=> $cart[$id]['price'],
                 'price_promotion'=> $cart[$id]['price_promotion'],
                 'images'=> $cart[$id]['images'],
+                'availability'=> $cart[$id]['availability'],
+                'code'=> $cart[$id]['code'],
                 'amount'=>$amount,
             ];
         }

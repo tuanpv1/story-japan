@@ -33,8 +33,9 @@ function addCart(id){
         val = data.split("<pre>");
         $("#amount").text(val[1]);
         alert('Đã thêm sản phẩm vào giỏ hàng thành công');
-        $('#tp_id_reload').load(document.URL +  ' #tp_id_reload');
+        alert();
         $('#modal_show').modal('show');
+        $('#tp_id_reload').load(window.location.href  +  ' #tp_id_reload');
     });
 }
 
@@ -63,7 +64,8 @@ function delCart(id){
         $.get(baseurl +'shopping-cart/del-cart',{'id' :id},function(data){
             val = data.split("<pre>");
             $("#amount").text(val[1]);
-            $('#tp_id_reload').load(document.URL +  ' #tp_id_reload');
+            $('#tp_id_reload').load(window.location.href  +  ' #tp_id_reload');
+            $('#tp_id_reload_lmc').load(window.location.href +  ' #tp_id_reload_lmc');
         });
     }
 }
