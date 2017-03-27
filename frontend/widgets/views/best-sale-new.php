@@ -28,7 +28,7 @@ use yii\helpers\Url;
                                 <li>
                                     <div class="left-block">
                                         <a href="<?= Url::to(['content/detail','id'=>$item->id]) ?>">
-                                            <img style="height: 327px" class="img-responsive" alt="product" src="<?= $item->getFirstImageLinkFE() ?>" />
+                                            <img style="height: 327px" class="img-responsive product_image_<?= $item->id ?>" alt="product" src="<?= $item->getFirstImageLinkFE() ?>" />
                                         </a>
                                         <div class="quick-view">
                                             <a title="Add to my wishlist" class="heart" href="#"></a>
@@ -47,17 +47,19 @@ use yii\helpers\Url;
                                         </div>
                                     </div>
                                     <div class="right-block">
-                                        <h5 class="product-name"><a href="<?= Url::to(['content/detail','id'=>$item->id]) ?>"><?= Content::substr($item->display_name,25) ?></a></h5>
+                                        <h5><a id="product_name_<?= $item->id ?>" href="<?= Url::to(['content/detail','id'=>$item->id]) ?>"><?= ucfirst(Content::substr($item->display_name,25)) ?></a></h5>
                                         <div class="content_price">
-                                            <span class="price product-price"><?= Content::formatNumber($item->price_promotion) ?> VND</span>
-                                            <span class="price old-price"><?= Content::formatNumber($item->price) ?> VND</span>
-                                        </div>
-                                        <div class="product-star">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-half-o"></i>
+                                            <span class="price product-price" id="product_price_promotion_<?= $item->id ?>"><?= Content::formatNumber($item->price_promotion) ?> VND</span>
+                                            <span class="price old-price" id="product_price_<?= $item->id ?>"><?= Content::formatNumber($item->price) ?> VND</span><br>
+                                            <span id="product_code_<?= $item->id ?>">Mã SP: #<?= $item->code ?></span>
+                                            <input type="hidden" id="product_amount_<?= $item->id ?>" value="1">
+                                            <div class="product-star">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star-half-o"></i>
+                                            </div>
                                         </div>
                                     </div>
                                 </li>
@@ -70,42 +72,44 @@ use yii\helpers\Url;
                                 <?php if(isset($product_sales)){ ?>
                                 <?php foreach($product_sales as $item){ ?>
                                 <?php /** @var \common\models\Content $item  */ ?>
-                                    <li>
-                                        <div class="left-block">
-                                            <a href="<?= Url::to(['content/detail','id'=>$item->id]) ?>">
-                                                <img class="img-responsive" alt="product" src="<?= $item->getFirstImageLinkFE() ?>" />
-                                            </a>
-                                            <div class="quick-view">
-                                                <a title="Add to my wishlist" class="heart" href="#"></a>
-                                                <a title="Add to compare" class="compare" href="#"></a>
-                                                <a title="Quick view" class="search" href="#"></a>
+                                        <li>
+                                            <div class="left-block">
+                                                <a href="<?= Url::to(['content/detail','id'=>$item->id]) ?>">
+                                                    <img style="height: 327px" class="img-responsive product_image_<?= $item->id ?>" alt="product" src="<?= $item->getFirstImageLinkFE() ?>" />
+                                                </a>
+                                                <div class="quick-view">
+                                                    <a title="Add to my wishlist" class="heart" href="#"></a>
+                                                    <a title="Add to compare" class="compare" href="#"></a>
+                                                    <a title="Quick view" class="search" href="#"></a>
+                                                </div>
+                                                <div class="add-to-cart">
+                                                    <a title="Add to Cart" href="javascript:void(0)" onclick="addCart(<?= $item->id ?>)">Mua</a>
+                                                </div>
+                                                <div class="group-price">
+                                                    <?php if($item->price != $item->price_promotion && $item->price_promotion != 0){ ?>
+                                                        <span class="product-sale">Sale</span>
+                                                    <?php } if($item->type == Content::TYPE_NEWEST){ ?>
+                                                        <span class="product-new">NEW</span>
+                                                    <?php } ?>
+                                                </div>
                                             </div>
-                                            <div class="add-to-cart">
-                                                <a title="Add to Cart" href="#">Thêm vào giỏ hàng</a>
+                                            <div class="right-block">
+                                                <h5><a id="product_name_<?= $item->id ?>" href="<?= Url::to(['content/detail','id'=>$item->id]) ?>"><?= ucfirst(Content::substr($item->display_name,25)) ?></a></h5>
+                                                <div class="content_price">
+                                                    <span class="price product-price" id="product_price_promotion_<?= $item->id ?>"><?= Content::formatNumber($item->price_promotion) ?> VND</span>
+                                                    <span class="price old-price" id="product_price_<?= $item->id ?>"><?= Content::formatNumber($item->price) ?> VND</span><br>
+                                                    <span id="product_code_<?= $item->id ?>">Mã SP: #<?= $item->code ?></span>
+                                                    <input type="hidden" id="product_amount_<?= $item->id ?>" value="1">
+                                                    <div class="product-star">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star-half-o"></i>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="group-price">
-                                                <?php if($item->price != $item->price_promotion && $item->price_promotion != 0){ ?>
-                                                    <span class="product-sale">Sale</span>
-                                                <?php } if($item->type == Content::TYPE_NEWEST){ ?>
-                                                    <span class="product-new">NEW</span>
-                                                <?php } ?>
-                                            </div>
-                                        </div>
-                                        <div class="right-block">
-                                            <h5 class="product-name"><a href="<?= Url::to(['content/detail','id'=>$item->id]) ?>"><?= Content::substr($item->display_name,25) ?></a></h5>
-                                            <div class="content_price">
-                                                <span class="price product-price"><?= Content::formatNumber($item->price_promotion) ?> VND</span>
-                                                <span class="price old-price"><?= Content::formatNumber($item->price) ?> VND</span>
-                                            </div>
-                                            <div class="product-star">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
-                                            </div>
-                                        </div>
-                                    </li>
+                                        </li>
                                 <?php } ?>
                                 <?php } ?>
                             </ul>
@@ -115,42 +119,44 @@ use yii\helpers\Url;
                                 <?php if(isset($product_news)){ ?>
                                 <?php foreach($product_news as $item){ ?>
                                     <?php /** @var \common\models\Content $item  */ ?>
-                                    <li>
-                                        <div class="left-block">
-                                            <a href="<?= Url::to(['content/detail','id'=>$item->id]) ?>">
-                                                <img class="img-responsive" alt="product" src="<?= $item->getFirstImageLinkFE() ?>" />
-                                            </a>
-                                            <div class="quick-view">
-                                                <a title="Add to my wishlist" class="heart" href="#"></a>
-                                                <a title="Add to compare" class="compare" href="#"></a>
-                                                <a title="Quick view" class="search" href="#"></a>
+                                        <li>
+                                            <div class="left-block">
+                                                <a href="<?= Url::to(['content/detail','id'=>$item->id]) ?>">
+                                                    <img style="height: 327px" class="img-responsive product_image_<?= $item->id ?>" alt="product" src="<?= $item->getFirstImageLinkFE() ?>" />
+                                                </a>
+                                                <div class="quick-view">
+                                                    <a title="Add to my wishlist" class="heart" href="#"></a>
+                                                    <a title="Add to compare" class="compare" href="#"></a>
+                                                    <a title="Quick view" class="search" href="#"></a>
+                                                </div>
+                                                <div class="add-to-cart">
+                                                    <a title="Add to Cart" href="javascript:void(0)" onclick="addCart(<?= $item->id ?>)">Mua</a>
+                                                </div>
+                                                <div class="group-price">
+                                                    <?php if($item->price != $item->price_promotion && $item->price_promotion != 0){ ?>
+                                                        <span class="product-sale">Sale</span>
+                                                    <?php } if($item->type == Content::TYPE_NEWEST){ ?>
+                                                        <span class="product-new">NEW</span>
+                                                    <?php } ?>
+                                                </div>
                                             </div>
-                                            <div class="add-to-cart">
-                                                <a title="Add to Cart" href="#">Thêm vào giỏ hàng</a>
+                                            <div class="right-block">
+                                                <h5><a id="product_name_<?= $item->id ?>" href="<?= Url::to(['content/detail','id'=>$item->id]) ?>"><?= ucfirst(Content::substr($item->display_name,25)) ?></a></h5>
+                                                <div class="content_price">
+                                                    <span class="price product-price" id="product_price_promotion_<?= $item->id ?>"><?= Content::formatNumber($item->price_promotion) ?> VND</span>
+                                                    <span class="price old-price" id="product_price_<?= $item->id ?>"><?= Content::formatNumber($item->price) ?> VND</span><br>
+                                                    <span id="product_code_<?= $item->id ?>">Mã SP: #<?= $item->code ?></span>
+                                                    <input type="hidden" id="product_amount_<?= $item->id ?>" value="1">
+                                                    <div class="product-star">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star-half-o"></i>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="group-price">
-                                                <?php if($item->price != $item->price_promotion && $item->price_promotion != 0){ ?>
-                                                    <span class="product-sale">Sale</span>
-                                                <?php } if($item->type == Content::TYPE_NEWEST){ ?>
-                                                    <span class="product-new">NEW</span>
-                                                <?php } ?>
-                                            </div>
-                                        </div>
-                                        <div class="right-block">
-                                            <h5 class="product-name"><a href="<?= Url::to(['content/detail','id'=>$item->id]) ?>"><?= Content::substr($item->display_name,25) ?></a></h5>
-                                            <div class="content_price">
-                                                <span class="price product-price"><?= Content::formatNumber($item->price_promotion) ?> VND</span>
-                                                <span class="price old-price"><?= Content::formatNumber($item->price) ?> VND</span>
-                                            </div>
-                                            <div class="product-star">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star-half-o"></i>
-                                            </div>
-                                        </div>
-                                    </li>
+                                        </li>
                                 <?php } ?>
                                 <?php } ?>
                             </ul>

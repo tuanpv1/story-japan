@@ -493,3 +493,4 @@ use yii\helpers\Url;
         <!-- ./row-->
     </div>
 </div>
+<?= \frontend\widgets\CartBox::getModal() ?>

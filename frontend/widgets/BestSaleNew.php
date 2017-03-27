@@ -26,7 +26,7 @@ class BestSaleNew extends Widget{
     {
         // lấy 6 sản phẩm được tạo trong vòng 1 tháng gần thời điểm hiện tại nhất
         $product_news = Content::find()
-            ->select('content.id,content.display_name,content.type,content.short_description,content.price,content.images,content.price_promotion')
+            ->select('content.id,content.code,content.display_name,content.type,content.short_description,content.price,content.images,content.price_promotion')
             ->andWhere(['content.status'=>Content::STATUS_ACTIVE])
             ->andWhere(['content.type'=>Content::TYPE_NEWEST])
             ->orderBy(['content.created_at'=>'DESC'])
@@ -34,7 +34,7 @@ class BestSaleNew extends Widget{
             ->all();
         // sản phẩm sale
         $product_sales = Content::find()
-            ->select('content.id,content.display_name,content.type,content.short_description,content.price,content.images,content.price_promotion')
+            ->select('content.id,content.code,content.display_name,content.type,content.short_description,content.price,content.images,content.price_promotion')
             ->andWhere(['content.status'=>Content::STATUS_ACTIVE])
             ->andWhere(['content.type'=>Content::TYPE_PRICEPROMO])
             ->orderBy(['content.created_at'=>'DESC'])
@@ -42,7 +42,7 @@ class BestSaleNew extends Widget{
             ->all();
         // sản phẩm hot
         $product_hots = Content::find()
-            ->select('content.id,content.display_name,content.type,content.short_description,content.price,content.images,content.price_promotion')
+            ->select('content.id,content.code,content.display_name,content.type,content.short_description,content.price,content.images,content.price_promotion')
             ->andWhere(['content.status'=>Content::STATUS_ACTIVE])
             ->andWhere(['content.type'=>Content::TYPE_SELLER])
             ->orderBy(['content.created_at'=>'DESC'])

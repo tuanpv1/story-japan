@@ -24,7 +24,7 @@ if($content){
                     <li>
                         <div class="left-block">
                             <a href="<?= Url::to(['content/detail','id'=>$item->id]) ?>">
-                                <img style="height: 300px" class="img-responsive" alt="product"
+                                <img style="height: 300px" class="img-responsive product_image_<?= $item->id ?>" alt="product"
                                      src="<?= $item->getFirstImageLinkFE() ?>"/></a>
                             <div class="quick-view">
                                 <a title="Add to my wishlist" class="heart" href="#"></a>
@@ -43,21 +43,23 @@ if($content){
                             </div>
                         </div>
                         <div class="right-block">
-                            <h5 class="product-name">
-                                <a href="<?= Url::to(['content/detail','id'=>$item->id]) ?>">
-                                    <?= Content::substr($item->display_name,25) ?>
+                            <h5>
+                                <a id="product_name_<?= $item->id ?>" href="<?= Url::to(['content/detail','id'=>$item->id]) ?>">
+                                    <?= ucfirst(Content::substr($item->display_name,25)) ?>
                                 </a>
                             </h5>
                             <div class="content_price">
-                                <span style="font-size: 13px" class="price product-price"><?= Content::formatNumber($item->price_promotion) ?> VND</span>
-                                <span style="font-size: small" class="price old-price"><?= Content::formatNumber($item->price) ?> VND</span>
-                            </div>
-                            <div class="product-star">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-half-o"></i>
+                                <span id="product_price_promotion_<?= $item->id ?>" style="font-size: 13px" class="price product-price"><?= Content::formatNumber($item->price_promotion) ?> VND</span>
+                                <span style="font-size: small" id="product_price_<?= $item->id ?>" class="price old-price"><?= Content::formatNumber($item->price) ?> VND</span><br>
+                                <span style="font-size: small" id="product_code_<?= $item->id ?>">Mã SP: #<?= $item->code ?></span>&nbsp;&nbsp;
+                                <input type="hidden" class="product_amount_<?= $item->id ?>" value="1">
+                                <div class="product-star">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star-half-o"></i>
+                                </div>
                             </div>
                         </div>
                     </li>

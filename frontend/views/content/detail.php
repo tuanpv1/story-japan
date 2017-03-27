@@ -51,7 +51,7 @@ use yii\helpers\Url;
                             <!-- product-imge-->
                             <div class="product-image">
                                 <div class="product-full text-center">
-                                    <img style="height: 512px" id="product-zoom" src='<?= $content->getFirstImageLinkFE() ?>' data-zoom-image="<?= $content->getFirstImageLinkFE() ?>"/>
+                                    <img class="product_image_<?= $content->id ?>" style="height: 512px" id="product-zoom" src='<?= $content->getFirstImageLinkFE() ?>' data-zoom-image="<?= $content->getFirstImageLinkFE() ?>"/>
                                 </div>
                                 <div class="product-img-thumb" id="gallery_01">
                                     <ul class="owl-carousel" data-items="3" data-nav="true" data-dots="false" data-margin="20" data-loop="true">
@@ -68,7 +68,7 @@ use yii\helpers\Url;
                             <!-- product-imge-->
                         </div>
                         <div class="pb-right-column col-xs-12 col-sm-6">
-                            <h1 class="product-name"><?= $content->display_name ?></h1>
+                            <h1 id="product_name_<?= $content->id ?>" class="product-name"><?= $content->display_name ?></h1>
                             <div class="product-comments">
                                 <div class="product-star">
                                     <i class="fa fa-star"></i>
@@ -83,12 +83,12 @@ use yii\helpers\Url;
                                 </div>
                             </div>
                             <div class="product-price-group">
-                                <span class="price"><?= Content::formatNumber($content->price_promotion) ?> VND</span>
-                                <span class="old-price"><?= Content::formatNumber($content->price) ?> VND</span>
+                                <span id="product_price_promotion_<?= $content->id ?>" class="price"><?= Content::formatNumber($content->price_promotion) ?> VND</span>
+                                <span id="product_price_<?= $content->id ?>" class="old-price"><?= Content::formatNumber($content->price) ?> VND</span>
                                 <span class="discount"><?= round (((($content->price - $content->price_promotion)/($content->price))*100),1) ?> %</span>
                             </div>
                             <div class="info-orther">
-                                <p><?= Yii::t('app','Mã sản phẩm: #') ?><?= $content->code ?></p>
+                                <p id="product_code_<?= $content->id ?>"><?= Yii::t('app','Mã sản phẩm: #') ?><span><?= $content->code ?></span></p>
                                 <p><?= Yii::t('app','Tình trạng: ') ?><span class="in-stock"><?= Content::$listAvailability[$content->availability] ?></span></p>
                                 <p><?= Yii::t('app','Kiểu hàng: ') ?><?= Content::$list_type[$content->type] ?></p>
                             </div>
@@ -96,47 +96,22 @@ use yii\helpers\Url;
                                 <?= $content->short_description?$content->short_description:Yii::t('app','Đang cập nhật') ?>
                             </div>
                             <div class="form-option">
-                                <p class="form-option-title">Available Options:</p>
+<!--                                <p class="form-option-title">Available Options:</p>-->
                                 <div class="attributes">
-                                    <div class="attribute-label">Color:</div>
-                                    <div class="attribute-list">
-                                        <ul class="list-color">
-                                            <li style="background:#0c3b90;"><a href="#">red</a></li>
-                                            <li style="background:#036c5d;" class="active"><a href="#">red</a></li>
-                                            <li style="background:#5f2363;"><a href="#">red</a></li>
-                                            <li style="background:#ffc000;"><a href="#">red</a></li>
-                                            <li style="background:#36a93c;"><a href="#">red</a></li>
-                                            <li style="background:#ff0000;"><a href="#">red</a></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="attributes">
-                                    <div class="attribute-label">Qty:</div>
+                                    <div class="attribute-label"><?= Yii::t('app','SL:') ?></div>
                                     <div class="attribute-list product-qty">
                                         <div class="qty">
-                                            <input id="option-product-qty" type="text" value="1">
+                                            <input  class="product_amount_<?= $content->id ?>" id="option-product-qty" type="text" value="1">
                                         </div>
                                         <div class="btn-plus">
-                                            <a href="#" class="btn-plus-up">
+                                            <a onclick="addition(<?= $content->id ?>)" href="javascript:void(0)" class="btn-plus-up">
                                                 <i class="fa fa-caret-up"></i>
                                             </a>
-                                            <a href="#" class="btn-plus-down">
+                                            <a onclick="subtraction(<?= $content->id ?>)" href="javascript:void(0)" class="btn-plus-down">
                                                 <i class="fa fa-caret-down"></i>
                                             </a>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="attributes">
-                                    <div class="attribute-label">Size:</div>
-                                    <div class="attribute-list">
-                                        <select>
-                                            <option value="1">X</option>
-                                            <option value="2">XL</option>
-                                            <option value="3">XXL</option>
-                                        </select>
-                                        <a id="size_chart" class="fancybox" href="<?= Yii::$app->getUrlManager()->getBaseUrl() ?>/data/size-chart.jpg">Size Chart</a>
-                                    </div>
-
                                 </div>
                             </div>
                             <div class="form-action">
@@ -240,3 +215,5 @@ use yii\helpers\Url;
         <!-- ./row-->
     </div>
 </div>
+
+<?= \frontend\widgets\CartBox::getModal() ?>

@@ -39,3 +39,5 @@ use frontend\widgets\ProgramerSuppostFe;
 <?= \frontend\widgets\ForYou::widget() ?>
 
 <?= \frontend\widgets\ListNews::widget()?>
+
+<?= \frontend\widgets\CartBox::getModal() ?>

@@ -62,9 +62,9 @@ use yii\helpers\Url;
                         <td class="cart_avail"><span class="label label-success"><?= \common\models\Content::$listAvailability[$value['availability']] ?></span></td>
                         <td class="price"><span><?= \common\models\Content::formatNumber($value['price_promotion']?$value['price_promotion']:$value['price']) ?> VND</span></td>
                         <td class="qty">
-                            <input class="form-control input-sm" type="text" value="<?= $value['amount'] ?>">
-                            <a href="#"><i class="fa fa-caret-up"></i></a>
-                            <a href="#"><i class="fa fa-caret-down"></i></a>
+                            <input id="amount_<?= $key ?>" class="form-control input-sm" type="text" value="<?= $value['amount'] ?>">
+                            <a onclick="addition(<?= $key ?>)" href="javascript:void(0)"><i class="fa fa-caret-up"></i></a>
+                            <a onclick="subtraction(<?= $key ?>)" href="javascript:void(0)"><i class="fa fa-caret-down"></i></a>
                         </td>
                         <td class="price">
                             <span><?= \common\models\Content::formatNumber(($value['price_promotion']?$value['price_promotion']:$value['price'])*$value['amount']) ?> VND</span>
@@ -92,7 +92,13 @@ use yii\helpers\Url;
                     <a class="next-btn" href="#"><?= Yii::t('app','Thanh toán') ?></a>
                 </div>
             </div>
-            <?php } ?>
+            <?php }else{
+                ?>
+                <div class="cart_navigation">
+                    <a class="prev-btn" href="<?= Url::to(['site/index']) ?>"><?= Yii::t('app','Tiếp tục mua hàng') ?></a>
+                </div>
+                <?php
+            } ?>
         </div>
     </div>
 </div>

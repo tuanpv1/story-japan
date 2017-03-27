@@ -43,4 +43,9 @@ class CartBox extends Widget{
             'totalAmount'=>$totalAmount,
         ]);
     }
+
+    public static function getModal(){
+        $cb = new CartBox();
+        return $cb->render('//shopping-cart/modal-buy-content');
+    }
 }
