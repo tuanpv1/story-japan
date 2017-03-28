@@ -432,7 +432,7 @@ use yii\helpers\Url;
                                             <a title="Quick view" class="search" href="#"></a>
                                         </div>
                                         <div class="add-to-cart">
-                                            <a title="Add to Cart" href="javascript:void(0)" onclick="addCart(<?= $content->id ?>)">Mua</a>
+                                            <a title="Add to Cart" href="javascript:void(0)" onclick="addCart(<?= $item->id ?>)">Mua</a>
                                         </div>
                                         <div class="group-price">
                                             <?php if($item->price != $item->price_promotion && $item->price_promotion != 0){ ?>

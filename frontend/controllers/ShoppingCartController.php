@@ -19,10 +19,10 @@ class ShoppingCartController extends Controller
 
     public $enableCsrfValidation = false;
 
-    public function actionAddCart($id){
+    public function actionAddCart($id,$amount){
         $productInfo = Content::findOne($id);
         $cart = new Cart();
-        $cart->addCart($id,$productInfo);
+        $cart->addCart($id,$amount,$productInfo);
         $session = Yii::$app->session;
         $cartInfo = $session['cart'];
         $totalAmount = $total=0;
@@ -51,7 +51,13 @@ class ShoppingCartController extends Controller
                 }
             }
         }
-        return $this->render('list-my-cart',['cart'=>$cart,'total_price'=>$total_price,'totalAmount'=>$totalAmount]);
+        $active = 1;
+        return $this->render('list-my-cart',[
+            'cart'=>$cart,
+            'total_price'=>$total_price,
+            'totalAmount'=>$totalAmount,
+            'active'=>$active
+        ]);
     }
 
     public function actionUpdateCart($id,$amount){

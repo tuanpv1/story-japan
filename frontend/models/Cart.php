@@ -6,7 +6,7 @@ use Yii;
 
 class Cart
 {
-    public  function addCart($id,$arrayData){
+    public  function addCart($id, $amount,$arrayData){
         $session = Yii::$app->session;
         if(!isset($session['cart'])){
             $cart[$id] = [
@@ -17,7 +17,7 @@ class Cart
                 'images'=> $arrayData['images'],
                 'availability'=> $arrayData['availability'],
                 'code'=> $arrayData['code'],
-                'amount'=> 1,
+                'amount'=> $amount,
             ];
         }else{
             $cart = $session['cart'];
@@ -30,7 +30,7 @@ class Cart
                     'images'=> $arrayData['images'],
                     'availability'=> $arrayData['availability'],
                     'code'=> $arrayData['code'],
-                    'amount'=>$cart[$id]['amount']+1,
+                    'amount'=>$cart[$id]['amount']+$amount,
                 ];
             }else{
                 $cart[$id] = [
@@ -41,7 +41,7 @@ class Cart
                     'images'=> $arrayData['images'],
                     'availability'=> $arrayData['availability'],
                     'code'=> $arrayData['code'],
-                    'amount'=> 1,
+                    'amount'=> $amount,
                 ];
             }
         }
