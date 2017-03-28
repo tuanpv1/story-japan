@@ -178,8 +178,6 @@ class ContentController extends BaseBEController
                 // lưu loại is_slide để lọc bên quản lý slide
                 $image_slide = Content::convertJsonToArray($model->images);
                 foreach ($image_slide as $key => $row) {
-                    $name = $row['name'];
-                    $type = $row['type'];
                     if ($row['type'] == Content::IMAGE_TYPE_SLIDE) {
                         $model->is_slide = 1;
                         $model->save();
@@ -189,7 +187,6 @@ class ContentController extends BaseBEController
                         $model->save();
 
                     }
-
                     //end screenshoot
                 }
                 // tao log
@@ -309,7 +306,19 @@ class ContentController extends BaseBEController
             if ($model->save()) {
 
                 $model->createCategoryAsm();
+                $image_slide = Content::convertJsonToArray($model->images);
+                foreach ($image_slide as $key => $row) {
+                    if ($row['type'] == Content::IMAGE_TYPE_SLIDE) {
+                        $model->is_slide = 1;
+                        $model->save();
+                    }
+                    if($row['type'] == Content::IMAGE_TYPE_SLIDECATEGORY){
+                        $model->is_slide_category = 1;
+                        $model->save();
 
+                    }
+                    //end screenshoot
+                }
                 // tao log
 
                 \Yii::$app->getSession()->setFlash('success', Yii::t('app','Cập nhật Content thành công'));
