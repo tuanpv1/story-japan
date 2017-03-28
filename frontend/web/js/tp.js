@@ -42,6 +42,7 @@ $(document).ready(function(){
     $('#userEmail').focusout(function(){
         if(($(this).val().trim() == null || $(this).val().trim() == "")){
             $('#email_nhan').show();
+            $('#validate_email_nhan').hide();
             $(this).focus();
         }else{
             $('#email_nhan').hide();
@@ -55,6 +56,7 @@ $(document).ready(function(){
     $('#userPhone').focusout(function(){
         if(($(this).val().trim() == null || $(this).val().trim() == "")){
             $('#phone_nhan').show();
+            $('#validate_phone_nhan').hide();
             $(this).focus();
         }else{
             $('#phone_nhan').hide();
@@ -84,6 +86,7 @@ $(document).ready(function(){
     $('#user_email').focusout(function(){
         if(($(this).val().trim() == null || $(this).val().trim() == "")){
             $('#email_mua').show();
+            $('#validate_email_mua').hide();
             $(this).focus();
         }else{
             $('#email_mua').hide();
@@ -97,6 +100,7 @@ $(document).ready(function(){
     $('#user_phone').focusout(function(){
         if(($(this).val().trim() == null || $(this).val().trim() == "")){
             $('#phone_mua').show();
+            $('#validate_phone_mua').hide();
             $(this).focus();
         }else{
             $('#phone_mua').hide();
