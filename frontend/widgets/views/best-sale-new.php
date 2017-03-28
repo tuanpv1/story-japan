@@ -49,8 +49,8 @@ use yii\helpers\Url;
                                     <div class="right-block">
                                         <h5><a id="product_name_<?= $item->id ?>" href="<?= Url::to(['content/detail','id'=>$item->id]) ?>"><?= ucfirst(Content::substr($item->display_name,25)) ?></a></h5>
                                         <div class="content_price">
-                                            <span class="price product-price" id="product_price_promotion_<?= $item->id ?>"><?= Content::formatNumber($item->price_promotion) ?> VND</span>
-                                            <span class="price old-price" id="product_price_<?= $item->id ?>"><?= Content::formatNumber($item->price) ?> VND</span><br>
+                                            <span class="price product-price" id="product_price_promotion_<?= $item->id ?>"><?= Content::formatNumber($item->price_promotion) ?> Đ</span>
+                                            <span class="price old-price" id="product_price_<?= $item->id ?>"><?= Content::formatNumber($item->price) ?> Đ</span><br>
                                             <span id="product_code_<?= $item->id ?>">Mã SP: #<?= $item->code ?></span>
                                             <input type="hidden" id="product_amount_<?= $item->id ?>" value="1">
                                             <div class="product-star">
@@ -96,8 +96,8 @@ use yii\helpers\Url;
                                             <div class="right-block">
                                                 <h5><a id="product_name_<?= $item->id ?>" href="<?= Url::to(['content/detail','id'=>$item->id]) ?>"><?= ucfirst(Content::substr($item->display_name,25)) ?></a></h5>
                                                 <div class="content_price">
-                                                    <span class="price product-price" id="product_price_promotion_<?= $item->id ?>"><?= Content::formatNumber($item->price_promotion) ?> VND</span>
-                                                    <span class="price old-price" id="product_price_<?= $item->id ?>"><?= Content::formatNumber($item->price) ?> VND</span><br>
+                                                    <span class="price product-price" id="product_price_promotion_<?= $item->id ?>"><?= Content::formatNumber($item->price_promotion) ?> Đ</span>
+                                                    <span class="price old-price" id="product_price_<?= $item->id ?>"><?= Content::formatNumber($item->price) ?> Đ</span><br>
                                                     <span id="product_code_<?= $item->id ?>">Mã SP: #<?= $item->code ?></span>
                                                     <input type="hidden" id="product_amount_<?= $item->id ?>" value="1">
                                                     <div class="product-star">
@@ -143,8 +143,8 @@ use yii\helpers\Url;
                                             <div class="right-block">
                                                 <h5><a id="product_name_<?= $item->id ?>" href="<?= Url::to(['content/detail','id'=>$item->id]) ?>"><?= ucfirst(Content::substr($item->display_name,25)) ?></a></h5>
                                                 <div class="content_price">
-                                                    <span class="price product-price" id="product_price_promotion_<?= $item->id ?>"><?= Content::formatNumber($item->price_promotion) ?> VND</span>
-                                                    <span class="price old-price" id="product_price_<?= $item->id ?>"><?= Content::formatNumber($item->price) ?> VND</span><br>
+                                                    <span class="price product-price" id="product_price_promotion_<?= $item->id ?>"><?= Content::formatNumber($item->price_promotion) ?> Đ</span>
+                                                    <span class="price old-price" id="product_price_<?= $item->id ?>"><?= Content::formatNumber($item->price) ?> Đ</span><br>
                                                     <span id="product_code_<?= $item->id ?>">Mã SP: #<?= $item->code ?></span>
                                                     <input type="hidden" id="product_amount_<?= $item->id ?>" value="1">
                                                     <div class="product-star">
