@@ -608,7 +608,59 @@ class ContentController extends BaseBEController
             ];
         }
     }
+    public function actionDeleteImage()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $content_id = Yii::$app->request->get('content_id');
+        $name = Yii::$app->request->get('name');
 
+        if (!$content_id || !$name) {
+            return [
+                'success' => false,
+                'message' => 'Thiếu tham số!',
+                'error' => 'Thiếu tham số!',
+            ];
+        }
+        $content = $this->findModel($content_id);
+        if (!$content) {
+            return [
+                'success' => false,
+                'message' => 'Không thấy nội dung!',
+                'error' => 'Không thấy nội dung!',
+            ];
+        } else {
+            $index = -1;
+            $images = Content::convertJsonToArray($content->images);
+            Yii::trace($images);
+            foreach ($images as $key => $row) {
+                if ($row['name'] == $name) {
+                    $index = $key;
+                }
+            }
+            if ($index == -1) {
+                return [
+                    'success' => false,
+                    'message' => 'Không thấy ảnh!',
+                    'error' => 'Không thấy ảnh!',
+                ];
+            } else {
+                array_splice($images, $index, 1);
+                Yii::trace($images);
+                $content->images = Json::encode($images);
+                if ($content->save(false)) {
+                    return [
+                        'success' => true,
+                        'message' => 'Xóa ảnh thành công',
+                    ];
+                }else{
+                    return [
+                        'success' => false,
+                        'message' => $content->getErrors(),
+                    ];
+                }
+            }
+        }
 
+    }
 
 }
