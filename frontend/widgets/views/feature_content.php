@@ -7,7 +7,7 @@ if (isset($content)) {
     <div class="banner-featured">
         <div class="featured-text"><span>featured</span></div>
         <div class="banner-img text-center">
-            <a href="<?= \yii\helpers\Url::to(['category/index', 'id' => $content->id]) ?>"><img
+            <a href="<?= \yii\helpers\Url::to(['content/detail', 'id' => $content->id]) ?>"><img
                     style="height: 300px" alt="<?= $content->display_name ?>"
                     src="<?= $content->getFirstImageLinkFE() ?>"/></a>
         </div>
