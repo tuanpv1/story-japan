@@ -11,15 +11,15 @@ use yii\widgets\ActiveForm;
     <div class="top-header">
         <div class="container">
             <div class="nav-top-links">
-                <a class="first-item" href="#"><img alt="phone" src="<?= Yii::$app->getUrlManager()->getBaseUrl() ?>/images/phone.png" />(84) 1688 929 947</a>
+                <a class="first-item" href="tel:841688929947"><img alt="phone" src="<?= Yii::$app->getUrlManager()->getBaseUrl() ?>/images/phone.png" />(84) 1688 929 947</a>
                 <a href="<?= Url::to(['site/index']) ?>"><img alt="email" src="<?= Yii::$app->getUrlManager()->getBaseUrl() ?>/images/email.png" />Liên hệ với chúng tôi ngay bây giờ!</a>
             </div>
             <div class="currency ">
                 <div class="dropdown">
                     <a class="current-open" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Mạng xã hội</a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Facebook</a></li>
-                        <li><a href="#">Google+</a></li>
+                        <li><a href="https://www.facebook.com/hung.chelsea.12">Facebook</a></li>
+                        <li><a href="https://www.facebook.com/hung.chelsea.12">Google+</a></li>
                     </ul>
                 </div>
             </div>

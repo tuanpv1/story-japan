@@ -19,25 +19,8 @@ use frontend\widgets\ProgramerSuppostFe;
             <?= \frontend\widgets\ContentBody::widget()?>
         <!-- end featured category fashion -->
 
-        <!-- Baner bottom -->
-        <div class="row banner-bottom">
-            <div class="col-sm-6">
-                <div class="banner-boder-zoom">
-                    <a href="#"><img alt="ads" class="img-responsive" src="<?= Yii::$app->getUrlManager()->getBaseUrl() ?>/data/ads17.jpg" /></a>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="banner-boder-zoom">
-                    <a href="#"><img alt="ads" class="img-responsive" src="<?= Yii::$app->getUrlManager()->getBaseUrl() ?>/data/ads18.jpg" /></a>
-                </div>
-            </div>
-        </div>
-        <!-- end banner bottom -->
     </div>
 </div>
 
-<?= \frontend\widgets\ForYou::widget() ?>
-
-<?= \frontend\widgets\ListNews::widget()?>
 
 <?= \frontend\widgets\CartBox::getModal() ?>
