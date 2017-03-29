@@ -155,7 +155,7 @@ class ContentController extends BaseBEController
     {
         $model = new Content();
         $model->loadDefaultValues();
-        $model->code = rand(100000,1000000);
+        $model->code = rand(10000,99999);
         $model->setScenario('adminModify');
         if ($model->load(Yii::$app->request->post())) {
             if (isset(Yii::$app->request->post()['Content']['list_cat_id'])) {
