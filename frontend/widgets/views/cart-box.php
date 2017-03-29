@@ -9,7 +9,7 @@
 <div id="cart-block" class="col-xs-5 col-sm-2 shopping-cart-box">
     <a class="cart-link" href="<?= \yii\helpers\Url::to(['shopping-cart/list-my-cart']) ?>">
         <span class="title">Giỏ hàng</span>
-        <span class="total"><?= $totalAmount?$totalAmount:0 ?> SP - <?= $total_price?\common\models\Content::formatNumber($total_price):0 ?> VND</span>
+        <span class="total"><?= $totalAmount?$totalAmount:0 ?> SP - <?= $total_price?\common\models\Content::formatNumber($total_price):0 ?> Đ</span>
         <span class="notify notify-left"><?= $totalAmount?$totalAmount:0 ?></span>
     </a>
     <div class="cart-block">
@@ -29,7 +29,7 @@
                                 </div>
                                 <div class="p-right">
                                     <p class="p-name"><?= $value['display_name'] ?></p>
-                                    <p class="p-rice"><?= \common\models\Content::formatNumber($value['price_promotion'] != 0 ?$value['price_promotion']:$value['price']) ?> VND</p>
+                                    <p class="p-rice"><?= \common\models\Content::formatNumber($value['price_promotion'] != 0 ?$value['price_promotion']:$value['price']) ?> Đ</p>
                                     <p>Số Lượng: <?= $value['amount'] ?></p>
                                 </div>
                             </li>
@@ -40,7 +40,7 @@
             </div>
             <div class="toal-cart">
                 <span>Tổng tiền</span>
-                <span class="toal-price pull-right"><?= $total_price?\common\models\Content::formatNumber($total_price):0 ?> VND</span>
+                <span class="toal-price pull-right"><?= $total_price?\common\models\Content::formatNumber($total_price):0 ?> Đ</span>
             </div>
             <div class="cart-buttons">
                 <a href="<?= \yii\helpers\Url::to(['shopping-cart/list-my-cart']) ?>" class="btn-check-out">Thanh toán</a>

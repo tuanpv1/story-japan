@@ -49,8 +49,8 @@ if($content){
                                 </a>
                             </h5>
                             <div class="content_price">
-                                <span id="product_price_promotion_<?= $item->id ?>" style="font-size: 13px" class="price product-price"><?= Content::formatNumber($item->price_promotion) ?> VND</span>
-                                <span style="font-size: small" id="product_price_<?= $item->id ?>" class="price old-price"><?= Content::formatNumber($item->price) ?> VND</span><br>
+                                <span id="product_price_promotion_<?= $item->id ?>" style="font-size: 13px" class="price product-price"><?= Content::formatNumber($item->price_promotion) ?> Đ</span>
+                                <span style="font-size: small" id="product_price_<?= $item->id ?>" class="price old-price"><?= Content::formatNumber($item->price) ?> Đ</span><br>
                                 <span style="font-size: small" id="product_code_<?= $item->id ?>">Mã SP: #<?= $item->code ?></span>&nbsp;&nbsp;
                                 <input type="hidden" class="product_amount_<?= $item->id ?>" value="1">
                                 <div class="product-star">

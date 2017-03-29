@@ -83,8 +83,8 @@ use yii\helpers\Url;
                                 </div>
                             </div>
                             <div class="product-price-group">
-                                <span id="product_price_promotion_<?= $content->id ?>" class="price"><?= Content::formatNumber($content->price_promotion) ?> VND</span>
-                                <span id="product_price_<?= $content->id ?>" class="old-price"><?= Content::formatNumber($content->price) ?> VND</span>
+                                <span id="product_price_promotion_<?= $content->id ?>" class="price"><?= Content::formatNumber($content->price_promotion) ?> Đ</span>
+                                <span id="product_price_<?= $content->id ?>" class="old-price"><?= Content::formatNumber($content->price) ?> Đ</span>
                                 <span class="discount"><?= round (((($content->price - $content->price_promotion)/($content->price))*100),1) ?> %</span>
                             </div>
                             <div class="info-orther">
