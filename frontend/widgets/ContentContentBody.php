@@ -33,7 +33,7 @@ class ContentContentBody extends Widget
             ->andWhere(['content_category_asm.category_id' => $this->id])
             ->andWhere(['content.status' => Content::STATUS_ACTIVE])
             ->orderBy(['updated_at' => SORT_ASC])
-            ->limit(4)
+            ->limit(6)
             ->all();
         foreach ($content_c as $c) {
             $content[] = $c;
@@ -50,7 +50,7 @@ class ContentContentBody extends Widget
                     ->andWhere(['content_category_asm.category_id' => $item->id])
                     ->andWhere(['content.status' => Content::STATUS_ACTIVE])
                     ->orderBy(['updated_at' => SORT_ASC])
-                    ->limit(4)
+                    ->limit(6)
                     ->all();
                 foreach ($content_p as $c1) {
                     $content[] = $c1;
@@ -64,7 +64,7 @@ class ContentContentBody extends Widget
                         ->andWhere(['content_category_asm.category_id' => $value->id])
                         ->andWhere(['content.status' => Content::STATUS_ACTIVE])
                         ->orderBy(['updated_at' => SORT_ASC])
-                        ->limit(4)
+                        ->limit(6)
                         ->all();
                     foreach ($content_p2 as $c2) {
                         $content[] = $c2;
