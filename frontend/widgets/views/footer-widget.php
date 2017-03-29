@@ -60,11 +60,11 @@
                     </div><!-- /input-group -->
                     <div class="introduce-title">Let's Socialize</div>
                     <div class="social-link">
-                        <a href="https://www.facebook.com/hung.chelsea.12"><i class="fa fa-facebook"></i></a>
-                        <a href="https://www.facebook.com/hung.chelsea.12"><i class="fa fa-pinterest-p"></i></a>
-                        <a href="https://www.facebook.com/hung.chelsea.12"><i class="fa fa-vk"></i></a>
-                        <a href="https://www.facebook.com/hung.chelsea.12"><i class="fa fa-twitter"></i></a>
-                        <a href="https://www.facebook.com/hung.chelsea.12"><i class="fa fa-google-plus"></i></a>
+                        <a target="_blank" href="https://www.facebook.com/hung.chelsea.12"><i class="fa fa-facebook"></i></a>
+                        <a target="_blank" href="https://www.facebook.com/hung.chelsea.12"><i class="fa fa-pinterest-p"></i></a>
+                        <a target="_blank" href="https://www.facebook.com/hung.chelsea.12"><i class="fa fa-vk"></i></a>
+                        <a target="_blank" href="https://www.facebook.com/hung.chelsea.12"><i class="fa fa-twitter"></i></a>
+                        <a target="_blank" href="https://www.facebook.com/hung.chelsea.12"><i class="fa fa-google-plus"></i></a>
                     </div>
                 </div>
 

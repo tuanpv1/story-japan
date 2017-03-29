@@ -18,8 +18,8 @@ use yii\widgets\ActiveForm;
                 <div class="dropdown">
                     <a class="current-open" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Mạng xã hội</a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="https://www.facebook.com/hung.chelsea.12">Facebook</a></li>
-                        <li><a href="https://www.facebook.com/hung.chelsea.12">Google+</a></li>
+                        <li><a target="_blank" href="https://www.facebook.com/hung.chelsea.12">Facebook</a></li>
+                        <li><a target="_blank" href="https://www.facebook.com/hung.chelsea.12">Google+</a></li>
                     </ul>
                 </div>
             </div>
