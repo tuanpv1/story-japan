@@ -16,6 +16,13 @@ $(window).load (function(){
     $('#validate_phone_mua').hide();
     $('#validate_email_mua').hide();
     $('#validate_email_nhan').hide();
+
+    $('#info_customer').hide();
+    $('#option_receiver').hide();
+    $('#chose_receiver').hide();
+    $('#show_infor_input').hide();
+    $('#checkout').hide();
+    $('#user_receiver_show_clicked').hide();
 });
 
 $(document).ready(function(){
@@ -142,6 +149,63 @@ function addCart(id){
         $('#modal_show').modal('show');
         $('#tp_id_reload').load(window.location.href  +  ' #tp_id_reload');
     });
+}
+
+function onInputInfo(){
+    $('#input_info').hide();
+    $('#number_total_cart').hide();
+    $('#table_list_cart').hide();
+    $("#remove_class_1").removeClass("current-step");
+    $("#add_class_2").addClass("current-step");
+    $('#info_customer').show('slow');
+    $('#chose_receiver').show('slow');
+}
+
+function choseReceiverContent(){
+    full_name = $('#full_name').val();
+    user_email = $('#user_email').val();
+    user_phone = $('#user_phone').val();
+    user_adress = $('#user_adress').val();
+    if(full_name == '') {
+        $('#name_mua').show();
+    }else if(user_email == ''){
+        $('#email_mua').show();
+    }else if(user_phone == '') {
+        $('#phone_mua').show();
+    }else if(user_adress == '') {
+        $('#dc_mua').show();
+    }else{
+        $('#input_info').hide();
+        $('#number_total_cart').hide();
+        $('#table_list_cart').hide();
+        $('#info_customer').hide();
+        $('#chose_receiver').hide();
+        $("#remove_class_1").removeClass("current-step");
+        $("#add_class_2").removeClass("current-step");
+        $("#add_class_3").addClass("current-step");
+        $('#option_receiver').show('slow');
+        $('#show_infor_input').show('slow');
+    }
+}
+
+function showAllInfo(){
+    $('#input_info').hide();
+    $('#number_total_cart').show();
+    $('#table_list_cart').show();
+    $('#info_customer').show();
+    $('#chose_receiver').hide();
+    $('#show_infor_input').hide();
+    $("#remove_class_1").removeClass("current-step");
+    $("#add_class_2").removeClass("current-step");
+    $("#add_class_3").removeClass("current-step");
+    $("#add_class_4").addClass("current-step");
+    $('#option_receiver').show();
+    $('#checkout').show('slow');
+}
+
+function showFormReceiver(){
+    $('#buy_for_friend').hide();
+    $('#user_receiver_show_clicked').show('slow');
 }
 
 function updateCart(id){

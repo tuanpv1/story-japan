@@ -37,7 +37,7 @@ class ShoppingCartController extends Controller
         return $this->renderAjax('cart',['cartInfo'=>$totalAmount]);
     }
 
-    public function actionListMyCart(){
+    public function actionListMyCart($active = 1){
         $session = Yii::$app->session;
         $cart = $session['cart'];
         $totalAmount = $total_price=0;
@@ -51,7 +51,6 @@ class ShoppingCartController extends Controller
                 }
             }
         }
-        $active = 1;
         return $this->render('list-my-cart',[
             'cart'=>$cart,
             'total_price'=>$total_price,

@@ -25,76 +25,79 @@ use yii\helpers\Url;
         <!-- ../page heading-->
         <div class="page-content page-order">
             <ul class="step">
-                <li class="<?= $active==1?'current-step':''?>"><span>01. Sản phẩm đã chọn</span></li>
-                <li class="<?= $active==2?'current-step':''?>"><span>02. Thông tin khách hàng</span></li>
-                <li class="<?= $active==3?'current-step':''?>"><span>03. Hình thức nhận hàng</span></li>
-                <li class="<?= $active==4?'current-step':''?>"><span>04. Xác nhận thông tin</span></li>
-                <li class="<?= $active==5?'current-step':''?>"><span>05. Thanh toán</span></li>
+                <li id="remove_class_1" class="current-step"><span>01. Sản phẩm đã chọn</span></li>
+                <li id="add_class_2"><span>02. Thông tin khách hàng</span></li>
+                <li id="add_class_3" "><span>03. Hình thức nhận hàng</span></li>
+                <li id="add_class_4"><span>04. Xác nhận thông tin và thanh toán</span></li>
+                <li id="add_class_5"><span>05. Hoàn thành</span></li>
             </ul>
-            <div class="heading-counter warning"><?= Yii::t('app','Tổng số sản phẩm trong giỏ hàng của bạn ') ?>:
+            <div id="number_total_cart" class="heading-counter warning"><?= Yii::t('app','Tổng số sản phẩm trong giỏ hàng của bạn ') ?>:
                 <span><?= $totalAmount?$totalAmount:0 ?> Sản phẩm</span>
             </div>
             <?php if(isset($cart) && !empty($cart)){ ?>
             <div class="order-detail-content">
-                <table id="list_content" class="table table-bordered table-responsive cart_summary">
-                    <thead>
-                    <tr>
-                        <th class="cart_product"></th>
-                        <th>Sản phẩm</th>
-                        <th>Tình trạng.</th>
-                        <th>Giá tiền</th>
-                        <th>Số Lượng</th>
-                        <th>Tổng tiền</th>
-                        <th  class="action"><i class="fa fa-trash-o"></i></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php foreach($cart as $key => $value){ ?>
-                    <tr>
-                        <td class="cart_product">
-                            <a href="#"><img src="<?= \common\models\Content::getFirstImageLinkFeStatic($value['images']) ?>" alt="<?= $value['display_name'] ?>"></a>
-                        </td>
-                        <td class="cart_description">
-                            <p class="product-name"><a href="#"><?= $value['display_name'] ?> </a></p>
-                            <small class="cart_ref"><?= Yii::t('app','Mã sản phẩm: #').$value['code']  ?></small><br>
-<!--                            <small><a href="#">Color : Beige</a></small><br>-->
-                        </td>
-                        <td class="cart_avail"><span class="label label-success"><?= \common\models\Content::$listAvailability[$value['availability']] ?></span></td>
-                        <td class="price"><span><?= \common\models\Content::formatNumber($value['price_promotion']?$value['price_promotion']:$value['price']) ?> VND</span></td>
-                        <td class="qty">
-                            <input id="amount_<?= $key ?>" class="form-control input-sm" type="text" value="<?= $value['amount'] ?>">
-                            <a onclick="addition(<?= $key ?>)" href="javascript:void(0)"><i class="fa fa-caret-up"></i></a>
-                            <a onclick="subtraction(<?= $key ?>)" href="javascript:void(0)"><i class="fa fa-caret-down"></i></a>
-                        </td>
-                        <td class="price">
-                            <span><?= \common\models\Content::formatNumber(($value['price_promotion']?$value['price_promotion']:$value['price'])*$value['amount']) ?> VND</span>
-                        </td>
-                        <td class="action">
-                            <a onclick="delCart(<?= $key ?>)" href="javascript:void(0)"><?= Yii::t('app','Xóa') ?></a>
-                        </td>
-                    </tr>
-                    <?php } ?>
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                        <td colspan="2" rowspan="2"></td>
-                        <td colspan="3">Tổng tiền trước thuế</td>
-                        <td colspan="2"><?= \common\models\Content::formatNumber($total_price?$total_price:0) ?> VND</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3"><strong><?= Yii::t('app','Tổng tiền') ?></strong></td>
-                        <td colspan="2"><strong><?= \common\models\Content::formatNumber($total_price?$total_price:0) ?> VND</strong></td>
-                    </tr>
-                    </tfoot>
-                </table>
+                <div id="table_list_cart">
+                    <table id="list_content" class="table table-bordered table-responsive cart_summary">
+                        <thead>
+                        <tr>
+                            <th class="cart_product"></th>
+                            <th>Sản phẩm</th>
+                            <th>Tình trạng.</th>
+                            <th>Giá tiền</th>
+                            <th>Số Lượng</th>
+                            <th>Tổng tiền</th>
+                            <th  class="action"><i class="fa fa-trash-o"></i></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach($cart as $key => $value){ ?>
+                            <tr>
+                                <td class="cart_product">
+                                    <a href="#"><img src="<?= \common\models\Content::getFirstImageLinkFeStatic($value['images']) ?>" alt="<?= $value['display_name'] ?>"></a>
+                                </td>
+                                <td class="cart_description">
+                                    <p class="product-name"><a href="#"><?= $value['display_name'] ?> </a></p>
+                                    <small class="cart_ref"><?= Yii::t('app','Mã sản phẩm: #').$value['code']  ?></small><br>
+                                    <!--                            <small><a href="#">Color : Beige</a></small><br>-->
+                                </td>
+                                <td class="cart_avail"><span class="label label-success"><?= \common\models\Content::$listAvailability[$value['availability']] ?></span></td>
+                                <td class="price"><span><?= \common\models\Content::formatNumber($value['price_promotion']?$value['price_promotion']:$value['price']) ?> VND</span></td>
+                                <td class="qty">
+                                    <input id="amount_<?= $key ?>" class="form-control input-sm" type="text" value="<?= $value['amount'] ?>">
+                                    <a onclick="addition(<?= $key ?>)" href="javascript:void(0)"><i class="fa fa-caret-up"></i></a>
+                                    <a onclick="subtraction(<?= $key ?>)" href="javascript:void(0)"><i class="fa fa-caret-down"></i></a>
+                                </td>
+                                <td class="price">
+                                    <span><?= \common\models\Content::formatNumber(($value['price_promotion']?$value['price_promotion']:$value['price'])*$value['amount']) ?> VND</span>
+                                </td>
+                                <td class="action">
+                                    <a onclick="delCart(<?= $key ?>)" href="javascript:void(0)"><?= Yii::t('app','Xóa') ?></a>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="2" rowspan="2"></td>
+                            <td colspan="3">Tổng tiền trước thuế</td>
+                            <td colspan="2"><?= \common\models\Content::formatNumber($total_price?$total_price:0) ?> VND</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3"><strong><?= Yii::t('app','Tổng tiền') ?></strong></td>
+                            <td colspan="2"><strong><?= \common\models\Content::formatNumber($total_price?$total_price:0) ?> VND</strong></td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
                 <div id="info_customer">
                     <h2 class="page-heading"></h2>
+                    <h2 class="page-heading"><?= Yii::t('app','Thông tin khách hàng')?></h2>
                     <!-- ../page heading-->
                     <div class="page-content">
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="box-authentication">
-                                    <h3 class="text-center"><?= Yii::t('app','Thông tin người mua') ?></h3>
+                                    <h3 class="text-center"><?= Yii::t('app','Thông tin người mua hàng') ?></h3>
                                     <div class="col-md-6 col-sm-12">
                                         <?= Yii::t('app','Họ và tên người mua hàng')?>
                                     </div>
@@ -124,7 +127,14 @@ use yii\helpers\Url;
                                     <label id="dc_mua" style="color:red;float: right">Không được để trống địa chỉ người mua hàng</label>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+
+                            <div class="col-sm-6 text-center" id="buy_for_friend">
+                                <a class="default-btn text-center" onclick="showFormReceiver()" href="javascript:void(0)">
+                                    <?= Yii::t('app','Nếu bạn mua hàng tặng người thân click vào đây') ?>
+                                </a>
+                            </div>
+
+                            <div id="user_receiver_show_clicked" class="col-sm-6">
                                 <div class="box-authentication">
                                     <h3 class="text-center"><?= Yii::t('app','Thông tin người nhận hàng')?></h3>
                                     <div class="col-md-6 col-sm-12">
@@ -159,14 +169,32 @@ use yii\helpers\Url;
                     </div>
                 </div>
                 <div id="option_receiver">
-
-                </div>
-                <div id="option_payment">
-
+                    <h2 class="page-heading"></h2>
+                    <h2 class="page-heading"><?= Yii::t('app','Hình thức nhận hàng') ?></h2>
+                    <!-- ../page heading-->
+                    <div class="page-content">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="box-authentication">
+                                    <h3 class="text-center"><?= Yii::t('app','Nhận hàng tại nhà') ?></h3>
+                                    <input class="form-control" type="radio" name="option" value="home" checked>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="box-authentication">
+                                    <h3 class="text-center"><?= Yii::t('app','Nhận hàng tại cửa hàng') ?></h3>
+                                    <input class="form-control" type="radio" name="option" value="store">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="cart_navigation">
                     <a class="prev-btn" href="<?= Url::to(['site/index']) ?>"><?= Yii::t('app','Tiếp tục mua hàng') ?></a>
-                    <a class="next-btn" onclick="" href="javascript:void(0)"><?= Yii::t('app','Thanh toán') ?></a>
+                    <a class="next-btn" id="input_info" onclick="onInputInfo()" href="javascript:void(0)"><?= Yii::t('app','Điền thông tin đặt hàng') ?></a>
+                    <a class="next-btn" id="chose_receiver" onclick="choseReceiverContent()" href="javascript:void(0)"><?= Yii::t('app','Chọn hình thức nhận hàng') ?></a>
+                    <a class="next-btn" id="show_infor_input" onclick="showAllInfo()" href="javascript:void(0)"><?= Yii::t('app','Xem lại thông tin') ?></a>
+                    <a class="next-btn" id="checkout" onclick="" href="javascript:void(0)"><?= Yii::t('app','Đặt hàng') ?></a>
                 </div>
             </div>
             <?php }else{
