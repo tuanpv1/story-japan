@@ -239,7 +239,8 @@ function subtraction(id){
         $.get(baseurl +'shopping-cart/update-cart',{'id' :id,'amount' :amount_new},function(data){
             val = data.split("<pre>");
             $("#amount").text(val[1]);
-            $('#tp_id_reload_lmc').load(window.location.href +  ' #tp_id_reload_lmc');
+            $('#number_total_cart').load(window.location.href +  ' #number_total_cart');
+            $('#table_list_cart').load(window.location.href +  ' #table_list_cart');
             $('#tp_id_reload').load(window.location.href  +  ' #tp_id_reload');
         });
     }
@@ -251,7 +252,8 @@ function addition(id){
     $.get(baseurl +'shopping-cart/update-cart',{'id' :id,'amount' :amount_new},function(data){
         val = data.split("<pre>");
         $("#amount").text(val[1]);
-        $('#tp_id_reload_lmc').load(window.location.href +  ' #tp_id_reload_lmc');
+        $('#number_total_cart').load(window.location.href +  ' #number_total_cart');
+        $('#table_list_cart').load(window.location.href +  ' #table_list_cart');
         $('#tp_id_reload').load(window.location.href  +  ' #tp_id_reload');
     });
 }
