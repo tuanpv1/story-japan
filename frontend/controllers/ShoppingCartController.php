@@ -155,6 +155,7 @@ class ShoppingCartController extends Controller
                 $order_detail->price = $value["price"];
                 $order_detail->number = $value["amount"];
                 $order_detail->price_promotion = $value["price_promotion"];
+                $order_detail->sale = round (((($value["price"] - $value["price_promotion"])/($value["price"]))*100),1);
                 $order_detail->total = $total_one;
                 $order_detail->code = $value["code"];
                 if($value['price_promotion']==0){
