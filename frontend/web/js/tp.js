@@ -23,6 +23,7 @@ $(window).load (function(){
     $('#show_infor_input').hide();
     $('#checkout').hide();
     $('#user_receiver_show_clicked').hide();
+    $('#c_validate').hide();
 });
 
 $(document).ready(function(){
@@ -127,6 +128,45 @@ $(document).ready(function(){
         }
     });
 });
+
+function checkOutInfo(){
+    if($('#full_name').val().trim() == "" || $('#user_email').val().trim() == "" || $('#user_adress').val().trim() == "" || $('#user_phone').val().trim() == "")
+    {
+        $('#c_validate').show();
+    }else{
+        var fullName = $('#fullName').val();
+        var userEmail = $('#userEmail').val();
+        var userPhone = $('#userPhone').val();
+        var userAdress = $('#userAdress').val();
+        var full_name = $('#full_name').val();
+        var user_email = $('#user_email').val();
+        var user_adress = $('#user_adress').val();
+        var user_phone = $('#user_phone').val();
+        $.ajax({
+            type: "POST",
+            url: baseurl+'shopping-cart/save-buy',
+            data: {
+                fullName:fullName,
+                userEmail:userEmail,
+                userPhone:userPhone,
+                userAdress:userAdress,
+                full_name:full_name,
+                user_email:user_email,
+                user_adress:user_adress,
+                user_phone:user_phone
+            },
+            success: function(data) {
+                var rs = JSON.parse(data);
+                if (rs['success']) {
+                    alert(rs['message']);
+                    location.href= baseurl+'site/index';
+                }else {
+                    alert(rs['message']);
+                }
+            }
+        });
+    }
+}
 
 function addCart(id){
     price_promotion = $("#product_price_promotion_"+id).text();

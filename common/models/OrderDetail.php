@@ -10,14 +10,15 @@ use yii\behaviors\TimestampBehavior;
  *
  * @property integer $id
  * @property integer $order_id
- * @property integer $product_id
+ * @property integer $content_id
  * @property integer $price
  * @property integer $total
  * @property integer $sale
- * @property integer $price_sale
+ * @property integer $price_promotion
  * @property integer $number
  * @property integer $created_at
  * @property integer $updated_at
+ * @property string $code
  */
 class OrderDetail extends \yii\db\ActiveRecord
 {
@@ -40,7 +41,8 @@ class OrderDetail extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['order_id', 'product_id', 'price','sale', 'price_sale', 'number', 'total','created_at', 'updated_at'], 'integer'],
+            ['code','string'],
+            [['order_id', 'content_id', 'price','sale', 'price_promotion', 'number', 'total','created_at', 'updated_at'], 'integer'],
         ];
     }
 
@@ -52,9 +54,10 @@ class OrderDetail extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'order_id' => 'MaDH',
-            'product_id' => 'Sản phẩm',
+            'content_id' => 'Sản phẩm',
+            'code' => 'Mã sản phẩm',
             'price' => 'Giá gốc',
-            'price_sale' => 'Giá giảm',
+            'price_promotion' => 'Giá giảm',
             'total' => 'Tổng tiền',
             'sale' => 'Giảm giá',
             'number' => 'Số lượng',

@@ -101,19 +101,16 @@ class ShoppingCartController extends Controller
         $user_email = $_POST['user_email'];
         $user_adress = $_POST['user_adress'];
         $user_phone = $_POST['user_phone'];
-        $note = $_POST['message'];
 
         $session = Yii::$app->session;
         $cart  = $session['cart'];
-//        echo "<pre>";print_r($cart);die();
         $totalAmount = $total=0;
         foreach($cart as $key => $value){
             $totalAmount += $value['amount'];
-            if($value['sale'] == 0) {
+            if($value['price_promotion'] == 0) {
                 $total += $value['price'] * $value['amount'];
             }else {
-                $sal = ($value['price']*(100-$value['sale']))/100;
-                $total += $sal * $value['amount'];
+                $total += $value['price_promotion'] * $value['amount'];
             }
         }
 
@@ -127,13 +124,12 @@ class ShoppingCartController extends Controller
         $order->address_receiver = $userAdress;
         $order->phone_receiver = $userPhone;
         $order->email_receiver = $userEmail;
-        $order->note = $note;
         $order->user_id = Yii::$app->user->id;
         $order->total = $total;
         $order->total_number = $totalAmount;
         if($order->save()){
             $order_id = $order->id;
-            $txtTable="Thông tin đơn hàng bạn vừa đặt tại E-Shopping Mã đơn hàng của bạn ".$order_id;
+            $txtTable="Thông tin đơn hàng bạn vừa đặt tại Shop cua chung toi Mã đơn hàng của bạn ".$order_id;
             $txtTable.="<table class=\"table table-condensed\">";
             $txtTable.="<thead>";
             $txtTable.="<tr class=\"cart_menu\">
@@ -148,38 +144,38 @@ class ShoppingCartController extends Controller
             foreach ($cart as $key => $value) {
 
                 $total_one = 0;
-                if($value['sale'] == 0){
+                if($value['price_promotion'] == 0){
                     $total_one =  $value['amount']*$value['price'];
                 }else{
-                    $sal = ($value['price']*(100-$value['sale']))/100;
-                    $total_one = $sal * $value['amount'];
+                    $total_one = $value['price_promotion'] * $value['amount'];
                 }
                 $order_detail = new OrderDetail();
                 $order_detail->order_id = $order_id;
-                $order_detail->product_id = $value['id'];
+                $order_detail->content_id = $value['id'];
                 $order_detail->price = $value["price"];
                 $order_detail->number = $value["amount"];
-                $order_detail->sale = $value["sale"];
+                $order_detail->price_promotion = $value["price_promotion"];
                 $order_detail->total = $total_one;
-                if($value['sale']==0){
-                    $order_detail->price_sale = null;
+                $order_detail->code = $value["code"];
+                if($value['price_promotion']==0){
+                    $order_detail->price_promotion = null;
                 }else{
-                    $order_detail->price_sale =((100- $value["sale"])/100)*$value['price'];
+                    $order_detail->price_promotion = $value['price_promotion'];
                 }
                 $txtTable.="<td class=\"cart_product\">";
-                $txtTable.="<img style=\"width: 150px\" src=\"". Product::getFirstImageLinkTP($value['image']) ."\" alt=\"".$value['name']."\">";
+                $txtTable.="<img style=\"width: 150px\" src=\"". Content::getFirstImageLinkFeStatic($value['images']) ."\" alt=\"".$value['display_name']."\">";
                 $txtTable.= "</td>
                                 <td class=\"cart_description\">";
-                $txtTable.= "<p>". $value['name'] ."</p>";
+                $txtTable.= "<p>". $value['display_name'] ."</p>";
                 $txtTable.="</td>";
-                if($value['sale']==0){
+                if($value['price_promotion']==0){
                     $txtTable.="<td class=\"cart_price\">";
-                    $txtTable.="<p>". Product::formatNumber($value['price']).' VND'."</p>";
+                    $txtTable.="<p>". Content::formatNumber($value['price']).' Đ'."</p>";
                     $txtTable.="</td>";
                 }else{
                     $txtTable.="<td class=\"cart_price\">";
-                    $txtTable.="<p>".Product::formatNumber(($value['price']*(100-$value['sale']))/100).' VND'."</p>
-                                            <p style=\"font-size: 12px\">Giá cũ: <span class=\"tp_002\">". Product::formatNumber($value['price']) ."</span> VND</p>";
+                    $txtTable.="<p>".Content::formatNumber($value['price_promotion']).' Đ'."</p>
+                                            <p style=\"font-size: 12px\">Giá cũ: <span class=\"tp_002\">". Content::formatNumber($value['price']) ."</span> Đ</p>";
                     $txtTable.="</td>";
                 }
                 $txtTable.="<p>".$value['amount']."</p>";
@@ -190,7 +186,7 @@ class ShoppingCartController extends Controller
                 $txtTable.="</div>
                                 </td>
                                 <td class=\"cart_total\">";
-                $txtTable.="<p class=\"cart_total_price\">". Product::formatNumber($total_one).' VND' ."</p>";
+                $txtTable.="<p class=\"cart_total_price\">". Content::formatNumber($total_one).' Đ' ."</p>";
 
                 $txtTable.="</td>";
                 $txtTable.="</tr>
@@ -201,7 +197,7 @@ class ShoppingCartController extends Controller
                     return Json::encode(['success' => false, 'message' => $message]);
                 }
             }
-            $txtTable.="Cám ơn bạn đã tin tưởng và sử dụng dịch vụ của E-Shopping";
+            $txtTable.="Cám ơn bạn đã tin tưởng và sử dụng dịch vụ của shop chúng tôi";
             $this->sendEmail($user_email,$txtTable);
             $message = 'Đã đặt hàng thành công, đơn hàng đã được gửi về địa chỉ email của bạn.';
             $session->remove('cart');

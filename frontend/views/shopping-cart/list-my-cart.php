@@ -99,13 +99,13 @@ use yii\helpers\Url;
                                 <div class="box-authentication">
                                     <h3 class="text-center"><?= Yii::t('app','Thông tin người mua hàng') ?></h3>
                                     <div class="col-md-6 col-sm-12">
-                                        <?= Yii::t('app','Họ và tên người mua hàng')?>
+                                        <?= Yii::t('app','Họ và tên người mua hàng (*)')?>
                                     </div>
                                     <input class="form-control" type="text" name="full_name" id="full_name" placeholder="Pham Van A" value="<?= !(Yii::$app->user->isGuest)?Yii::$app->user->identity->fullname:"" ?>">
                                     <label id="name_mua" style="color:red;float: right">Không được để trống tên người mua hàng</label><br>
 
                                     <div class="col-md-6 col-sm-12">
-                                        <?= Yii::t('app','Địa chỉ email người mua hàng') ?>
+                                        <?= Yii::t('app','Địa chỉ email người mua hàng (*)') ?>
                                     </div>
                                     <input class="form-control" type="email" name="user_email" placeholder="example@gmail.com" id="user_email" value="<?= !(Yii::$app->user->isGuest)?Yii::$app->user->identity->email:"" ?>">
                                     <label style="color:red;float: right">
@@ -113,7 +113,7 @@ use yii\helpers\Url;
                                         <span id="validate_email_mua">Email người mua hàng không đúng!</span>
                                     </label><br>
                                     <div class="col-md-6 col-sm-12">
-                                        <?= Yii::t('app','Số điện thoại người mua hàng') ?>
+                                        <?= Yii::t('app','Số điện thoại người mua hàng (*)') ?>
                                     </div>
                                     <input class="form-control" type="tel" name="user_phone" placeholder="09434xxxxx" id="user_phone" value="<?= !(Yii::$app->user->isGuest)?Yii::$app->user->identity->phone:"" ?>">
                                     <label style="color:red;float: right">
@@ -121,7 +121,7 @@ use yii\helpers\Url;
                                         <span id="validate_phone_mua">Số điện thoại bạn nhập không đúng</span>
                                     </label><br>
                                     <div class="col-md-6 col-sm-12">
-                                        <?= Yii::t('app','Địa chỉ người mua hàng') ?>
+                                        <?= Yii::t('app','Địa chỉ người mua hàng (*)') ?>
                                     </div>
                                     <input class="form-control" type="text" name="user_adress" placeholder="Số nhà A, Ngõ B, Từ Liêm, Hà Nội" id="user_adress" value="<?= !(Yii::$app->user->isGuest)?Yii::$app->user->identity->address:"" ?>">
                                     <label id="dc_mua" style="color:red;float: right">Không được để trống địa chỉ người mua hàng</label>
@@ -189,12 +189,15 @@ use yii\helpers\Url;
                         </div>
                     </div>
                 </div>
+                <div class="text-center">
+                    <label id="c_validate" style="color:red">Vui lòng nhập đầy đủ các trường có dấu * để gửi yêu cầu đơn hàng</label>
+                </div>
                 <div class="cart_navigation">
                     <a class="prev-btn" href="<?= Url::to(['site/index']) ?>"><?= Yii::t('app','Tiếp tục mua hàng') ?></a>
                     <a class="next-btn" id="input_info" onclick="onInputInfo()" href="javascript:void(0)"><?= Yii::t('app','Điền thông tin đặt hàng') ?></a>
                     <a class="next-btn" id="chose_receiver" onclick="choseReceiverContent()" href="javascript:void(0)"><?= Yii::t('app','Chọn hình thức nhận hàng') ?></a>
                     <a class="next-btn" id="show_infor_input" onclick="showAllInfo()" href="javascript:void(0)"><?= Yii::t('app','Xem lại thông tin') ?></a>
-                    <a class="next-btn" id="checkout" onclick="" href="javascript:void(0)"><?= Yii::t('app','Đặt hàng') ?></a>
+                    <a class="next-btn" id="checkout" onclick="checkOutInfo()" href="javascript:void(0)"><?= Yii::t('app','Đặt hàng') ?></a>
                 </div>
             </div>
             <?php }else{

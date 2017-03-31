@@ -193,6 +193,24 @@ $menuItems = [
         ]
     ],
     [
+        'label' => 'Thống kê báo cáo',
+        'url' => 'javascript:;',
+        'options' => ['class' => 'menu-dropdown mega-menu-dropdown'],
+        'linkOptions' => ['data-hover' => 'megamenu-dropdown', 'data-close-others' => 'true'],
+        'items' => [
+            [
+                'encode' => false,
+                'label' => 'Thống kê đơn hàng',
+                'url' => ['order/index'],
+            ],
+            [
+                'encode' => false,
+                'label' => 'Báo cáo',
+                'url' => ['report/product'],
+            ],
+        ]
+    ],
+    [
         'label' => Yii::t('app','Hệ thống'),
         'url' => 'javascript:;',
         'options' => ['class' => 'menu-dropdown mega-menu-dropdown'],

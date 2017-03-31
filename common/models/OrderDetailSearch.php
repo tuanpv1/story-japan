@@ -18,7 +18,8 @@ class OrderDetailSearch extends OrderDetail
     public function rules()
     {
         return [
-            [['id', 'order_id', 'product_id', 'price', 'price_sale', 'number', 'created_at', 'updated_at'], 'integer'],
+            ['code','string'],
+            [['id', 'order_id', 'content_id', 'price', 'price_promotion', 'number', 'created_at', 'updated_at'], 'integer'],
         ];
     }
 
@@ -60,13 +61,14 @@ class OrderDetailSearch extends OrderDetail
         $query->andFilterWhere([
             'id' => $this->id,
             'order_id' => $this->order_id,
-            'product_id' => $this->product_id,
+            'content_id' => $this->content_id,
             'price' => $this->price,
-            'price_sale' => $this->price_sale,
+            'price_promotion' => $this->price_promotion,
             'number' => $this->number,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
+        $query->andFilterWhere(['like', 'code', $this->code]);
 
         return $dataProvider;
     }
