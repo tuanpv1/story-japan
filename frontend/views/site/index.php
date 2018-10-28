@@ -2,16 +2,15 @@
 use frontend\widgets\BestSaleNew;
 use frontend\widgets\Fashion;
 use frontend\widgets\HomeSlide;
-use frontend\widgets\ProgramerSuppostFe;
+use frontend\widgets\LatestDeals;
 
 ?>
 <!-- Home slideder-->
 <?= HomeSlide::widget() ?>
 <!-- END Home slideder-->
 <!-- servives -->
-<?= ProgramerSuppostFe::widget()?>
+<?= LatestDeals::widget()?>
 <!-- end services -->
-<?= BestSaleNew::widget() ?>
 <!---->
 <div class="content-page">
     <div class="container">
@@ -22,5 +21,6 @@ use frontend\widgets\ProgramerSuppostFe;
     </div>
 </div>
 
+<?= \frontend\widgets\ListNews::widget() ?>
 
 <?= \frontend\widgets\CartBox::getModal() ?>

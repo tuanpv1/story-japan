@@ -23,7 +23,7 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body class="home">
+<body class="home option2">
 
 <?php $this->beginBody() ?>
 

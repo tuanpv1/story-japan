@@ -24,33 +24,6 @@ class ListNews extends Widget{
 
     public  function run()
     {
-        // tạo khoảng thời gian
-        $date = (new DateTime('now'))->setTime(23, 59, 59)->format('Y-m-d H:i:s');
-        $date_from = (new DateTime('now'))->modify('-30 days')->setTime(0, 0)->format('Y-m-d H:i:s');
-        $now = strtotime($date);
-        $from = strtotime($date_from);
-        // lấy id_cat new
-        $id_cat = Category::find()
-            ->select('id')
-            ->andWhere(['is_news'=>1])
-            ->andWhere(['status'=>Category::STATUS_ACTIVE])
-            ->andWhere(['parent_id'=>null])
-            ->one();
-//        echo "<pre>";print_r($id_cat);die();
-        // lấy 6 sản phẩm được tạo trong vòng 1 tháng gần thời điểm hiện tại nhất
-        $news = null;
-        if(isset($id_cat)){
-            $news = Content::find()
-                ->select('content.id,display_name,short_description,images')
-                ->innerJoin('content_category_asm','content_category_asm.content_id = content.id')
-                ->andWhere(['content_category_asm.category_id'=>$id_cat->id])
-                ->andWhere(['content.status'=>Content::STATUS_ACTIVE])
-                ->orderBy(['content.created_at'=>'DESC'])
-                ->limit(4)
-                ->all();
-        }
-        return $this->render('list-news',[
-            'news'=>$news,
-        ]);
+        return $this->render('list-news');
     }
 }

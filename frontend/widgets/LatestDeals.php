@@ -12,7 +12,7 @@ use common\models\ProgramSuppost;
 use yii\base\Widget;
 use Yii;
 
-class ProgramerSuppostFe extends Widget{
+class LatestDeals extends Widget{
 
     public $message;
 
@@ -27,7 +27,7 @@ class ProgramerSuppostFe extends Widget{
             ->andWhere(['status' => Category::STATUS_ACTIVE])
             ->limit(4)
             ->all();
-        return $this->render('programer-suppost',[
+        return $this->render('latest-deals',[
             'sp'=>$sp
         ]);
     }

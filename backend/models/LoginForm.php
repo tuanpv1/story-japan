@@ -1,7 +1,6 @@
 <?php
 namespace backend\models;
 
-use api\helpers\Message;
 use common\models\User;
 use Yii;
 use yii\base\Model;
@@ -57,7 +56,7 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, Message::MSG_LOGIN_FAIL_PASSWORD_NOT_CORRECT);
+                $this->addError($attribute, Yii::t('app','Tên đăng nhập hoặc mật khẩu sai'));
             }
         }
     }
@@ -68,10 +67,10 @@ class LoginForm extends Model
             /** @var  $user User*/
             $user = User::findOne(['username' => $this->username,'type' => User::USER_TYPE_ADMIN]);
             if (!$user) {
-                $this->addError($attribute,  Message::MSG_LOGIN_FAIL_PASSWORD_NOT_CORRECT);
+                $this->addError($attribute,  Yii::t('app','Tên đăng nhập hoặc mật khẩu sai'));
             }
             if($user && $user->status != User::STATUS_ACTIVE) {
-                $this->addError($attribute,  Message::MSG_LOGIN_FAIL_USER_INACTIVE);
+                $this->addError($attribute,  Yii::t('app','Tài khoản đang bị khoá'));
             }
         }
 

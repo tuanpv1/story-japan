@@ -8,13 +8,12 @@
 use common\models\Slide;
 
 ?>
+<!-- Home slideder-->
 <div id="home-slider">
     <div class="container">
         <div class="row">
-            <div class="col-sm-3 slider-left"></div>
-            <div class="col-sm-9 header-top-right">
+            <div class="header-top-right">
                 <div class="homeslider">
-                    <div class="content-slide">
                         <ul id="contenhomeslider">
                             <?php
                                 if(isset($slide)){
@@ -27,10 +26,6 @@ use common\models\Slide;
                                 }
                             ?>
                         </ul>
-                    </div>
-                </div>
-                <div class="header-banner banner-opacity">
-                    <a href="#"><img alt="Funky roots" src="<?= Yii::$app->getUrlManager()->getBaseUrl() ?>/data/ads1.jpg" /></a>
                 </div>
             </div>
         </div>

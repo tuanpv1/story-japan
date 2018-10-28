@@ -1599,7 +1599,7 @@ span.notify-right{
 }
 .header-top-right .homeslider img{
     width: 100%;
-    height: auto;
+    height: 450px;
 }
 .header-top-right .homeslider .bx-wrapper .bx-viewport {
   -moz-box-shadow: 0;
@@ -2749,7 +2749,7 @@ span.notify-right{
   background: #eaeaea;
 }
 #footer-menu-box {
-    border-top: 1px solid #E1E1E1;
+    border-top: 1px solid #b3110b;
     margin-top: 10px;
     padding-top: 20px;
     margin-bottom: 20px;
@@ -2786,11 +2786,11 @@ span.notify-right{
   z-index: 9999;
   right: 10px;
   bottom: 32px;
-  background: #666;
+  background: #c60909;
   display: none;
 }
 .scroll_top:hover{
-  background: #F36;
+  background: #b3110b;
 }
 
 .scroll_top:before {
@@ -3314,7 +3314,7 @@ span.notify-right{
 }
 .page-heading{
   height: 41px;
-  border-bottom: 1px solid #eaeaea;
+  border-bottom: 1px solid #b3110b;
   line-height: 40px;
   position: relative;
   font-size: 24px;

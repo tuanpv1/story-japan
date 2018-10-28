@@ -1,37 +1,36 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: TuanPV
+ * Date: 10/28/2018
+ * Time: 4:07 PM
+ */
 use frontend\widgets\FormLogin;
 use frontend\widgets\MenuRight;
 use frontend\widgets\MenuTop;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
-?>
 
+?>
 <div id="header" class="header">
     <div class="top-header">
         <div class="container">
             <div class="nav-top-links">
-                <a class="first-item" href="tel:841688929947"><img alt="phone" src="<?= Yii::$app->getUrlManager()->getBaseUrl() ?>/images/phone.png" />(84) 1688 929 947</a>
-                <a href="<?= Url::to(['site/index']) ?>"><img alt="email" src="<?= Yii::$app->getUrlManager()->getBaseUrl() ?>/images/email.png" />Liên hệ với chúng tôi ngay bây giờ!</a>
-            </div>
-            <div class="currency ">
-                <div class="dropdown">
-                    <a class="current-open" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">Mạng xã hội</a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a target="_blank" href="https://www.facebook.com/hung.chelsea.12">Facebook</a></li>
-                        <li><a target="_blank" href="https://www.facebook.com/hung.chelsea.12">Google+</a></li>
-                    </ul>
-                </div>
+                <a class="first-item" href="#"><img alt="phone" src="assets/images/phone.png"/>00-62-658-658</a>
+                <a href="#"><img alt="email" src="assets/images/email.png"/>Contact us today!</a>
             </div>
 
+
             <div class="support-link">
-                <a href="#">Dịch vụ</a>
-                <a href="#">Hỗ trợ</a>
+                <a href="#">Services</a>
+                <a href="#">Support</a>
             </div>
 
             <div id="user-info-top" class="user-info pull-right">
                 <div class="dropdown">
-                    <a class="current-open" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#"><span>Tài khoản</span></a>
+                    <a class="current-open" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                       href="#"><span>Tài khoản</span></a>
                     <ul class="dropdown-menu mega_dropdown" role="menu">
                         <?php
                         if(Yii::$app->user->isGuest){
@@ -64,7 +63,8 @@ use yii\widgets\ActiveForm;
     <div class="container main-header">
         <div class="row">
             <div class="col-xs-12 col-sm-3 logo">
-                <a href="<?= Url::to(['site/index']) ?>"><img alt="Kute shop - GFXFree.Net" src="<?= Yii::$app->getUrlManager()->getBaseUrl() ?>/images/logo.png" /></a>
+                <a href="index.html"><img style="height:64px;width:auto" alt="Kute shop - GFXFree.Net"
+                                          src="assets/images/logo2.png"/></a>
             </div>
             <?= \frontend\widgets\SearchCategory::widget() ?>
             <div id="tp_id_reload">
@@ -75,27 +75,20 @@ use yii\widgets\ActiveForm;
     </div>
     <!-- END MANIN HEADER -->
     <div id="nav-top-menu" class="nav-top-menu">
-        <div class="container">
-            <div class="row">
-                <?= \frontend\widgets\MenuLeft::widget()?>
-                <?= MenuTop::widget() ?>
-            </div>
-            <!-- userinfo on top-->
-            <div id="form-search-opntop">
-            </div>
-            <!-- userinfo on top-->
-            <div id="user-info-opntop">
-            </div>
-            <!-- CART ICON ON MMENU -->
-            <div id="shopping-cart-box-ontop">
-                <i class="fa fa-shopping-cart"></i>
-                <div class="shopping-cart-box-ontop-content"></div>
-            </div>
+        <?= MenuTop::widget()?>
+        <!-- userinfo on top-->
+        <div id="form-search-opntop">
+        </div>
+        <!-- userinfo on top-->
+        <div id="user-info-opntop">
+        </div>
+        <!-- CART ICON ON MMENU -->
+        <div id="shopping-cart-box-ontop">
+            <i class="fa fa-shopping-cart"></i>
+            <div class="shopping-cart-box-ontop-content"></div>
         </div>
     </div>
 </div>
-<!-- end header -->
-
 
 <!-- Start Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
