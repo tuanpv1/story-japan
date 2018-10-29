@@ -110,6 +110,32 @@ NavBar::begin([
 ]);
 $menuItems = [
     [
+        'label' => 'Quản lý nội dung',
+        'url' => 'javascript:;',
+        'options' => ['class' => 'menu-dropdown mega-menu-dropdown'],
+        'linkOptions' => ['data-hover' => 'megamenu-dropdown', 'data-close-others' => 'true'],
+        'items' => [
+            [
+                'encode' => false,
+                'label' => '<i class="fa fa-server"></i>'. Yii::t('app','Sản phẩm'),
+                'url' => ['content/index'],
+                'require_auth' => true,
+            ],
+            [
+                'encode' => false,
+                'label' => '<i class="fa fa-server"></i>'. Yii::t('app','Tin tức'),
+                'url' => ['news/index','type' => \common\models\News::TYPE_NEWS],
+                'require_auth' => true,
+            ],
+            [
+                'encode' => false,
+                'label' => '<i class="fa fa-server"></i>'. Yii::t('app','Thông tin giới thiệu'),
+                'url' => ['news/index','type' => \common\models\News::TYPE_ABOUT],
+                'require_auth' => true,
+            ],
+        ]
+    ],
+    [
         'label' => 'Quản lý Danh mục',
         'url' => 'javascript:;',
         'options' => ['class' => 'menu-dropdown mega-menu-dropdown'],
@@ -119,33 +145,6 @@ $menuItems = [
                 'encode' => false,
                 'label' => '<i class="fa fa-server"></i>'.Yii::t('app','Danh mục'),
                 'url' => ['category/index'],
-                'require_auth' => true,
-            ],
-
-        ]
-    ],
-    [
-        'label' => 'Quản lý nội dung',
-        'url' => 'javascript:;',
-        'options' => ['class' => 'menu-dropdown mega-menu-dropdown'],
-        'linkOptions' => ['data-hover' => 'megamenu-dropdown', 'data-close-others' => 'true'],
-        'items' => [
-            [
-                'encode' => false,
-                'label' => '<i class="fa fa-server"></i>'. Yii::t('app','Nội dung'),
-                'url' => ['content/index'],
-                'require_auth' => true,
-            ],
-            [
-                'encode' => false,
-                'label' => '<i class="fa fa-gift"></i>'.Yii::t('app','Voucher'),
-                'url' => ['voucher/index'],
-                'require_auth' => true,
-            ],
-            [
-                'encode' => false,
-                'label' => '<i class="fa fa-gift"></i>'.Yii::t('app','Ưu đãi'),
-                'url' => ['program-suppost/index'],
                 'require_auth' => true,
             ],
 
@@ -271,7 +270,7 @@ NavBar::end();
 <div class="page-footer footer">
     <div class="container-fluid">
         <p><b>&copy;Copyright  <?php echo date('Y'); ?> </b>. All Rights Reserved. <b>Shop Backend</b>.
-            Design By HungND.</p>
+            Design By TP.</p>
     </div>
 </div>
 <div class="scroll-to-top">

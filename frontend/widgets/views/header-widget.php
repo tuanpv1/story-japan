@@ -63,7 +63,7 @@ use yii\widgets\ActiveForm;
     <div class="container main-header">
         <div class="row">
             <div class="col-xs-12 col-sm-3 logo">
-                <a href="index.html"><img style="height:64px;width:auto" alt="Kute shop - GFXFree.Net"
+                <a href="<?= Url::home() ?>"><img style="height:64px;width:auto" alt="Kute shop - GFXFree.Net"
                                           src="assets/images/logo2.png"/></a>
             </div>
             <?= \frontend\widgets\SearchCategory::widget() ?>

@@ -23,7 +23,7 @@ use yii\helpers\Url;
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Home</a></li>
+                        <li class="active"><a href="<?= Url::home() ?>">Home</a></li>
                         <li class="dropdown">
                             <a href="category.html" class="dropdown-toggle" data-toggle="dropdown">Độ xe</a>
                             <ul class="dropdown-menu container-fluid">

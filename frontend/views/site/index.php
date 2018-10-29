@@ -1,6 +1,4 @@
 <?php
-use frontend\widgets\BestSaleNew;
-use frontend\widgets\Fashion;
 use frontend\widgets\HomeSlide;
 use frontend\widgets\LatestDeals;
 
@@ -9,15 +7,11 @@ use frontend\widgets\LatestDeals;
 <?= HomeSlide::widget() ?>
 <!-- END Home slideder-->
 <!-- servives -->
-<?= LatestDeals::widget()?>
+<?= LatestDeals::widget() ?>
 <!-- end services -->
-<!---->
 <div class="content-page">
     <div class="container">
-        <!-- featured category fashion -->
-            <?= \frontend\widgets\ContentBody::widget()?>
-        <!-- end featured category fashion -->
-
+        <?= \frontend\widgets\ContentBody::widget() ?>
     </div>
 </div>
 
