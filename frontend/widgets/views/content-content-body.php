@@ -21,7 +21,7 @@ use yii\helpers\Url;
                 <div class="right-block">
                     <h5 class="product-name">
                         <a href="<?= Url::to(['content/detail', 'id' => $content->id]) ?>">
-                            <?= ucfirst(Content::substr($content->display_name, 25)) ?>
+                            <?= ucfirst(CUtils::substr($content->display_name, 25)) ?>
                             <span style="font-size: small"
                                   id="product_code_<?= $content->id ?>">Mã SP: #<?= $content->code ?></span>&nbsp;&nbsp;
                             <input type="hidden" class="product_amount_<?= $content->id ?>" value="1">
@@ -42,7 +42,7 @@ use yii\helpers\Url;
                 <div class="left-block">
                     <a href="<?= Url::to(['content/detail', 'id' => $content->id]) ?>">
                         <img class="img-responsive" alt="<?= $content->display_name ?>"
-                             src="<?= $content->getImageLinkFE() ?>"/>
+                             src="<?= $content->getFirstImageLinkFE() ?>"/>
                     </a>
                     <div class="quick-view">
                         <a title="Add to my wishlist" class="heart" href="#"></a>

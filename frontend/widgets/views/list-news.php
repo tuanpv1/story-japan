@@ -40,7 +40,7 @@ use yii\helpers\Url;
                                         <span class="date"><?= date('d/m/Y H:i:s', $new->created_at) ?></span>
                                     </div>
                                     <div class="readmore">
-                                        <a href="<?= Url::to(['news/detail', 'id' => $new->id]) ?>">Xem thêm</a>
+                                        <a href="<?= Url::to(['news/detail', 'id' => $new->id]) ?>">Chi tiết</a>
                                     </div>
                                 </div>
                             </li>

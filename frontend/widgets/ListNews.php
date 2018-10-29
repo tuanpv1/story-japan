@@ -27,7 +27,7 @@ class ListNews extends Widget{
     {
         $news = News::find()
             ->andWhere(['status' => News::STATUS_ACTIVE])
-            ->andWhere(['type' => News::STATUS_NEW])
+            ->andWhere(['type' => News::TYPE_NEWS])
             ->orderBy(['updated_at' => SORT_DESC])
             ->limit(6)
             ->all();
