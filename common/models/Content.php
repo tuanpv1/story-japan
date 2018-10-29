@@ -52,6 +52,7 @@ use yii\helpers\Url;
  * @property int $type_status
  * @property int $availability
  * @property int $is_feature
+ * @property string $link
  *
  * @property ContentCategoryAsm[] $contentCategoryAsms
  */
@@ -214,6 +215,7 @@ class Content extends \yii\db\ActiveRecord
                 'maxSize' => 1024 * 1024 * 10, 'tooBig' => Yii::t('app', 'Ảnh show  vượt quá dung lượng cho phép. Vui lòng thử lại'),
             ],
             [['image_tmp', 'list_cat_id'], 'safe'],
+            ['link','string']
         ], $this->getValidAttr());
     }
 
@@ -340,7 +342,8 @@ class Content extends \yii\db\ActiveRecord
             'ended_at' => Yii::t('app', 'Thời gian kết thúc'),
             'order' => Yii::t('app', 'Sắp xếp'),
             'slide_category' => Yii::t('app', 'Ảnh slide Danh mục'),
-            'is_feature' => Yii::t('app', 'Feature')
+            'is_feature' => Yii::t('app', 'Feature'),
+            'link' => Yii::t('app', 'Link'),
         ];
     }
 

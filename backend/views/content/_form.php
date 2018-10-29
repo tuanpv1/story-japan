@@ -48,8 +48,20 @@ JS;
 $this->registerJs($js, \yii\web\View::POS_END);
 ?>
 
-
 <div class="form-body">
+    <div class="row">
+        <form action="<?= \yii\helpers\Url::to(['content/process']) ?>" method="post">
+            <div class="col-md-2 text-right">
+                <label for="linkProcess">Link: </label>
+            </div>
+            <div class="col-md-6">
+                <input required type="text" name="linkProcess" id="linkProcess" class="form-control" placeholder="Nhập link sản phẩm">
+            </div>
+            <div class="col-md-2">
+                <input type="submit" id="btProcess" class="btn btn-success" value="Phân tích sản phẩm">
+            </div>
+        </form>
+    </div>
 
     <?php $form = ActiveForm::begin([
         'options' => ['enctype' => 'multipart/form-data'],
@@ -60,7 +72,7 @@ $this->registerJs($js, \yii\web\View::POS_END);
 
     ]); ?>
 
-    <h3 class="form-section"><?= Yii::t('app','Thông tin nội dung') ?></h3>
+    <h3 class="form-section"><?= Yii::t('app', 'Thông tin nội dung') ?></h3>
     <div class="row">
         <div class="col-md-12">
             <?= $form->field($model, 'display_name')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle']) ?>
@@ -74,25 +86,25 @@ $this->registerJs($js, \yii\web\View::POS_END);
     <div class="row">
         <div class="col-md-12">
             <?php $listCheckbox = Content::$list_type; ?>
-            <?= $form->field($model, 'type')->dropDownList($listCheckbox,['prompt'=>'Chọn kiểu sản phẩm'])->label(Yii::t('app','Kiểu sản phẩm')) ?>
+            <?= $form->field($model, 'type')->dropDownList($listCheckbox, ['prompt' => 'Chọn kiểu sản phẩm'])->label(Yii::t('app', 'Kiểu sản phẩm')) ?>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
             <?php $listTypeStatus = Content::$listTypeStatus; ?>
-            <?= $form->field($model, 'type_status')->dropDownList($listTypeStatus)->label(Yii::t('app','Hiện trạng sản phẩm')) ?>
+            <?= $form->field($model, 'type_status')->dropDownList($listTypeStatus)->label(Yii::t('app', 'Hiện trạng sản phẩm')) ?>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
             <?php $listCheckbox = Content::$listAvailability; ?>
-            <?= $form->field($model, 'availability')->dropDownList($listCheckbox)->label(Yii::t('app','Tình trạng hàng')) ?>
+            <?= $form->field($model, 'availability')->dropDownList($listCheckbox)->label(Yii::t('app', 'Tình trạng hàng')) ?>
         </div>
     </div>
 
     <div class="row">
         <div class="col-md-12">
-            <?= $form->field($model, 'code')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle','readonly' => true]) ?>
+            <?= $form->field($model, 'code')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle', 'readonly' => true]) ?>
         </div>
     </div>
 
@@ -109,7 +121,7 @@ $this->registerJs($js, \yii\web\View::POS_END);
     </div>
     <div class="row">
         <div class="col-md-12">
-            <?= $form->field($model,'is_feature')->checkbox() ?>
+            <?= $form->field($model, 'is_feature')->checkbox() ?>
         </div>
     </div>
 
@@ -127,12 +139,12 @@ $this->registerJs($js, \yii\web\View::POS_END);
     </div>
     <div class="row">
         <div class="col-md-12">
-            <?= $form->field($model, 'rating')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle'])->label(Yii::t('app','Đánh giá')) ?>
+            <?= $form->field($model, 'rating')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle'])->label(Yii::t('app', 'Đánh giá')) ?>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
-            <?= $form->field($model, 'order')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle'])->label(Yii::t('app','Sắp xếp')) ?>
+            <?= $form->field($model, 'order')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle'])->label(Yii::t('app', 'Sắp xếp')) ?>
         </div>
     </div>
 
@@ -155,8 +167,7 @@ $this->registerJs($js, \yii\web\View::POS_END);
     </div>
 
 
-
-    <h3 class="form-section"><?= Yii::t('app','Ảnh') ?> </h3>
+    <h3 class="form-section"><?= Yii::t('app', 'Ảnh') ?> </h3>
 
     <div class="row">
         <div class="col-md-12">
@@ -408,7 +419,7 @@ $this->registerJs($js, \yii\web\View::POS_END);
     <div class="row">
 
         <div class="form-group field-content-price">
-            <label class="control-label col-md-2" for="content-price"><?= Yii::t('app','Danh mục') ?></label>
+            <label class="control-label col-md-2" for="content-price"><?= Yii::t('app', 'Danh mục') ?></label>
 
             <div class="col-md-10">
                 <?= \common\widgets\Jstree::widget([
@@ -457,7 +468,7 @@ $this->registerJs($js, \yii\web\View::POS_END);
     <?php if ($model->isNewRecord): ?>
         <?= $form->field($model, 'images')->hiddenInput(['id' => 'images_tmp'])->label(false) ?>
     <?php endif; ?>
-    <?= Html::submitButton($model->isNewRecord ? Yii::t('app','Tạo') : Yii::t('app','Cập nhật'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+    <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Tạo') : Yii::t('app', 'Cập nhật'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
 
 
     <?php ActiveForm::end(); ?>

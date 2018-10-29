@@ -9,6 +9,7 @@ $config = [
         '@content_images' => 'staticdata/content_images',
         '@voucher_images' => 'staticdata/voucher_image',
         '@image_news' => 'staticdata/image_news',
+        '@image_info' => 'staticdata/image_info',
     ],
     'components' => [
         'cache' => [

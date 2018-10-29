@@ -2,7 +2,7 @@
 
 namespace backend\controllers;
 
-use api\helpers\Message;
+use backend\models\HtmlDom;
 use common\components\ActionLogTracking;
 use common\helpers\CUtils;
 use common\helpers\CVietnameseTools;
@@ -35,6 +35,7 @@ class ContentController extends BaseBEController
                 'actions' => [
                     'delete' => ['post'],
                     'update-status-content'=> ['post'],
+                    'process'=> ['post'],
                 ],
             ],
             [
@@ -61,16 +62,8 @@ class ContentController extends BaseBEController
                 if ($cat) {
                     $cat->load($post['Content'][$index], '');
                     if ($cat->update()) {
-                        // tao log
-                        $description = 'UPDATE STATUS CONTENT';
-                        $ip_address = CUtils::clientIP();
-
                         echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
                     } else {
-                        // tao log
-                        $description = 'UPDATE STATUS CONTENT';
-                        $ip_address = CUtils::clientIP();
-
                         echo \yii\helpers\Json::encode(['output' => '', 'message' => Yii::t('app','Dữ liệu không hợp lệ')]);
                     }
                 } else {
@@ -80,7 +73,6 @@ class ContentController extends BaseBEController
             else {
                 echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
             }
-
             return;
         }
         $searchModel = new ContentSearch();
@@ -669,7 +661,17 @@ class ContentController extends BaseBEController
                 }
             }
         }
+    }
 
+    public function actionProcess(){
+        if($_POST['btProcess'] && $_POST['linkProcess']){
+            $htmlDom = New HtmlDom();
+            $html = $htmlDom->file_get_html($_POST['link']);
+            var_dump($html);die;
+        }else{
+            Yii::$app->session->setFlash('error',Yii::t('app','Không phân tích dữ liệu thành công'));
+            $this->redirect(['create']);
+        }
     }
 
 }

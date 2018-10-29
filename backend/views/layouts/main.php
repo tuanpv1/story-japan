@@ -133,6 +133,12 @@ $menuItems = [
                 'url' => ['news/index','type' => \common\models\News::TYPE_ABOUT],
                 'require_auth' => true,
             ],
+            [
+                'encode' => false,
+                'label' => '<i class="fa fa-server"></i>'. Yii::t('app','Quản  lý thông tin tĩnh'),
+                'url' => ['info-public/index'],
+                'require_auth' => true,
+            ],
         ]
     ],
     [
