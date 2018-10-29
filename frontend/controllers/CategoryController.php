@@ -5,31 +5,21 @@ namespace frontend\controllers;
 use api\models\Subscriber;
 use common\models\Category;
 use common\models\Content;
-use common\models\ContentCategoryAsm;
 use common\models\Slide;
-use common\models\Subcriber;
-use DateTime;
-use Yii;
-use common\models\User;
-use common\models\UserSearch;
-use yii\behaviors\TimestampBehavior;
 use yii\data\Pagination;
-use yii\web\BadRequestHttpException;
 use yii\web\Controller;
-use yii\web\Response;
-use yii\web\UploadedFile;
-use yii\widgets\ActiveForm;
 
 /**
  * UserController implements the CRUD actions for User model.
  */
 class CategoryController extends Controller
 {
-    public function actionIndex($id){
+    public function actionIndex($id)
+    {
         $content = [];
-        $banner = Slide::findAll(['status'=>Slide::STATUS_ACTIVE,'type'=>Slide::SLIDE_CATEGORY]);
+        $banner = Slide::findAll(['status' => Slide::STATUS_ACTIVE, 'type' => Slide::SLIDE_CATEGORY]);
         $cat = Category::findOne($id);
-        $content1 =  self::getContent($id);
+        $content1 = self::getContent($id);
         if (isset($content1) && !empty($content1)) {
             foreach ($content1 as $item1) {
                 $content[] = $item1;
@@ -61,12 +51,12 @@ class CategoryController extends Controller
                 $content[] = $item2;
             }
         }
-        $pagination = new Pagination(['totalCount' => count($content), 'pageSize'=>1]);
-        return $this->render('index',[
-            'content'=>$content,
-            'banner'=>$banner,
-            'cat'=>$cat,
-            'pagination'=>$pagination,
+        $pagination = new Pagination(['totalCount' => count($content), 'pageSize' => 1]);
+        return $this->render('index', [
+            'content' => $content,
+            'banner' => $banner,
+            'cat' => $cat,
+            'pagination' => $pagination,
         ]);
     }
 
@@ -91,7 +81,8 @@ class CategoryController extends Controller
         }
     }
 
-    public static function getContent($id){
+    public static function getContent($id)
+    {
         $content1 = Content::find()
             ->select('content.id,content.display_name,content.type,content.short_description,content.price,content.images,content.price_promotion')
             ->innerJoin('content_category_asm', 'content_category_asm.content_id = content.id')

@@ -299,12 +299,13 @@
 */
 
 .option2 .show-brand .navbar-brand{
-	width: 200px;
+	width: auto;
 	position: relative;
 	padding-left: 10px;
 	font-family: 'Arial Narrow', Arial, sans-serif;
 	font-size: 22px;
 	font-weight: normal;
+	padding-right: 25px;
 }
 .option2 .show-brand .navbar-brand img{
 	margin-right: 10px;

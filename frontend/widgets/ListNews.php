@@ -9,6 +9,7 @@ namespace frontend\widgets;
 
 use common\models\Category;
 use common\models\Content;
+use common\models\News;
 use DateTime;
 use yii\base\Widget;
 use Yii;
@@ -24,6 +25,14 @@ class ListNews extends Widget{
 
     public  function run()
     {
-        return $this->render('list-news');
+        $news = News::find()
+            ->andWhere(['status' => News::STATUS_ACTIVE])
+            ->andWhere(['type' => News::STATUS_NEW])
+            ->orderBy(['updated_at' => SORT_DESC])
+            ->limit(6)
+            ->all();
+        return $this->render('list-news',[
+            'news' => $news
+        ]);
     }
 }

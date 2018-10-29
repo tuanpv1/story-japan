@@ -10,7 +10,6 @@ use yii\helpers\Html;
 /* @var $form yii\widgets\ActiveForm */
 
 $images = !$model->isNewRecord && !empty($model->image_display);
-$images_slide = !$model->isNewRecord && !empty($model->image_slide);
 
 $urlUploadImage = \yii\helpers\Url::to(['/app/upload']);
 ?>

@@ -5,6 +5,9 @@
  * Date: 2/16/2017
  * Time: 1:46 PM
  */
+use common\models\News;
+use yii\helpers\Url;
+
 ?>
 
 <div id="content-wrap">
@@ -12,80 +15,44 @@
         <!-- blog list -->
         <div class="blog-list">
             <h2 class="page-heading">
-                <span class="page-heading-title">From the blog</span>
+                <span class="page-heading-title">TIN MỚI</span>
             </h2>
             <div class="blog-list-wapper">
                 <ul class="owl-carousel" data-dots="false" data-loop="true" data-nav="true" data-margin="30"
                     data-autoplayTimeout="1000" data-autoplayHoverPause="true"
                     data-responsive='{"0":{"items":1},"600":{"items":3},"1000":{"items":4}}'>
-                    <li>
-                        <div class="post-thumb image-hover2">
-                            <a href="#"><img src="assets/data/blog1.jpg" alt="Blog"></a>
-                        </div>
-                        <div class="post-desc">
-                            <h5 class="post-title">
-                                <a href="#">Share the love with KuteShop</a>
-                            </h5>
-                            <div class="post-meta">
-                                <span class="date">February 27, 2015</span>
-                                <span class="comment">27 comment</span>
-                            </div>
-                            <div class="readmore">
-                                <a href="#">Readmore</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="post-thumb image-hover2">
-                            <a href="#"><img src="assets/data/blog2.jpg" alt="Blog"></a>
-                        </div>
-                        <div class="post-desc">
-                            <h5 class="post-title">
-                                <a href="#">Share the love with KuteShop</a>
-                            </h5>
-                            <div class="post-meta">
-                                <span class="date">February 27, 2015</span>
-                                <span class="comment">27 comment</span>
-                            </div>
-                            <div class="readmore">
-                                <a href="#">Readmore</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="post-thumb image-hover2">
-                            <a href="#"><img src="assets/data/blog3.jpg" alt="Blog"></a>
-                        </div>
-                        <div class="post-desc">
-                            <h5 class="post-title">
-                                <a href="#">Big sales this summer</a>
-                            </h5>
-                            <div class="post-meta">
-                                <span class="date">February 27, 2015</span>
-                                <span class="comment">27 comment</span>
-                            </div>
-                            <div class="readmore">
-                                <a href="#">Readmore</a>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="post-thumb image-hover2">
-                            <a href="#"><img src="assets/data/blog4.jpg" alt="Blog"></a>
-                        </div>
-                        <div class="post-desc">
-                            <h5 class="post-title">
-                                <a href="#">How to shop with us</a>
-                            </h5>
-                            <div class="post-meta">
-                                <span class="date">February 27, 2015</span>
-                                <span class="comment">27 comment</span>
-                            </div>
-                            <div class="readmore">
-                                <a href="#">Readmore</a>
-                            </div>
-                        </div>
-                    </li>
+                    <?php
+                    if ($news) {
+                        /** @var News $new */
+                        foreach ($news as $new) {
+                            ?>
+                            <li>
+                                <div class="post-thumb image-hover2">
+                                    <a href="<?= Url::to(['news/detail', 'id' => $new->id]) ?>">
+                                        <img src="<?= $new->getImageDisplayLink() ?>" alt="<?= $new->display_name ?>">
+                                    </a>
+                                </div>
+                                <div class="post-desc">
+                                    <h5 class="post-title">
+                                        <a href="<?= Url::to(['news/detail', 'id' => $new->id]) ?>"><?= $new->display_name ?></a>
+                                    </h5>
+                                    <div class="post-meta">
+                                        <span class="date"><?= date('d/m/Y H:i:s', $new->created_at) ?></span>
+                                        <span class="comment">27 comment</span>
+                                    </div>
+                                    <div class="readmore">
+                                        <a href="<?= Url::to(['news/detail', 'id' => $new->id]) ?>">Xem thêm</a>
+                                    </div>
+                                </div>
+                            </li>
+                            <?php
+                        }
+                    } else {
+                        ?>
+                        Chưa có nội dung
+                        <?php
+                    }
+                    ?>
                 </ul>
             </div>
         </div>

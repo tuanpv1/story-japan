@@ -4185,7 +4185,8 @@ span.notify-right{
 .blog-posts .post-item .entry-more a{
   border: 1px solid #eaeaea;
   padding: 10px 12px;
-  background: #eee;
+  background: #c60909;
+    color: white;
 }
 .blog-posts .post-item .entry-more{
   margin-top: 15px;
