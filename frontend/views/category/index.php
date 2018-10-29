@@ -5,6 +5,7 @@
  * Date: 2/20/2017
  * Time: 8:22 AM
  */
+use common\helpers\CUtils;
 use common\models\Content;
 use yii\helpers\Url;
 /** @var \common\models\Category $cat */
@@ -305,10 +306,6 @@ use yii\helpers\Url;
                     </div>
                 </div>
                 <!-- ./block filter  -->
-
-                <!-- left silide -->
-                <?= \frontend\widgets\SlideLeft::getSlideLeft() ?>
-                <!--./left silde-->
                 <!-- SPECIAL -->
                 <?= \frontend\widgets\WidgetSaleContent::widget() ?>
                 <!-- ./SPECIAL -->
@@ -443,10 +440,10 @@ use yii\helpers\Url;
                                         </div>
                                     </div>
                                     <div class="right-block">
-                                        <h5 class="product-name"><a href="<?= Url::to(['content/detail','id'=>$item->id]) ?>"><?= Content::substr($item->display_name,25) ?></a></h5>
+                                        <h5 class="product-name"><a href="<?= Url::to(['content/detail','id'=>$item->id]) ?>"><?= CUtils::substr($item->display_name,25) ?></a></h5>
                                         <div class="content_price">
-                                            <span class="price product-price"><?= Content::formatNumber($item->price_promotion) ?> Đ</span>
-                                            <span class="price old-price"><?= Content::formatNumber($item->price) ?> Đ</span>
+                                            <span class="price product-price"><?= CUtils::formatNumber($item->price_promotion) ?> Đ</span>
+                                            <span class="price old-price"><?= CUtils::formatNumber($item->price) ?> Đ</span>
                                         </div>
                                         <div class="product-star">
                                             <i class="fa fa-star"></i>

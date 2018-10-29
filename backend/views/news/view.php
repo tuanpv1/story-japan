@@ -57,12 +57,6 @@ if ($model->type == News::TYPE_NEWS) {
                                 'value' => Html::img(Yii::getAlias('@web') . "/" . Yii::getAlias('@image_news') . "/" . $model->image_display, ['height' => '200px']),
                             ],
                             [
-                                'attribute' => 'image_slide',
-                                'visible' => $model->image_slide ? true : false,
-                                'format' => 'html',
-                                'value' => Html::img(Yii::getAlias('@web') . "/" . Yii::getAlias('@image_news') . "/" . $model->image_slide, ['height' => '200px']),
-                            ],
-                            [
                                 'attribute' => 'status',
                                 'visible' => $visible,
                                 'value' => $model->getStatusName(),

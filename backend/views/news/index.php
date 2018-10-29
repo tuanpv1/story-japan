@@ -57,7 +57,7 @@ $visible_village = false;
                         'format' => 'html',
                         'value' => function ($model, $key, $index, $widget) {
                             /** @var $model \common\models\News */
-                            return \common\helpers\CUtils::subString($model->short_description, 20);
+                            return \common\helpers\CUtils::substr($model->short_description, 20);
                         },
                     ],
                     [

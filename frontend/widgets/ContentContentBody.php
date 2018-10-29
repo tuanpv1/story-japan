@@ -26,7 +26,7 @@ class ContentContentBody extends Widget
     public function run()
     {
         // trong day se lay toan bo content cua danh muc cap cha, con cap 1, con cap 2
-        $content = [];
+        $contents = [];
         $content_c = Content::find()
             ->select('content.id,content.code,content.display_name,content.price,content.price_promotion,content.images,content.type')
             ->innerJoin('content_category_asm', 'content_category_asm.content_id = content.id')
@@ -36,7 +36,7 @@ class ContentContentBody extends Widget
             ->limit(6)
             ->all();
         foreach ($content_c as $c) {
-            $content[] = $c;
+            $contents[] = $c;
         }
         $cat_level_1 = Category::findAll(['parent_id' => $this->id]);
 
@@ -53,7 +53,7 @@ class ContentContentBody extends Widget
                     ->limit(6)
                     ->all();
                 foreach ($content_p as $c1) {
-                    $content[] = $c1;
+                    $contents[] = $c1;
                 }
                 // content cua danh muc cap 2
                 $cat_level_2 = Category::findAll(['parent_id' => $item->id]);
@@ -67,14 +67,13 @@ class ContentContentBody extends Widget
                         ->limit(6)
                         ->all();
                     foreach ($content_p2 as $c2) {
-                        $content[] = $c2;
+                        $contents[] = $c2;
                     }
                 }
             }
         }
-//        echo "<pre>"; print_r($content);die();
         return $this->render('content-content-body', [
-            'content' => $content,
+            'contents' => $contents,
         ]);
     }
 

@@ -36,7 +36,6 @@ if (isset($category)) {
                         </div>
                     </div>
                     <?= \frontend\widgets\MenuContentBody::widget(['id' => $item->id]) ?>
-
                 </div>
             </div>
         </div>

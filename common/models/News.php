@@ -19,6 +19,7 @@ use yii\helpers\Url;
  * @property int $created_at
  * @property int $status
  * @property int $updated_at
+ * @property int $created_user_id
  */
 class News extends \yii\db\ActiveRecord
 {
@@ -49,10 +50,10 @@ class News extends \yii\db\ActiveRecord
     {
         return [
             [['description', 'image_display', 'content'], 'string'],
-            [['type', 'created_at', 'status', 'updated_at'], 'integer'],
+            [['type', 'created_at', 'status', 'updated_at', 'created_user_id'], 'integer'],
             [['display_name', 'short_description'], 'string', 'max' => 500],
-            [['short_description','display_name','content'],'required','message'=>Yii::t('app', '{attribute} không được để trống')],
-            ['image_display','required','on'=>'create'],
+            [['short_description', 'display_name', 'content'], 'required', 'message' => Yii::t('app', '{attribute} không được để trống')],
+            ['image_display', 'required', 'on' => 'create'],
             [['image_display'],
                 'file',
                 'tooBig' => Yii::t('app', '{attribute} vượt quá dung lượng cho phép. Vui lòng thử lại'),
@@ -70,25 +71,26 @@ class News extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app','ID'),
-            'display_name' => Yii::t('app','Tên hiển thị'),
-            'short_description' => Yii::t('app','Mô tả ngắn'),
-            'description' => Yii::t('app','Nội dung chi tiết'),
-            'image_display' => Yii::t('app','Hình ảnh đại diện'),
-            'content' => Yii::t('app','Nội dung'),
-            'type' => Yii::t('app','Loại'),
-            'created_at' => Yii::t('app','Ngày tạo'),
-            'status' => Yii::t('app','Trạng thái'),
-            'updated_at' => Yii::t('app','Ngày thay đổi thông tin'),
+            'id' => Yii::t('app', 'ID'),
+            'display_name' => Yii::t('app', 'Tên hiển thị'),
+            'short_description' => Yii::t('app', 'Mô tả ngắn'),
+            'description' => Yii::t('app', 'Nội dung chi tiết'),
+            'image_display' => Yii::t('app', 'Hình ảnh đại diện'),
+            'content' => Yii::t('app', 'Nội dung'),
+            'type' => Yii::t('app', 'Loại'),
+            'created_at' => Yii::t('app', 'Ngày tạo'),
+            'status' => Yii::t('app', 'Trạng thái'),
+            'updated_at' => Yii::t('app', 'Ngày thay đổi thông tin'),
+            'created_user_id' => Yii::t('app', 'Người tạo'),
         ];
     }
 
     public static function listStatus()
     {
         $lst = [
-            self::STATUS_NEW => Yii::t('app','Soạn thảo'),
-            self::STATUS_ACTIVE => Yii::t('app','Hoạt động'),
-            self::STATUS_INACTIVE => Yii::t('app','Tạm dừng'),
+            self::STATUS_NEW => Yii::t('app', 'Soạn thảo'),
+            self::STATUS_ACTIVE => Yii::t('app', 'Hoạt động'),
+            self::STATUS_INACTIVE => Yii::t('app', 'Tạm dừng'),
         ];
         return $lst;
     }
@@ -112,10 +114,10 @@ class News extends \yii\db\ActiveRecord
     public static function listStatusType()
     {
         $lst = [
-            self::TYPE_NEWS => Yii::t('app','Tin tức'),
-            self::TYPE_BANNER => Yii::t('app','Tin tức banner'),
-            self::TYPE_CONTACT => Yii::t('app','Thông tin liên hệ'),
-            self::TYPE_ABOUT => Yii::t('app','Giới thiệu'),
+            self::TYPE_NEWS => Yii::t('app', 'Tin tức'),
+            self::TYPE_BANNER => Yii::t('app', 'Tin tức banner'),
+            self::TYPE_CONTACT => Yii::t('app', 'Thông tin liên hệ'),
+            self::TYPE_ABOUT => Yii::t('app', 'Giới thiệu'),
         ];
         return $lst;
     }
@@ -155,5 +157,14 @@ class News extends \yii\db\ActiveRecord
                 'updatedAtAttribute' => 'updated_at',
             ],
         ];
+    }
+
+    public function getUserCreated()
+    {
+        $user = User::findOne($this->created_user_id);
+        if (!$user) {
+            return 'Đang cập nhật';
+        }
+        return $user->username;
     }
 }

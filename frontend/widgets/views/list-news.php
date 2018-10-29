@@ -38,7 +38,6 @@ use yii\helpers\Url;
                                     </h5>
                                     <div class="post-meta">
                                         <span class="date"><?= date('d/m/Y H:i:s', $new->created_at) ?></span>
-                                        <span class="comment">27 comment</span>
                                     </div>
                                     <div class="readmore">
                                         <a href="<?= Url::to(['news/detail', 'id' => $new->id]) ?>">Xem thêm</a>

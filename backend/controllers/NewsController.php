@@ -90,7 +90,7 @@ class NewsController extends Controller
             Yii::$app->response->format = Response::FORMAT_JSON;
             return ActiveForm::validate($model);
         }
-
+        $model->created_user_id = Yii::$app->user->id;
         if ($model->load(Yii::$app->request->post())) {
             $image_display = UploadedFile::getInstance($model, 'image_display');
             if ($image_display) {
@@ -134,7 +134,9 @@ class NewsController extends Controller
     {
         $model = $this->findModel($id);
         $old_image_display = $model->image_display;
-
+        if(!$model->created_user_id){
+            $model->created_user_id = Yii::$app->user->id;
+        }
         if ($model->load(Yii::$app->request->post())) {
             $image_display = UploadedFile::getInstance($model, 'image_display');
             if ($image_display) {

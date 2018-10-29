@@ -24,9 +24,9 @@ class MenuContentBody extends Widget
 
     public function run()
     {
-        $cat = Category::findAll(['parent_id' => $this->id]);
+        $categories = Category::findAll(['parent_id' => $this->id]);
         return $this->render('menu-content-body', [
-            'cat' => $cat
+            'categories' => $categories
         ]);
     }
 

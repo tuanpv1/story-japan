@@ -4,44 +4,49 @@ namespace frontend\controllers;
 
 use api\models\Subscriber;
 use common\models\Content;
-use common\models\ContentCategoryAsm;
 use common\models\News;
-use common\models\Subcriber;
-use DateTime;
-use Yii;
-use common\models\User;
-use common\models\UserSearch;
-use yii\behaviors\TimestampBehavior;
-use yii\db\Exception;
-use yii\web\BadRequestHttpException;
+use yii\data\Pagination;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\web\Response;
-use yii\web\UploadedFile;
-use yii\widgets\ActiveForm;
 
 class NewsController extends Controller
 {
-    public function actionIndex(){
+    public function actionIndex()
+    {
         $this->layout = 'main-blog';
-        $news = News::find()
+
+        $newsQuery = News::find()
             ->andWhere(['status' => News::STATUS_ACTIVE])
             ->andWhere(['type' => News::TYPE_NEWS])
-            ->orderBy(['updated_at' => SORT_DESC])
-            ->all();
+            ->orderBy(['updated_at' => SORT_DESC]);
+        $countQuery = clone $newsQuery;
+        $pages = new Pagination(['totalCount' => $countQuery->count()]);
+        $news = $newsQuery->offset($pages->offset)
+            ->limit(12)->all();
 
-        return $this->render('index',[
-            'news'=>$news,
+        return $this->render('index', [
+            'news' => $news,
+            'pages' => $pages,
         ]);
     }
 
-    public function actionDetail($id){
-        $new = News::findOne(['id'=>$id,'status'=>Content::STATUS_ACTIVE]);
-        if(!$new){
+    public function actionDetail($id)
+    {
+        $new = News::findOne(['id' => $id, 'status' => Content::STATUS_ACTIVE]);
+        if (!$new) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-        return $this->render('detail',[
-            'new'=>$new,
+        // Lấy tin tức liên quan
+        $relatedNews = News::find()
+            ->andWhere(['status' => News::STATUS_ACTIVE])
+            ->andWhere(['type' => News::TYPE_NEWS])
+            ->andWhere(['<>', 'id', $id])
+            ->orderBy(['updated_at' => SORT_DESC])
+            ->limit(6)
+            ->all();
+        return $this->render('detail', [
+            'new' => $new,
+            'relatedNews' => $relatedNews
         ]);
     }
 }

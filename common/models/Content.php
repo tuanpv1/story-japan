@@ -2,8 +2,6 @@
 
 namespace common\models;
 
-use api\models\ListContent;
-use common\helpers\CVietnameseTools;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\data\ActiveDataProvider;
@@ -493,122 +491,6 @@ class Content extends \yii\db\ActiveRecord
         return $listCatId;
     }
 
-    public static function getListContent(
-        $sp_id,
-        $type,
-        $category = 0,
-        $filter = 0,
-        $keyword = '',
-        $order,
-        $language = ''
-    )
-    {
-        $query = \api\models\Content::find()->andWhere(['created_user_id' => $sp_id]);
-        if ($category > 0) {
-            $query->joinWith('contentCategoryAsms');
-            $query->andWhere(['category_id' => $category]);
-        } else {
-            if ($type > 0) {
-                $query->andWhere(['`content`.`type`' => $type]);
-            }
-        }
-
-        if ($filter > 0) {
-            $query->andWhere(['`content`.`honor`' => $filter]);
-        }
-
-        if ($type > 0) {
-            $query->andWhere(['`content`.`type`' => $type]);
-        }
-
-        if ($language != '') {
-            $query->andWhere(['`content`.`country`' => $language]);
-        }
-
-        if ($keyword != '') {
-            $keyword = CVietnameseTools::makeSearchableStr($keyword);
-            $query->andwhere('`content`.`ascii_name` LIKE :query')
-                ->addParams([':query' => '%' . $keyword . '%']);
-        }
-        $orderDefault = [];
-        if ($order == self::ORDER_NEWEST) {
-            $orderDefault['created_at'] = SORT_DESC;
-        } else {
-            $orderDefault['view_count'] = SORT_DESC;
-        }
-        $query->andWhere(['status' => self::STATUS_ACTIVE]);
-        $query->andWhere('parent_id is null or parent_id = 0');
-        $provider = new ActiveDataProvider([
-            'query' => $query,
-            'sort' => [
-                'defaultOrder' => $orderDefault,
-            ],
-            'pagination' => [
-                'defaultPageSize' => 10,
-            ],
-        ]);
-
-        return $provider;
-    }
-
-    public static function getListContentSearch(
-        $sp_id,
-        $type = 0,
-        $category = 0,
-        $filter = 0,
-        $keyword,
-        $order,
-        $language = ''
-    )
-    {
-        $query = \api\models\Content::find()->andWhere(['created_user_id' => $sp_id]);
-        if ($category > 0) {
-            $query->joinWith('contentCategoryAsms');
-            $query->andWhere(['category_id' => $category]);
-        } else {
-            if ($type > 0) {
-                $query->andWhere(['`content`.`type`' => $type]);
-            }
-        }
-
-        if ($filter > 0) {
-            $query->andWhere(['`content`.`honor`' => $filter]);
-        }
-
-        if ($type > 0) {
-            $query->andWhere(['`content`.`type`' => $type]);
-        }
-
-        if ($language != '') {
-            $query->andWhere(['`content`.`country`' => $language]);
-        }
-
-        if ($keyword != '') {
-            $keyword = CVietnameseTools::makeSearchableStr($keyword);
-            $query->andwhere('`content`.`ascii_name` LIKE :query')
-                ->addParams([':query' => '%' . $keyword . '%']);
-        }
-        $orderDefault = [];
-        if ($order == self::ORDER_NEWEST) {
-            $orderDefault['created_at'] = SORT_DESC;
-        } else {
-            $orderDefault['view_count'] = SORT_DESC;
-        }
-
-        $query->andWhere(['status' => self::STATUS_ACTIVE]);
-        $provider = new ActiveDataProvider([
-            'query' => $query,
-            'sort' => [
-                'defaultOrder' => $orderDefault,
-            ],
-            'pagination' => [
-                'defaultPageSize' => 10,
-            ],
-        ]);
-
-        return $provider;
-    }
-
 
     /**
      * @param $sp_id
@@ -751,31 +633,6 @@ class Content extends \yii\db\ActiveRecord
     }
 
 
-    /**
-     * HungNV edition: 15/03/16.
-     * HungNV creation: 15/03/16.
-     *
-     * @param $name
-     *
-     * @return array|\yii\db\ActiveRecord[]
-     */
-    public static function searchByName($name)
-    {
-        $res = self::find()
-            ->orFilterWhere(['LIKE', 'display_name', '%' . $name . '%', false])
-            ->orFilterWhere(['LIKE', 'ascii_name', '%' . $name . '%', false]);
-        $provider = new ActiveDataProvider([
-            'query' => $res,
-            'sort' => [],
-            'pagination' => [
-                'defaultPageSize' => 10,
-            ],
-        ]);
-
-        return $provider;
-    }
-
-
     public static function getTest()
     {
         return $test = self::find()
@@ -793,17 +650,6 @@ class Content extends \yii\db\ActiveRecord
         return $this->related_content = $output;
     }
 
-
-    /**
-     * @param $link
-     * @return string
-     */
-    public static function getSubtitleUrl($link)
-    {
-        return Url::to(Yii::getAlias('@web') . DIRECTORY_SEPARATOR . Yii::getAlias('@subtitle') . DIRECTORY_SEPARATOR . $link, true);
-
-    }
-
     /**
      * @param $site_id
      * @return int
@@ -811,22 +657,9 @@ class Content extends \yii\db\ActiveRecord
 
     public function spUpdateStatus($newStatus, $sp_id)
     {
-        $oldStatus = $this->status;
-        $listStatusNew = self::getListStatus('filter');
         $this->status = $newStatus;
         $this->updated_at = time();
         return $this->update(false);
-//        Yii::trace('aa',$listStatusNew);
-//        if (isset($listStatusNew[$newStatus]) || ($newStatus == self::STATUS_DELETE && $oldStatus != self::STATUS_ACTIVE)) {
-//            $this->status = $newStatus;
-//            Yii::trace('bb',$listStatusNew);
-//            // tao log
-//            $description = 'UPDATE STATUS CONTENT';
-//             $this->status = $newStatus;
-//        $this->updated_at = time();
-//        return $this->update(false);
-//        }
-//        return false;
     }
 
     public function getCssStatus()
@@ -845,42 +678,13 @@ class Content extends \yii\db\ActiveRecord
         }
     }
 
-    public static function substr($str, $length, $minword = 3)
+    public function getPercentSale()
     {
-        $sub = '';
-        $len = 0;
-        foreach (explode(' ', $str) as $word) {
-            $part = (($sub != '') ? ' ' : '') . $word;
-            $sub .= $part;
-            $len += strlen($part);
-            if (strlen($word) > $minword && strlen($sub) >= $length) {
-                break;
-            }
+        if(!$this->price_promotion){
+            return 0;
         }
-        return $sub . (($len < strlen($str)) ? '...' : '');
+        $percent = ($this->price - $this->price_promotion) * 100 / $this->price;
+        $percent = round($percent);
+        return $percent;
     }
-
-
-    public static function formatNumber($number)
-    {
-        $formatter = new \yii\i18n\Formatter();
-        $formatter->thousandSeparator = '.';
-        $formatter->decimalSeparator = '.';
-        return $formatter->asInteger($number);
-    }
-
-    // tìm breadcrumb
-    public static function GetBreadcrumb($id)
-    {
-        $category = ContentCategoryAsm::findOne(['content_id' => $id]);
-        $id_cat1 = $category->category_id;
-        $category1 = Category::findOne(['id' => $id_cat1]);
-        if ($category1->parent_id != null) {
-            $id_cat2 = $category1->parent_id;
-        } else {
-
-        }
-    }
-
-
 }

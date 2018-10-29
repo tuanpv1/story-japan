@@ -8,6 +8,7 @@
 namespace frontend\widgets;
 
 use common\models\Category;
+use common\models\Content;
 use common\models\ProgramSuppost;
 use yii\base\Widget;
 use Yii;
@@ -23,12 +24,15 @@ class LatestDeals extends Widget{
 
     public  function run()
     {
-        $sp = ProgramSuppost::find()
-            ->andWhere(['status' => Category::STATUS_ACTIVE])
-            ->limit(4)
+        $contents = Content::find()
+            ->select('content.*')
+            ->innerJoin('order_detail','order_detail.content_id = content.id')
+            ->andWhere(['content.status' => Category::STATUS_ACTIVE])
+            ->orderBy(['order_detail.created_at' => SORT_DESC])
+            ->limit(5)
             ->all();
         return $this->render('latest-deals',[
-            'sp'=>$sp
+            'contents'=>$contents
         ]);
     }
 }
