@@ -215,7 +215,7 @@ class Content extends \yii\db\ActiveRecord
                 'maxSize' => 1024 * 1024 * 10, 'tooBig' => Yii::t('app', 'Ảnh show  vượt quá dung lượng cho phép. Vui lòng thử lại'),
             ],
             [['image_tmp', 'list_cat_id'], 'safe'],
-            ['link','string']
+            ['link', 'string']
         ], $this->getValidAttr());
     }
 
@@ -683,11 +683,28 @@ class Content extends \yii\db\ActiveRecord
 
     public function getPercentSale()
     {
-        if(!$this->price_promotion){
+        if (!$this->price_promotion) {
             return 0;
         }
         $percent = ($this->price - $this->price_promotion) * 100 / $this->price;
         $percent = round($percent);
         return $percent;
+    }
+
+    public function processPrice($price)
+    {
+        $price = trim($price);
+        // Xử lý nếu là khoảng giá
+        if (strpos($price, '-')) {
+            $priceArray = explode('-', $price);
+            $price1 = round(trim($priceArray[0]));
+            $price2 = round(trim($priceArray[1]));
+            $price = $price1 > $price2 ? $price1 : $price2;
+        } else {
+            $price = round($price);
+        }
+        $info = InfoPublic::findOne(InfoPublic::ID_DEFAULT);
+        $convert_price = $info->convert_price_vnd;
+        $this->price_promotion = $price * $convert_price;
     }
 }

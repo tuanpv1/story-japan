@@ -39,7 +39,8 @@
         "wbraganca/yii2-dynamicform": "*",
         "2amigos/yii2-ckeditor-widget" : "*",
         "phpoffice/phpexcel": "dev-master",
-        "gargron/fileupload": "~1.1"
+        "gargron/fileupload": "~1.1",
+        "stichoza/google-translate-php": "*"
     },
     "config": {
         "process-timeout": 1800

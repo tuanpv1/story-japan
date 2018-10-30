@@ -8,23 +8,16 @@
 use frontend\widgets\FormLogin;
 use frontend\widgets\MenuRight;
 use frontend\widgets\MenuTop;
-use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\ActiveForm;
 
+/** @var $info \common\models\InfoPublic */
 ?>
 <div id="header" class="header">
     <div class="top-header">
         <div class="container">
             <div class="nav-top-links">
-                <a class="first-item" href="#"><img alt="phone" src="assets/images/phone.png"/>00-62-658-658</a>
-                <a href="#"><img alt="email" src="assets/images/email.png"/>Contact us today!</a>
-            </div>
-
-
-            <div class="support-link">
-                <a href="#">Services</a>
-                <a href="#">Support</a>
+                <a class="first-item" href="#"><img alt="phone" src="/images/phone.png"/><?= $info->phone ?></a>
+                <a href="<?= Url::to(['site/contact']) ?>">Liên hệ</a>
             </div>
 
             <div id="user-info-top" class="user-info pull-right">
@@ -33,13 +26,16 @@ use yii\widgets\ActiveForm;
                        href="#"><span>Tài khoản</span></a>
                     <ul class="dropdown-menu mega_dropdown" role="menu">
                         <?php
-                        if(Yii::$app->user->isGuest){
+                        if (Yii::$app->user->isGuest) {
                             ?>
-                            <li><a data-toggle="modal" data-target="#myModal" href="javascript:void(0)">Đăng nhập</a></li>
+                            <li><a data-toggle="modal" data-target="#myModal" href="javascript:void(0)">Đăng nhập</a>
+                            </li>
                             <?php
-                        }else{
+                        } else {
                             ?>
-                            <li><a class="uppercase" href="<?= Url::to(['subcriber/info']) ?>"><?= Yii::$app->user->identity->fullname?Yii::$app->user->identity->fullname:Yii::$app->user->identity->username ?></a></li>
+                            <li><a class="uppercase"
+                                   href="<?= Url::to(['subcriber/info']) ?>"><?= Yii::$app->user->identity->fullname ? Yii::$app->user->identity->fullname : Yii::$app->user->identity->username ?></a>
+                            </li>
                             <li><a href="<?= Url::to(['#']) ?>">Đơn hàng</a></li>
                             <?php
                         }
@@ -47,9 +43,10 @@ use yii\widgets\ActiveForm;
                         <li><a href="#">So sánh</a></li>
                         <li><a href="#">Yêu thích</a></li>
                         <?php
-                        if(!Yii::$app->user->isGuest){
+                        if (!Yii::$app->user->isGuest) {
                             ?>
-                            <li><a href="<?= \yii\helpers\Url::to(['site/logout']) ?>" data-method="post">Đăng xuất</a></li>
+                            <li><a href="<?= \yii\helpers\Url::to(['site/logout']) ?>" data-method="post">Đăng xuất</a>
+                            </li>
                             <?php
                         }
                         ?>
@@ -63,8 +60,9 @@ use yii\widgets\ActiveForm;
     <div class="container main-header">
         <div class="row">
             <div class="col-xs-12 col-sm-3 logo">
-                <a href="<?= Url::home() ?>"><img style="height:64px;width:auto" alt="Kute shop - GFXFree.Net"
-                                          src="assets/images/logo2.png"/></a>
+                <a href="<?= Url::home() ?>">
+                    <img style="height:64px;width:auto" alt="<?= Yii::$app->name ?>"
+                         src="<?= \common\models\InfoPublic::getImage($info->image_header) ?>"/></a>
             </div>
             <?= \frontend\widgets\SearchCategory::widget() ?>
             <div id="tp_id_reload">
@@ -75,7 +73,7 @@ use yii\widgets\ActiveForm;
     </div>
     <!-- END MANIN HEADER -->
     <div id="nav-top-menu" class="nav-top-menu">
-        <?= MenuTop::widget()?>
+        <?= MenuTop::widget() ?>
         <!-- userinfo on top-->
         <div id="form-search-opntop">
         </div>
@@ -95,7 +93,7 @@ use yii\widgets\ActiveForm;
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="box-authentication tp_001">
-                <?= FormLogin::widget()?>
+                <?= FormLogin::widget() ?>
             </div>
         </div>
     </div>

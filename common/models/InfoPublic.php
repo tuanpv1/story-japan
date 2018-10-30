@@ -22,6 +22,7 @@ use yii\helpers\Url;
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ * @property integer $convert_price_vnd
  */
 class InfoPublic extends \yii\db\ActiveRecord
 {
@@ -71,7 +72,7 @@ class InfoPublic extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['status', 'created_at', 'updated_at'], 'integer'],
+            [['status', 'created_at', 'updated_at','convert_price_vnd'], 'integer'],
             [['image_header', 'image_footer', 'email', 'phone', 'link_face', 'address', 'youtube', 'twitter','google'], 'string', 'max' => 500],
             ['image_header', 'required', 'message' => Yii::t('app', '{attribute} không được để trống'), 'on' => 'create'],
             ['email', 'filter', 'filter' => 'trim'],
@@ -106,6 +107,7 @@ class InfoPublic extends \yii\db\ActiveRecord
             'status' => Yii::t('app', 'trạng thái'),
             'created_at' => Yii::t('app', 'Ngày tạo'),
             'updated_at' => Yii::t('app', 'Ngày thay đổi thông tin'),
+            'convert_price_vnd' => Yii::t('app', 'Tỉ giá chuyển đổi'),
         ];
     }
 

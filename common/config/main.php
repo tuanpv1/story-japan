@@ -41,11 +41,6 @@ $config = [
                     'basePath' => '@common/messages',
 //                    'forceTranslation' => true
                 ],
-//                'kvgrid*' => [
-                //                    'class' => 'yii\i18n\PhpMessageSource',
-                //                    'basePath' => '@common/messages',
-                ////                    'forceTranslation' => true
-                //                ],
             ],
         ],
         'mailer' => [

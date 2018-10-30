@@ -37,12 +37,14 @@ $this->params['breadcrumbs'][] = $this->title;
                             [
                                 'attribute'=>'image_header',
                                 'format' => 'raw',
-                                'value'=>$model->image_header ? Html::img(Yii::getAlias('@web') . "/" . Yii::getAlias('@image_banner') . "/" . $model->image_header, ['width' => '100px']) : '',
+                                'value'=>$model->image_header ? Html::img(Yii::getAlias('@web') . "/" . Yii::getAlias('@image_info') . "/" . $model->image_header, ['width' => '100px']) : '',
                             ],
                             'email:email',
                             'phone',
-                            'url',
                             'link_face',
+                            'google',
+                            'youtube',
+                            'twitter',
                             'address',
                             [
                                 'attribute' => 'created_at',

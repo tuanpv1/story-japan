@@ -4,29 +4,27 @@ namespace backend\controllers;
 
 use backend\models\HtmlDom;
 use common\components\ActionLogTracking;
-use common\helpers\CUtils;
 use common\helpers\CVietnameseTools;
 use common\models\Content;
 use common\models\ContentSearch;
 use common\models\User;
-use common\models\UserActivity;
 use kartik\form\ActiveForm;
+use Stichoza\GoogleTranslate\TranslateClient;
 use Yii;
-use yii\console\Exception;
 use yii\data\ArrayDataProvider;
 use yii\filters\VerbFilter;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
-use yii\web\UploadedFile;
 
 /**
  * ContentController implements the CRUD actions for Content model.
  */
 class ContentController extends BaseBEController
 {
+    public $enableCsrfValidation = false;
+
     public function behaviors()
     {
         return array_merge(parent::behaviors(), [
@@ -34,8 +32,8 @@ class ContentController extends BaseBEController
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
-                    'update-status-content'=> ['post'],
-                    'process'=> ['post'],
+                    'update-status-content' => ['post'],
+                    'process' => ['post'],
                 ],
             ],
             [
@@ -64,10 +62,10 @@ class ContentController extends BaseBEController
                     if ($cat->update()) {
                         echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
                     } else {
-                        echo \yii\helpers\Json::encode(['output' => '', 'message' => Yii::t('app','Dữ liệu không hợp lệ')]);
+                        echo \yii\helpers\Json::encode(['output' => '', 'message' => Yii::t('app', 'Dữ liệu không hợp lệ')]);
                     }
                 } else {
-                    echo \yii\helpers\Json::encode(['output' => '', 'message' => Yii::t('app','Danh mục không tồn tại')]);
+                    echo \yii\helpers\Json::encode(['output' => '', 'message' => Yii::t('app', 'Danh mục không tồn tại')]);
                 }
             } // else if nothing to do always return an empty JSON encoded output
             else {
@@ -147,7 +145,7 @@ class ContentController extends BaseBEController
     {
         $model = new Content();
         $model->loadDefaultValues();
-        $model->code = rand(10000,99999);
+        $model->code = rand(10000, 99999);
         $model->setScenario('adminModify');
         if ($model->load(Yii::$app->request->post())) {
             if (isset(Yii::$app->request->post()['Content']['list_cat_id'])) {
@@ -161,7 +159,7 @@ class ContentController extends BaseBEController
             }
             $model->created_at = time();
             $model->updated_at = time();
-            if(!$model->honor){
+            if (!$model->honor) {
                 $model->honor = 0;
             }
             if ($model->save(false)) {
@@ -174,7 +172,7 @@ class ContentController extends BaseBEController
                         $model->is_slide = 1;
                         $model->save();
                     }
-                    if($row['type'] == Content::IMAGE_TYPE_SLIDECATEGORY){
+                    if ($row['type'] == Content::IMAGE_TYPE_SLIDECATEGORY) {
                         $model->is_slide_category = 1;
                         $model->save();
 
@@ -182,11 +180,11 @@ class ContentController extends BaseBEController
                     //end screenshoot
                 }
                 // tao log
-                \Yii::$app->getSession()->setFlash('success', Yii::t('app','Lưu Content thành công'));
+                \Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Lưu Content thành công'));
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 Yii::info($model->getErrors());
-                \Yii::$app->getSession()->setFlash('error', Yii::t('app','Lưu Content thất bại'));
+                \Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Lưu Content thất bại'));
             }
         }
         $selectedCats = explode(',', $model->list_cat_id);
@@ -291,7 +289,7 @@ class ContentController extends BaseBEController
             }
 
             $model->expired_at = strtotime($model->expired_at);
-            if(!$model->honor){
+            if (!$model->honor) {
                 $model->honor = 0;
             }
             $model->updated_at = time();
@@ -304,7 +302,7 @@ class ContentController extends BaseBEController
                         $model->is_slide = 1;
                         $model->save();
                     }
-                    if($row['type'] == Content::IMAGE_TYPE_SLIDECATEGORY){
+                    if ($row['type'] == Content::IMAGE_TYPE_SLIDECATEGORY) {
                         $model->is_slide_category = 1;
                         $model->save();
 
@@ -313,12 +311,12 @@ class ContentController extends BaseBEController
                 }
                 // tao log
 
-                \Yii::$app->getSession()->setFlash('success', Yii::t('app','Cập nhật Content thành công'));
+                \Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Cập nhật Content thành công'));
 
                 return $this->redirect(['view', 'id' => $model->id]);
 
             } else {
-                \Yii::$app->getSession()->setFlash('error', Yii::t('app','Cập nhật Content thất bại'));
+                \Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Cập nhật Content thất bại'));
 
             }
         }
@@ -441,7 +439,7 @@ class ContentController extends BaseBEController
         if (($model = Content::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException(Yii::t('app','Không tìm thấy trang'));
+            throw new NotFoundHttpException(Yii::t('app', 'Không tìm thấy trang'));
         }
     }
 
@@ -460,7 +458,7 @@ class ContentController extends BaseBEController
         } elseif ($type == Content::IMAGE_TYPE_SCREENSHOOT) {
             $old_value = Yii::$app->request->post('screenshot_old');
             $attribute = 'screenshoot';
-        }elseif ($type == Content::IMAGE_TYPE_SLIDE) {
+        } elseif ($type == Content::IMAGE_TYPE_SLIDE) {
             $old_value = Yii::$app->request->post('slide_old');
             $attribute = 'slide';
         } else {
@@ -494,11 +492,11 @@ class ContentController extends BaseBEController
         }
 
         if (!in_array($checkExt, $allowExt)) {
-            return ['success' => false, 'error' => Yii::t('app',"Ảnh không đúng định dạng")];
+            return ['success' => false, 'error' => Yii::t('app', "Ảnh không đúng định dạng")];
         }
 
         if ($size > Content::MAX_SIZE_UPLOAD) {
-            return ['success' => false, 'error' => Yii::t('app',"Ảnh vượt quá dung lượng cho phép")];
+            return ['success' => false, 'error' => Yii::t('app', "Ảnh vượt quá dung lượng cho phép")];
         }
 
         if (move_uploaded_file($files['tmp_name']["$attribute"][0], $target)) {
@@ -567,12 +565,12 @@ class ContentController extends BaseBEController
 
             return [
                 'success' => true,
-                'message' => Yii::t('app','Duyệt ' . $count . ' content thành công!'),
+                'message' => Yii::t('app', 'Duyệt ' . $count . ' content thành công!'),
             ];
         } else {
             return [
                 'success' => false,
-                'message' => Yii::t('app','Không tìm thấy content trên hệ thống'),
+                'message' => Yii::t('app', 'Không tìm thấy content trên hệ thống'),
             ];
         }
     }
@@ -596,19 +594,20 @@ class ContentController extends BaseBEController
                 }
             }
 
-            $successMess = $newStatus == Content::STATUS_DELETE ? Yii::t('app','Xóa') : Yii::t('app','Cập nhật');
+            $successMess = $newStatus == Content::STATUS_DELETE ? Yii::t('app', 'Xóa') : Yii::t('app', 'Cập nhật');
 
             return [
                 'success' => true,
-                'message' => $successMess . ' ' . $count .Yii::t('app', ' content thành công!'),
+                'message' => $successMess . ' ' . $count . Yii::t('app', ' content thành công!'),
             ];
         } else {
             return [
                 'success' => false,
-                'message' => Yii::t('app','Không thành công. Vui lòng thử'),
+                'message' => Yii::t('app', 'Không thành công. Vui lòng thử'),
             ];
         }
     }
+
     public function actionDeleteImage()
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
@@ -653,7 +652,7 @@ class ContentController extends BaseBEController
                         'success' => true,
                         'message' => 'Xóa ảnh thành công',
                     ];
-                }else{
+                } else {
                     return [
                         'success' => false,
                         'message' => $content->getErrors(),
@@ -663,15 +662,31 @@ class ContentController extends BaseBEController
         }
     }
 
-    public function actionProcess(){
-        if($_POST['btProcess'] && $_POST['linkProcess']){
-            $htmlDom = New HtmlDom();
-            $html = $htmlDom->file_get_html($_POST['link']);
-            var_dump($html);die;
-        }else{
-            Yii::$app->session->setFlash('error',Yii::t('app','Không phân tích dữ liệu thành công'));
-            $this->redirect(['create']);
+    public function actionProcess()
+    {
+        require_once '../models/simple_html_dom.php';
+        if ($_POST['linkProcess']) {
+            // get data
+            $html = file_get_html($_POST['linkProcess']);
+            $display_name = $html->find('.tb-main-title', 0);
+            var_dump($display_name);die;
+            $image = $html->find('#J_ImgBooth', 0);
+            $currency = $html->find('.tb-rmb', 0);
+            $price = $html->find('.tb-rmb-num', 0);
+
+            if (empty($display_name) && empty($image) && empty($currency) && empty($price)) {
+                Yii::$app->session->setFlash('error', Yii::t('app', 'Không phân tích dữ liệu thành công'));
+                return $this->redirect(['create']);
+            }
+            $content = new Content();
+            // process price
+            $content->processPrice($price);
+            // gán lại giá trị và translate
+            $content->display_name = $display_name;
+            echo $display_name;
+        } else {
+            Yii::$app->session->setFlash('error', Yii::t('app', 'Không phân tích dữ liệu thành công'));
+            return $this->redirect(['create']);
         }
     }
-
 }
