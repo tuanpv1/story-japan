@@ -15,6 +15,4 @@ use frontend\widgets\LatestDeals;
     </div>
 </div>
 
-<?= \frontend\widgets\ListNews::widget() ?>
-
 <?= \frontend\widgets\CartBox::getModal() ?>

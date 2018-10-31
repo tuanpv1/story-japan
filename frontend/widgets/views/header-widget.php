@@ -17,7 +17,7 @@ use yii\helpers\Url;
         <div class="container">
             <div class="nav-top-links">
                 <a class="first-item" href="#"><img alt="phone" src="/images/phone.png"/><?= $info->phone ?></a>
-                <a href="<?= Url::to(['site/contact']) ?>">Liên hệ</a>
+                <a href="<?= Url::to(['news/contact']) ?>">Liên hệ</a>
             </div>
 
             <div id="user-info-top" class="user-info pull-right">

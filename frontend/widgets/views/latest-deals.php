@@ -49,7 +49,8 @@ use yii\helpers\Url;
                                     <div class="right-block">
                                         <h5 class="product-name">
                                             <a href="<?= Url::to(['content/detail', 'id' => $content->id]) ?>">
-                                                <span id="product_name_<?= $content->id ?>"><?= CUtils::substr($content->display_name, 25) ?></span>-<span id="product_code_<?= $content->id ?>"><?= $content->code ?></span>
+                                                <span id="product_name_<?= $content->id ?>"><?= CUtils::substr($content->display_name, 25) ?></span><br>
+                                                Mã SP: #<span id="product_code_<?= $content->id ?>"><?= $content->code ?></span>
                                             </a>
                                         </h5>
                                         <input type="hidden" class="product_amount_<?= $content->id ?>" value="1">

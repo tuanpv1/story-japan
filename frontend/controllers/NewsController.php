@@ -5,48 +5,34 @@ namespace frontend\controllers;
 use api\models\Subscriber;
 use common\models\Content;
 use common\models\News;
+use Yii;
 use yii\data\Pagination;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 class NewsController extends Controller
 {
-    public function actionIndex()
+    public function actionAbout()
     {
-        $this->layout = 'main-blog';
-
-        $newsQuery = News::find()
-            ->andWhere(['status' => News::STATUS_ACTIVE])
-            ->andWhere(['type' => News::TYPE_NEWS])
-            ->orderBy(['updated_at' => SORT_DESC]);
-        $countQuery = clone $newsQuery;
-        $pages = new Pagination(['totalCount' => $countQuery->count()]);
-        $news = $newsQuery->offset($pages->offset)
-            ->limit(12)->all();
-
-        return $this->render('index', [
-            'news' => $news,
-            'pages' => $pages,
+        $new = News::findOne(['type' => News::TYPE_ABOUT, 'status' => Content::STATUS_ACTIVE]);
+        if (!$new) {
+            \Yii::$app->session->setFlash('error',Yii::t('app','Chưa cập nhật thông tin'));
+            return $this->redirect(['site/index']);
+        }
+        return $this->render('detail', [
+            'new' => $new,
         ]);
     }
 
-    public function actionDetail($id)
+    public function actionContact()
     {
-        $new = News::findOne(['id' => $id, 'status' => Content::STATUS_ACTIVE]);
+        $new = News::findOne(['type' => News::TYPE_CONTACT, 'status' => Content::STATUS_ACTIVE]);
         if (!$new) {
-            throw new NotFoundHttpException('The requested page does not exist.');
+            \Yii::$app->session->setFlash('error',Yii::t('app','Chưa cập nhật thông tin'));
+            return $this->redirect(['site/index']);
         }
-        // Lấy tin tức liên quan
-        $relatedNews = News::find()
-            ->andWhere(['status' => News::STATUS_ACTIVE])
-            ->andWhere(['type' => News::TYPE_NEWS])
-            ->andWhere(['<>', 'id', $id])
-            ->orderBy(['updated_at' => SORT_DESC])
-            ->limit(6)
-            ->all();
         return $this->render('detail', [
             'new' => $new,
-            'relatedNews' => $relatedNews
         ]);
     }
 }

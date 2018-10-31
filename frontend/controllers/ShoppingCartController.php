@@ -30,6 +30,7 @@ class ShoppingCartController extends Controller
         $cartInfo = $session['cart'];
         $totalAmount = $total = 0;
         foreach ($cartInfo as $key => $value) {
+            $content = Content::findOne($value['id']);
             $totalAmount += $value['amount'];
             if ($content->price_promotion == 0) {
                 $total += $content->price * $value['amount'];
@@ -47,6 +48,7 @@ class ShoppingCartController extends Controller
         $totalAmount = $total_price = 0;
         if (isset($cart)) {
             foreach ($cart as $key => $value) {
+                $content = Content::findOne($value['id']);
                 $totalAmount += $value['amount'];
                 if ($content->price_promotion == 0) {
                     $total_price += $content->price * $value['amount'];

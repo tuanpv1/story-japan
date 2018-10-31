@@ -41,7 +41,7 @@ use yii\helpers\Url;
                             }
                         }
                         ?>
-                        <li><a href="<?= Url::to(['news/index']) ?>">Tin tức</a></li>
+                        <li><a href="<?= Url::to(['news/about']) ?>">Giới thiệu</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>

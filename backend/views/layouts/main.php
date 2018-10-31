@@ -123,14 +123,14 @@ $menuItems = [
             ],
             [
                 'encode' => false,
-                'label' => '<i class="fa fa-server"></i>'. Yii::t('app','Tin tức'),
-                'url' => ['news/index','type' => \common\models\News::TYPE_NEWS],
+                'label' => '<i class="fa fa-server"></i>'. Yii::t('app','Thông tin giới thiệu'),
+                'url' => ['news/index','type' => \common\models\News::TYPE_ABOUT],
                 'require_auth' => true,
             ],
             [
                 'encode' => false,
-                'label' => '<i class="fa fa-server"></i>'. Yii::t('app','Thông tin giới thiệu'),
-                'url' => ['news/index','type' => \common\models\News::TYPE_ABOUT],
+                'label' => '<i class="fa fa-server"></i>'. Yii::t('app','Thông tin liên hệ'),
+                'url' => ['news/index','type' => \common\models\News::TYPE_CONTACT],
                 'require_auth' => true,
             ],
             [
