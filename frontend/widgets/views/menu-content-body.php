@@ -12,12 +12,12 @@ use frontend\widgets\ContentContentBody;
 <div class="col-sm-2 sub-category-wapper">
     <ul class="sub-category-list">
         <?php
-        $i = 0;
+        $i = 1;
         if ($categories) {
             /** @var Category $category */
             foreach ($categories as $category) {
                 ?>
-                <li class="<?= $i == 0 ? 'active' : '' ?>">
+                <li class="<?= $i == 1 ? 'active' : '' ?>">
                     <a data-toggle="tab" href="#tab-<?= $i ?>"><?= $category->display_name ?></a>
                 </li>
                 <?php
@@ -31,17 +31,13 @@ use frontend\widgets\ContentContentBody;
     <div class="product-featured-tab-content">
         <div class="tab-container">
             <?php
-            $i = 0;
+            $i = 1;
             if ($categories) {
                 /** @var Category $category */
                 foreach ($categories as $category) {
                     ?>
-                    <div class="tab-panel active" id="tab-<?= $i ?>">
-                        <?php
-                        $widget = new ContentContentBody();
-                        $widget->id = $category->id;
-                        $widget::widget();
-                        ?>
+                    <div class="tab-panel <?= $i == 1 ? 'active' : '' ?>" id="tab-<?= $i ?>">
+                        <?= ContentContentBody::widget(['id' => $category->id]) ?>
                     </div>
                     <?php
                     $i++;

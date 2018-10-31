@@ -11,7 +11,6 @@ use yii\helpers\Url;
 
 ?>
 <ul class="product-list row">
-
     <?php
     if ($contents) {
         /** @var Content $content */

@@ -1,4 +1,4 @@
-var baseurl = window.location.origin+'/sanitary/frontend/web/index.php?r=';
+var baseurl = window.location.origin+'/index.php?r=';
 
 $(window).load (function(){
     $('#tp_hidden_form_register').hide();

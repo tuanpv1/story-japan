@@ -133,13 +133,6 @@ class Content extends \yii\db\ActiveRecord
         self::HONOR_FORYOU => 'Dành cho bạn',
     ];
 
-
-    public static $listTypeStatus = [
-        self::TYPE_STATUS_NEW => 'New',
-        self::TYPE_STATUS_NEWLIKE => '99%',
-        self::TYPE_STATUS_OLD => 'Đã qua sử dụng'
-    ];
-
     public static $listAvailability = [
         self::AVAILABILITY_OK => 'Còn hàng',
         self::AVAILABILITY_NOK => 'Hết hàng'

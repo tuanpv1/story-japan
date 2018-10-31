@@ -5,6 +5,7 @@
  * Date: 11/19/2016
  * Time: 9:42 PM
  */
+use common\helpers\CUtils;
 use common\models\Product;
 use yii\helpers\Url;
 
@@ -61,14 +62,14 @@ use yii\helpers\Url;
                                     <!--                            <small><a href="#">Color : Beige</a></small><br>-->
                                 </td>
                                 <td class="cart_avail"><span class="label label-success"><?= \common\models\Content::$listAvailability[$value['availability']] ?></span></td>
-                                <td class="price"><span><?= \common\models\Content::formatNumber($value['price_promotion']?$value['price_promotion']:$value['price']) ?> VND</span></td>
+                                <td class="price"><span><?= CUtils::formatNumber($value['price_promotion']?$value['price_promotion']:$value['price']) ?> VND</span></td>
                                 <td class="qty">
                                     <input id="amount_<?= $key ?>" class="form-control input-sm" type="text" value="<?= $value['amount'] ?>">
                                     <a onclick="addition(<?= $key ?>)" href="javascript:void(0)"><i class="fa fa-caret-up"></i></a>
                                     <a onclick="subtraction(<?= $key ?>)" href="javascript:void(0)"><i class="fa fa-caret-down"></i></a>
                                 </td>
                                 <td class="price">
-                                    <span><?= \common\models\Content::formatNumber(($value['price_promotion']?$value['price_promotion']:$value['price'])*$value['amount']) ?> VND</span>
+                                    <span><?= CUtils::formatNumber(($value['price_promotion']?$value['price_promotion']:$value['price'])*$value['amount']) ?> VND</span>
                                 </td>
                                 <td class="action">
                                     <a onclick="delCart(<?= $key ?>)" href="javascript:void(0)"><?= Yii::t('app','Xóa') ?></a>
@@ -80,11 +81,11 @@ use yii\helpers\Url;
                         <tr>
                             <td colspan="2" rowspan="2"></td>
                             <td colspan="3">Tổng tiền trước thuế</td>
-                            <td colspan="2"><?= \common\models\Content::formatNumber($total_price?$total_price:0) ?> VND</td>
+                            <td colspan="2"><?= CUtils::formatNumber($total_price?$total_price:0) ?> VND</td>
                         </tr>
                         <tr>
                             <td colspan="3"><strong><?= Yii::t('app','Tổng tiền') ?></strong></td>
-                            <td colspan="2"><strong><?= \common\models\Content::formatNumber($total_price?$total_price:0) ?> VND</strong></td>
+                            <td colspan="2"><strong><?= CUtils::formatNumber($total_price?$total_price:0) ?> VND</strong></td>
                         </tr>
                         </tfoot>
                     </table>

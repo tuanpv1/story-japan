@@ -7,6 +7,7 @@
  */
 use common\helpers\CUtils;
 use common\models\Content;
+use yii\helpers\Url;
 
 ?>
 <div class="page-top">
@@ -27,16 +28,15 @@ use common\models\Content;
                                 <li>
                                     <div class="left-block">
                                         <a href="<?= \yii\helpers\Url::to(['content/detail', 'id' => $content->id]) ?>">
-                                            <img class="img-responsive" alt="product"
-                                                 src="<?= $content->getImageLinkFE() ?>"/>
+                                            <img class="img-responsive product_image_<?= $content->id ?>" alt="product"
+                                                 src="<?= $content->getFirstImageLinkFE() ?>"/>
                                         </a>
                                         <div class="quick-view">
-                                            <a title="Add to my wishlist" class="heart" href="#"></a>
-                                            <a title="Add to compare" class="compare" href="#"></a>
-                                            <a title="Quick view" class="search" href="#"></a>
+                                            <a title="Quick view" class="search" href="<?= Url::to(['content/detail','id' => $content->id]) ?>"></a>
                                         </div>
                                         <div class="add-to-cart">
-                                            <a title="Add to Cart" href="#">Thêm giỏ hàng</a>
+                                            <a title="Add to Cart" href="javascript:void(0)"
+                                               onclick="addCart(<?= $content->id ?>)">Mua</a>
                                         </div>
                                         <?php if ($content->getPercentSale()) {
                                             ?>
@@ -47,15 +47,20 @@ use common\models\Content;
                                         } ?>
                                     </div>
                                     <div class="right-block">
-                                        <h5 class="product-name"><a href="#"><?= $content->display_name ?></a></h5>
+                                        <h5 class="product-name">
+                                            <a href="<?= Url::to(['content/detail', 'id' => $content->id]) ?>">
+                                                <span id="product_name_<?= $content->id ?>"><?= CUtils::substr($content->display_name, 25) ?></span>-<span id="product_code_<?= $content->id ?>"><?= $content->code ?></span>
+                                            </a>
+                                        </h5>
+                                        <input type="hidden" class="product_amount_<?= $content->id ?>" value="1">
                                         <div class="content_price">
                                             <?php if ($content->price_promotion) { ?>
-                                                <span class="price product-price"><?= CUtils::formatNumber($content->price_promotion) ?>
+                                                <span id="product_price_promotion_<?= $content->id ?>" class="price product-price"><?= CUtils::formatNumber($content->price_promotion) ?>
                                                     VND</span>
-                                                <span class="price old-price"><?= CUtils::formatNumber($content->price) ?>
+                                                <span id="product_price_<?= $content->id ?>" class="price old-price"><?= CUtils::formatNumber($content->price) ?>
                                                     VND</span>
                                             <?php } else { ?>
-                                                <span class="price product-price"><?= CUtils::formatNumber($content->price) ?>
+                                                <span id="product_price_promotion_<?= $content->id ?>"  class="price product-price"><?= CUtils::formatNumber($content->price) ?>
                                                     VND</span>
                                             <?php } ?>
                                         </div>
@@ -63,7 +68,9 @@ use common\models\Content;
                                 </li>
                                 <?php
                             }
-                        }else{ echo "Hiện chưa có sản phẩm vừa đặt";} ?>
+                        } else {
+                            echo "Hiện chưa có sản phẩm vừa đặt";
+                        } ?>
                     </ul>
                 </div>
             </div>

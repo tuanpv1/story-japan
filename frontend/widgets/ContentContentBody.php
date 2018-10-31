@@ -5,12 +5,13 @@
  * Date: 11/19/2016
  * Time: 9:09 PM
  */
+
 namespace frontend\widgets;
 
 use common\models\Category;
 use common\models\Content;
-use Yii;
 use yii\base\Widget;
+use yii\db\Expression;
 
 class ContentContentBody extends Widget
 {
@@ -32,42 +33,47 @@ class ContentContentBody extends Widget
             ->innerJoin('content_category_asm', 'content_category_asm.content_id = content.id')
             ->andWhere(['content_category_asm.category_id' => $this->id])
             ->andWhere(['content.status' => Content::STATUS_ACTIVE])
-            ->orderBy(['updated_at' => SORT_ASC])
+            ->orderBy(new Expression('rand()'))
             ->limit(6)
             ->all();
         foreach ($content_c as $c) {
             $contents[] = $c;
         }
-        $cat_level_1 = Category::findAll(['parent_id' => $this->id]);
+        $total_number = count($contents);
+        if ($total_number < 6) {
+            $cat_level_1 = Category::findAll(['parent_id' => $this->id, 'status' => Category::STATUS_ACTIVE]);
+            if (isset($cat_level_1) && !empty($cat_level_1)) {
+                foreach ($cat_level_1 as $key => $item) {
 
-        if (isset($cat_level_1) && !empty($cat_level_1)) {
-            foreach ($cat_level_1 as $key => $item) {
-
-                // content cua danh muc cap 1
-                $content_p = Content::find()
-                    ->select('content.id,content.code,content.display_name,content.price,content.price_promotion,content.images,content.type')
-                    ->innerJoin('content_category_asm', 'content_category_asm.content_id = content.id')
-                    ->andWhere(['content_category_asm.category_id' => $item->id])
-                    ->andWhere(['content.status' => Content::STATUS_ACTIVE])
-                    ->orderBy(['updated_at' => SORT_ASC])
-                    ->limit(6)
-                    ->all();
-                foreach ($content_p as $c1) {
-                    $contents[] = $c1;
-                }
-                // content cua danh muc cap 2
-                $cat_level_2 = Category::findAll(['parent_id' => $item->id]);
-                foreach ($cat_level_2 as $value) {
-                    $content_p2 = Content::find()
+                    // content cua danh muc cap 1
+                    $content_p = Content::find()
                         ->select('content.id,content.code,content.display_name,content.price,content.price_promotion,content.images,content.type')
                         ->innerJoin('content_category_asm', 'content_category_asm.content_id = content.id')
-                        ->andWhere(['content_category_asm.category_id' => $value->id])
+                        ->andWhere(['content_category_asm.category_id' => $item->id])
                         ->andWhere(['content.status' => Content::STATUS_ACTIVE])
-                        ->orderBy(['updated_at' => SORT_ASC])
-                        ->limit(6)
+                        ->orderBy(new Expression('rand()'))
+                        ->limit((6 - $total_number))
                         ->all();
-                    foreach ($content_p2 as $c2) {
-                        $contents[] = $c2;
+                    foreach ($content_p as $c1) {
+                        $contents[] = $c1;
+                    }
+                    $total_number = count($contents);
+                    if ($total_number < 6) {
+                        // content cua danh muc cap 2
+                        $cat_level_2 = Category::findAll(['parent_id' => $item->id]);
+                        foreach ($cat_level_2 as $value) {
+                            $content_p2 = Content::find()
+                                ->select('content.id,content.code,content.display_name,content.price,content.price_promotion,content.images,content.type')
+                                ->innerJoin('content_category_asm', 'content_category_asm.content_id = content.id')
+                                ->andWhere(['content_category_asm.category_id' => $value->id])
+                                ->andWhere(['content.status' => Content::STATUS_ACTIVE])
+                                ->orderBy(new Expression('rand()'))
+                                ->limit((6 - $total_number))
+                                ->all();
+                            foreach ($content_p2 as $c2) {
+                                $contents[] = $c2;
+                            }
+                        }
                     }
                 }
             }

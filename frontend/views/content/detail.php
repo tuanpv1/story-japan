@@ -5,6 +5,7 @@
  * Date: 2/17/2017
  * Time: 8:45 AM
  */
+use common\helpers\CUtils;
 use common\models\Content;
 use yii\helpers\Url;
 
@@ -83,8 +84,8 @@ use yii\helpers\Url;
                                 </div>
                             </div>
                             <div class="product-price-group">
-                                <span id="product_price_promotion_<?= $content->id ?>" class="price"><?= Content::formatNumber($content->price_promotion) ?> Đ</span>
-                                <span id="product_price_<?= $content->id ?>" class="old-price"><?= Content::formatNumber($content->price) ?> Đ</span>
+                                <span id="product_price_promotion_<?= $content->id ?>" class="price"><?= CUtils::formatNumber($content->price_promotion) ?> Đ</span>
+                                <span id="product_price_<?= $content->id ?>" class="old-price"><?= CUtils::formatNumber($content->price) ?> Đ</span>
                                 <span class="discount"><?= round (((($content->price - $content->price_promotion)/($content->price))*100),1) ?> %</span>
                             </div>
                             <div class="info-orther">

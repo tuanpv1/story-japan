@@ -91,12 +91,6 @@ $this->registerJs($js, \yii\web\View::POS_END);
     </div>
     <div class="row">
         <div class="col-md-12">
-            <?php $listTypeStatus = Content::$listTypeStatus; ?>
-            <?= $form->field($model, 'type_status')->dropDownList($listTypeStatus)->label(Yii::t('app', 'Hiện trạng sản phẩm')) ?>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
             <?php $listCheckbox = Content::$listAvailability; ?>
             <?= $form->field($model, 'availability')->dropDownList($listCheckbox)->label(Yii::t('app', 'Tình trạng hàng')) ?>
         </div>
