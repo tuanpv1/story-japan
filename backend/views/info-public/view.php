@@ -46,6 +46,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             'youtube',
                             'twitter',
                             'address',
+                            'convert_price_vnd',
+                            'time_show_order',
                             [
                                 'attribute' => 'created_at',
                                 'value' => date('d/m/Y H:i:s', $model->created_at),

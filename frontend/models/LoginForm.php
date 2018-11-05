@@ -1,9 +1,11 @@
 <?php
+
 namespace frontend\models;
 
-use common\models\Subcriber;
+use common\models\subscriber;
 use Yii;
 use yii\base\Model;
+use yii\web\User;
 
 /**
  * Login form
@@ -24,8 +26,8 @@ class LoginForm extends Model
     {
         return [
             // username and password are both required
-            [['username'], 'required', 'message'=>'Tên đăng nhập không được để trống'],
-            [['password'], 'required', 'message'=>'mật khẩu không được để trống'],
+            [['username'], 'required', 'message' => 'Tên đăng nhập không được để trống'],
+            [['password'], 'required', 'message' => 'mật khẩu không được để trống'],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
@@ -64,19 +66,10 @@ class LoginForm extends Model
      *
      * @return boolean whether the user is logged in successfully
      */
-//    public function login()
-//    {
-//        if ($this->validate()) {
-//            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
-//        } else {
-//            return false;
-//        }
-//    }
     public function login()
     {
         if ($this->validate()) {
-            Yii::$app->session->set(UserHelper::SESSION_USER_ID,Subcriber::findOne(['user_name' => $this->username])->id );
-            return UserHelper::login($this->getUser());
+            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
         } else {
             return false;
         }
@@ -85,14 +78,24 @@ class LoginForm extends Model
     /**
      * Finds user by [[username]]
      *
-     * @return Subcriber|null
+     * @return User|null
      */
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = Subcriber::findOne(['user_name' => $this->username]);
+            $this->_user = subscriber::findOne(['username' => $this->username, 'status' => subscriber::STATUS_ACTIVE]);
         }
 
         return $this->_user;
+    }
+
+    public function beforeValidate()
+    {
+        foreach (array_keys($this->getAttributes()) as $attr){
+            if(!empty($this->$attr)){
+                $this->$attr = \yii\helpers\HtmlPurifier::process($this->$attr);
+            }
+        }
+        return parent::beforeValidate();// to keep parent validator available
     }
 }

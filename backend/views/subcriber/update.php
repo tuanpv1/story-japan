@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Subcriber */
+/* @var $model common\models\subscriber */
 
 $this->title = Yii::t('app','Cập nhật khách hàng: ' ). $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app','Quản lý khách hàng'), 'url' => ['index']];

@@ -9,7 +9,6 @@ use common\models\Content;
 use common\models\ContentSearch;
 use common\models\User;
 use kartik\form\ActiveForm;
-use Stichoza\GoogleTranslate\TranslateClient;
 use Yii;
 use yii\data\ArrayDataProvider;
 use yii\filters\VerbFilter;
@@ -141,12 +140,21 @@ class ContentController extends BaseBEController
      *
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($model = null)
     {
-        $model = new Content();
+        if (!$model) {
+            $model = new Content();
+        }
         $model->loadDefaultValues();
         $model->code = rand(10000, 99999);
         $model->setScenario('adminModify');
+
+        $post = Yii::$app->request->post();
+        if (Yii::$app->request->isAjax && isset($post['ajax']) && $model->load($post)) {
+            Yii::$app->response->format = Response::FORMAT_JSON;
+            return ActiveForm::validate($model);
+        }
+
         if ($model->load(Yii::$app->request->post())) {
             if (isset(Yii::$app->request->post()['Content']['list_cat_id'])) {
                 $model->list_cat_id = Yii::$app->request->post()['Content']['list_cat_id'];
@@ -162,7 +170,10 @@ class ContentController extends BaseBEController
             if (!$model->honor) {
                 $model->honor = 0;
             }
-            if ($model->save(false)) {
+            if (empty($model->price_promotion)) {
+                $model->price_promotion = $model->price;
+            }
+            if ($model->save()) {
                 $model->createCategoryAsm();
 
                 // lưu loại is_slide để lọc bên quản lý slide
@@ -170,15 +181,13 @@ class ContentController extends BaseBEController
                 foreach ($image_slide as $key => $row) {
                     if ($row['type'] == Content::IMAGE_TYPE_SLIDE) {
                         $model->is_slide = 1;
-                        $model->save();
                     }
                     if ($row['type'] == Content::IMAGE_TYPE_SLIDECATEGORY) {
                         $model->is_slide_category = 1;
-                        $model->save();
-
                     }
                     //end screenshoot
                 }
+                $model->save(false);
                 // tao log
                 \Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Lưu Content thành công'));
                 return $this->redirect(['view', 'id' => $model->id]);
@@ -293,31 +302,26 @@ class ContentController extends BaseBEController
                 $model->honor = 0;
             }
             $model->updated_at = time();
+            if (empty($model->price_promotion)) {
+                $model->price_promotion = $model->price;
+            }
             if ($model->save()) {
-
                 $model->createCategoryAsm();
                 $image_slide = Content::convertJsonToArray($model->images);
                 foreach ($image_slide as $key => $row) {
                     if ($row['type'] == Content::IMAGE_TYPE_SLIDE) {
                         $model->is_slide = 1;
-                        $model->save();
                     }
                     if ($row['type'] == Content::IMAGE_TYPE_SLIDECATEGORY) {
                         $model->is_slide_category = 1;
-                        $model->save();
-
                     }
-                    //end screenshoot
                 }
-                // tao log
-
+                $model->save(false);
                 \Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Cập nhật Content thành công'));
-
                 return $this->redirect(['view', 'id' => $model->id]);
-
             } else {
-                \Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Cập nhật Content thất bại'));
-
+                Yii::error($model->getErrors());
+                \Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Cập nhật Content thất bại') . json_encode($model->getErrors()));
             }
         }
         // get screenshoot
@@ -665,25 +669,68 @@ class ContentController extends BaseBEController
     public function actionProcess()
     {
         require_once '../models/simple_html_dom.php';
-        if ($_POST['linkProcess']) {
-            // get data
-            $html = file_get_html($_POST['linkProcess']);
-            $display_name = $html->find('.tb-main-title', 0);
-            var_dump($display_name);die;
-            $image = $html->find('#J_ImgBooth', 0);
-            $currency = $html->find('.tb-rmb', 0);
-            $price = $html->find('.tb-rmb-num', 0);
+        if (!empty($_POST['linkProcess']) && !empty($_POST['sourceProcess'])) {
+            $display_name = null;
+            if ($_POST['sourceProcess'] == Content::TYPE_CRAWL_TAOBAO) {
+                $html = file_get_html($_POST['linkProcess']);
+                $display_name = $html->find('.tb-main-title', 0);
+                $image = $html->find('#J_ImgBooth', 0);
+                $price = $html->find('.tb-rmb-num', 0);
+            } else if ($_POST['sourceProcess'] == Content::TYPE_CRAWL_TMALL) {
+                $context = stream_context_create(array(
+                    'https' => array(
+                        'header' => array('User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201'),
+                    ),
+                ));
+                $url = explode('&',$_POST['linkProcess'])[0];
 
-            if (empty($display_name) && empty($image) && empty($currency) && empty($price)) {
+                $html = file_get_html($url,false,$context);
+                $display_name = $html->find('.tb-detail-hd >h1', 0);
+                $image = $html->find('#J_ImgBooth', 0);
+                $price = $html->find('#J_StrPriceModBox >.tm-price', 0);
+            } else {
+                $url = $_POST['linkProcess'];
+                $context = stream_context_create(array(
+                    'http' => array(
+                        'header' => array('User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; rv:2.2) Gecko/20110201'),
+                    ),
+                ));
+                $html = file_get_html($url, false, $context);
+                $display_name = $html->find('#mod-detail-title >h1', 0);
+                $image = $html->find('.box-img >img', 0);
+                $price = $html->find('.obj-content >.value', 0);
+            }
+
+            $display_name = iconv('gb2312', 'utf-8', $display_name);
+            if(!empty($display_name)){
+                $display_name = $display_name->innertext;
+            }else{
+                Yii::$app->session->setFlash('warning', Yii::t('app', 'Rất tiếc chúng tôi không thể phân tích tên sản phẩm'));
+            }
+
+            if(!empty($image)){
+                $image = $image->src;
+            }else{
+                Yii::$app->session->setFlash('warning', Yii::t('app', 'Rất tiếc chúng tôi không thể phân tích hình ảnh sản phẩm'));
+            }
+
+            if(!empty($price)){
+                $price = $price->innertext;
+            }else{
+                Yii::$app->session->setFlash('warning', Yii::t('app', 'Rất tiếc chúng tôi không thể phân tích giá sản phẩm'));
+            }
+
+            if (empty($display_name) && empty($image) && empty($price)) {
                 Yii::$app->session->setFlash('error', Yii::t('app', 'Không phân tích dữ liệu thành công'));
                 return $this->redirect(['create']);
             }
-            $content = new Content();
-            // process price
-            $content->processPrice($price);
-            // gán lại giá trị và translate
-            $content->display_name = $display_name;
-            echo $display_name;
+
+            $model = new Content();
+            $model->processPrice($price);
+            $display_name = Content::translateLanguage($display_name, 'zh');
+            $model->display_name = $display_name;
+            $model->processImage($image, $_POST['sourceProcess']);
+            return Yii::$app->runAction('content/create', ['model' => $model]);
         } else {
             Yii::$app->session->setFlash('error', Yii::t('app', 'Không phân tích dữ liệu thành công'));
             return $this->redirect(['create']);

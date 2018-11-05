@@ -60,6 +60,8 @@ use yii\helpers\Url;
     <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'convert_price_vnd')->textInput(['maxlength' => true]) ?>
+    
+    <?= $form->field($model, 'time_show_order')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group text-center">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app','Tạo mới') : Yii::t('app','Cập nhật'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

@@ -1,6 +1,7 @@
 <?php
 use common\models\Content;
 use common\models\Order;
+use common\models\Subscriber;
 use common\models\User;
 use kartik\helpers\Html;
 use yii\helpers\Url;
@@ -14,11 +15,11 @@ use yii\widgets\DetailView;
             'id',
             [
                 'attribute' => 'user_id',
-                'value' => $model->user_id?User::findOne($model->user_id)->username:Yii::t('app','Khách hàng không đăng kí tài khoản'),
+                'value' => !empty($model->user_id)?Subscriber::findOne($model->user_id)->username:Yii::t('app','Khách hàng không đăng kí tài khoản'),
             ],
             [
                 'attribute' => 'total',
-                'value' => Content::formatNumber($model->total).' VND',
+                'value' => \common\helpers\CUtils::formatNumber($model->total).' VND',
             ],
             [
                 'attribute' => 'total_number',

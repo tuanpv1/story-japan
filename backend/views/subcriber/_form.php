@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Subcriber */
+/* @var $model common\models\subscriber */
 /* @var $form yii\widgets\ActiveForm */
 ?>
 

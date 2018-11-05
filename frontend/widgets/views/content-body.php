@@ -32,7 +32,7 @@ if (isset($category)) {
                 <div class="row">
                     <div class="col-sm-4 sub-category-wapper">
                         <div class="banner-img">
-                            <a href="#"><img src="assets/data/banner-product1.jpg" alt="Banner Product"></a>
+                            <a href="#"><img src="<?= $item->getImageLinkContentFeature() ?>" alt="Banner Product"></a>
                         </div>
                     </div>
                     <?= \frontend\widgets\MenuContentBody::widget(['id' => $item->id]) ?>

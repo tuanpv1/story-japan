@@ -43,7 +43,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             <a href="#tab_images" data-toggle="tab">
                                 Ảnh </a>
                         </li>
-
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane <?php echo $active==1? 'active':'';?>" id="tab_info">

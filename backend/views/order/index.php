@@ -1,5 +1,6 @@
 <?php
 
+use common\helpers\CUtils;
 use common\models\Content;
 use common\models\Order;
 use common\models\Product;
@@ -61,7 +62,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'attribute' => 'total',
                             'format' => 'html',
                             'value' => function ($model, $key, $index, $widget) {
-                                return Content::formatNumber($model->total).' VND';
+                                return CUtils::formatNumber($model->total).' VND';
                             },
                         ],
                         [
@@ -99,17 +100,6 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
                             'filterInputOptions' => ['placeholder' => 'Tất cả'],
                         ],
-                        // 'address_buyer',
-                        // 'email_buyer:email',
-                        // 'email_receiver:email',
-                        // 'name_receiver',
-                        // 'phone_receiver',
-                        // 'address_receiver',
-                        // 'total',
-                        // 'total_number',
-                        // 'created_at',
-                        // 'note:ntext',
-                        // 'updated_at',
 
                         ['class' => 'yii\grid\ActionColumn',
                             'template' => '{view}',

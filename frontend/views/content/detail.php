@@ -52,7 +52,7 @@ use yii\helpers\Url;
                             <!-- product-imge-->
                             <div class="product-image">
                                 <div class="product-full text-center">
-                                    <img class="product_image_<?= $content->id ?>" style="height: 512px" id="product-zoom" src='<?= $content->getFirstImageLinkFE() ?>' data-zoom-image="<?= $content->getFirstImageLinkFE() ?>"/>
+                                    <img class="product_image_<?= $content->id ?>" style="height: 512px" id="product-zoom" src='<?= $content->getFirstImageLinkFE('product-s3-850x1036.jpg') ?>' data-zoom-image="<?= $content->getFirstImageLinkFE('product-s3-850x1036.jpg') ?>"/>
                                 </div>
                                 <div class="product-img-thumb" id="gallery_01">
                                     <ul class="owl-carousel" data-items="3" data-nav="true" data-dots="false" data-margin="20" data-loop="true">

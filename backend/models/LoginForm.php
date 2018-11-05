@@ -98,10 +98,19 @@ class LoginForm extends Model
     public function getUser()
     {
         if ($this->_user === false) {
-//            $this->_user = User::findSPByUsername($this->username);
             $this->_user = User::findAdminByUsername($this->username);
         }
 
         return $this->_user;
+    }
+
+    public function beforeValidate()
+    {
+        foreach (array_keys($this->getAttributes()) as $attr){
+            if(!empty($this->$attr)){
+                $this->$attr = \yii\helpers\HtmlPurifier::process($this->$attr);
+            }
+        }
+        return parent::beforeValidate();// to keep parent validator available
     }
 }

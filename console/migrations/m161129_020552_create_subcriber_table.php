@@ -3,7 +3,7 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation for table `subcriber_table`.
+ * Handles the creation for table `subscriber_table`.
  */
 class m161129_020552_create_subcriber_table extends Migration
 {
@@ -12,7 +12,7 @@ class m161129_020552_create_subcriber_table extends Migration
      */
     public function up()
     {
-        $this->createTable('subcriber', [
+        $this->createTable('subscriber', [
             'id' => $this->primaryKey(),
             'user_name' => $this->string(),
             'full_name' => $this->string(),
@@ -37,6 +37,6 @@ class m161129_020552_create_subcriber_table extends Migration
      */
     public function down()
     {
-        $this->dropTable('subcriber');
+        $this->dropTable('subscriber');
     }
 }

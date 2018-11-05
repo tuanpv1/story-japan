@@ -1,11 +1,11 @@
 <?php
 
-use common\models\Subcriber;
+use common\models\subscriber;
 use yii\helpers\Html;
 use kartik\detail\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Subcriber */
+/* @var $model common\models\subscriber */
 
 $this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app','Quản lý khách hàng'), 'url' => ['index']];
@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute'=>'status',
                 'format'=>'raw',
-                'value'=>($model->status ==Subcriber::STATUS_ACTIVE)  ?
+                'value'=>($model->status ==subscriber::STATUS_ACTIVE)  ?
                     '<span class="label label-success">'.$model->getStatusName().'</span>' :
                     '<span class="label label-danger">'.$model->getStatusName().'</span>',
                 'type'=>DetailView::INPUT_SWITCH,

@@ -139,4 +139,14 @@ class UserActivity extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
+
+    public function beforeValidate()
+    {
+        foreach (array_keys($this->getAttributes()) as $attr){
+            if(!empty($this->$attr)){
+                $this->$attr = \yii\helpers\HtmlPurifier::process($this->$attr);
+            }
+        }
+        return parent::beforeValidate();// to keep parent validator available
+    }
 }

@@ -262,13 +262,24 @@ class Slide extends \yii\db\ActiveRecord
 //    }
 
     public function getSlideImage(){
-        /**
-         * TODO: Neu loai la content thi viet ham lay image link image slide
-         */
-        return  $this->content->getFirstImageLink();
+        $image_default = 'category-slide.jpg';
+        $model = Content::findOne($this->content_id);
+        $listImages = Content::convertJsonToArray($model->images);
+        $link = '';
+        foreach ($listImages as $key => $row) {
+            if ($row['type'] == Content::IMAGE_TYPE_SLIDECATEGORY) {
+                $link = Url::to('@web/staticdata/content_images/'. $row['name'], true);
+            }
+        }
+        if(file_exists($link)){
+            return $link;
+        }else{
+            return Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
+        }
     }
 
     public static function getSlideHomeFe($id){
+        $image_default = 'slide-option2.jpg';
         $model = Content::findOne($id);
         $listImages = Content::convertJsonToArray($model->images);
         $link = '';
@@ -277,7 +288,11 @@ class Slide extends \yii\db\ActiveRecord
                 $link = Url::to('@web/staticdata/content_images/'. $row['name'], true);
             }
         }
-        return $link;
+        if(file_exists($link)){
+            return $link;
+        }else{
+            return Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
+        }
     }
 
     public static function getSlider($sp){
@@ -297,5 +312,15 @@ class Slide extends \yii\db\ActiveRecord
             ]
         ]);
         return $provider;
+    }
+
+    public function beforeValidate()
+    {
+        foreach (array_keys($this->getAttributes()) as $attr){
+            if(!empty($this->$attr)){
+                $this->$attr = \yii\helpers\HtmlPurifier::process($this->$attr);
+            }
+        }
+        return parent::beforeValidate();// to keep parent validator available
     }
 }

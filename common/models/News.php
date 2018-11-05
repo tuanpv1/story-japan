@@ -167,4 +167,14 @@ class News extends \yii\db\ActiveRecord
         }
         return $user->username;
     }
+
+    public function beforeValidate()
+    {
+        foreach (array_keys($this->getAttributes()) as $attr){
+            if(!empty($this->$attr)){
+                $this->$attr = \yii\helpers\HtmlPurifier::process($this->$attr);
+            }
+        }
+        return parent::beforeValidate();// to keep parent validator available
+    }
 }

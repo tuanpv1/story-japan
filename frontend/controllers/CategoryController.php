@@ -2,96 +2,111 @@
 
 namespace frontend\controllers;
 
-use api\models\Subscriber;
 use common\models\Category;
 use common\models\Content;
 use common\models\Slide;
+use Yii;
 use yii\data\Pagination;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 
 /**
  * UserController implements the CRUD actions for User model.
  */
 class CategoryController extends Controller
 {
-    public function actionIndex($id)
+    public $enableCsrfValidation = false;
+
+    public function actionIndex()
     {
-        $content = [];
+        $value_max = null;
+        $value_min = 0;
+        $id = Yii::$app->request->get('id');
         $banner = Slide::findAll(['status' => Slide::STATUS_ACTIVE, 'type' => Slide::SLIDE_CATEGORY]);
         $cat = Category::findOne($id);
-        $content1 = self::getContent($id);
-        if (isset($content1) && !empty($content1)) {
-            foreach ($content1 as $item1) {
-                $content[] = $item1;
-            }
+        if (!$cat) {
+            throw new NotFoundHttpException(Yii::t('app', 'Không tìm thấy danh mục'));
         }
-        $cat1 = Category::find()
-            ->select('id')
-            ->andWhere(['status' => Category::STATUS_ACTIVE])
-            ->andWhere(['parent_id' => $id])
-            ->all();
-        if (isset($cat1) && !empty($cat1)) {
-            foreach ($cat1 as $item) {
-                $content2 = self::getContent($item->id);
-                if (isset($content2) && !empty($content2)) {
-                    foreach ($content2 as $item2) {
-                        $content[] = $item2;
-                    }
-                }
-                $content3 = self::getContentCate($item->id);
-                if (isset($content3) && !empty($content3)) {
-                    foreach ($content3 as $item3) {
-                        $content[] = $item3;
-                    }
-                }
-            }
+        if (!empty(Yii::$app->request->post('value_max'))) {
+            $value_max = Yii::$app->request->post('value_max');
         }
-        if (isset($content2) && !empty($content2)) {
-            foreach ($content2 as $item2) {
-                $content[] = $item2;
-            }
+        if (!empty(Yii::$app->request->post('value_min'))) {
+            $value_min = Yii::$app->request->post('value_min');
         }
-        $pagination = new Pagination(['totalCount' => count($content), 'pageSize' => 1]);
+
+        $listCats = Category::allChildCats($cat->id);
+        $listCats[] = $cat->id;
+        $contents = Content::find()
+            ->select('content.id,content.display_name,content.type,content.short_description,content.price,content.images,content.price_promotion,content.code')
+            ->innerJoin('content_category_asm', 'content_category_asm.content_id = content.id')
+            ->andWhere(['content.status' => Content::STATUS_ACTIVE])
+            ->andWhere(['IN', 'content_category_asm.category_id', $listCats]);
+        if (!empty($keyword)) {
+            $contents->andWhere(['like', 'content.display_name', $keyword]);
+        }
+        if (!empty($value_max)) {
+            $contents->andWhere(['BETWEEN', 'content.price_promotion', $value_min, $value_max]);
+        }
+        $contents->orderBy(['content.created_at' => 'DESC']);
+
+        $countQuery = clone $contents;
+        $pages = new Pagination(['totalCount' => $countQuery->count()]);
+        $pageSize = 9;
+        $pages->setPageSize($pageSize);
+        $contents = $contents->offset($pages->offset)
+            ->limit(9)->all();
+
+        if ($value_max) {
+            return $this->renderPartial('_contents', [
+                'contents' => $contents,
+                'cat' => $cat,
+                'pages' => $pages,
+            ]);
+        }
         return $this->render('index', [
-            'content' => $content,
+            'contents' => $contents,
             'banner' => $banner,
             'cat' => $cat,
-            'pagination' => $pagination,
+            'pages' => $pages,
         ]);
     }
 
-    public static function getContentCate($id)
+    public function actionGetMoreContents()
     {
-        $content = [];
-        $cat = Category::find()
-            ->select('id')
-            ->andWhere(['status' => Category::STATUS_ACTIVE])
-            ->andWhere(['parent_id' => $id])
-            ->all();
-        if (isset($cat) && !empty($cat)) {
-            foreach ($cat as $item) {
-                $content1 = self::getContent($item->id);
-                if (isset($content1) && !empty($content1)) {
-                    foreach ($content1 as $item2) {
-                        $content[] = $item2;
-                    }
-                }
-            }
-            return $content;
+        $value_max = null;
+        $value_min = 0;
+        $id = Yii::$app->request->post('category_id');
+        $cat = Category::findOne($id);
+        if (!$cat) {
+            throw new NotFoundHttpException(Yii::t('app', 'Không tìm thấy danh mục'));
         }
-    }
+        if (!empty(Yii::$app->request->post('value_max'))) {
+            $value_max = Yii::$app->request->post('value_max');
+        }
+        if (!empty(Yii::$app->request->post('value_min'))) {
+            $value_min = Yii::$app->request->post('value_min');
+        }
 
-    public static function getContent($id)
-    {
-        $content1 = Content::find()
-            ->select('content.id,content.display_name,content.type,content.short_description,content.price,content.images,content.price_promotion')
+        $listCats = Category::allChildCats($cat->id);
+        $listCats[] = $cat->id;
+        $contents = Content::find()
+            ->select('content.id,content.display_name,content.type,content.short_description,content.price,content.images,content.price_promotion,content.code')
             ->innerJoin('content_category_asm', 'content_category_asm.content_id = content.id')
-            ->innerJoin('category', 'content_category_asm.category_id = category.id')
-            ->andWhere(['category.id' => $id])
             ->andWhere(['content.status' => Content::STATUS_ACTIVE])
-            ->orderBy(['content.created_at' => 'DESC'])
-            ->all();
-        return $content1;
-    }
+            ->andWhere(['IN', 'content_category_asm.category_id', $listCats]);
+        if (!empty($keyword)) {
+            $contents->andWhere(['like', 'content.display_name', $keyword]);
+        }
+        if (!empty($value_max)) {
+            $contents->andWhere(['BETWEEN', 'content.price_promotion', $value_min, $value_max]);
+        }
+        $contents->orderBy(['content.created_at' => 'DESC']);
 
+        $page = Yii::$app->request->post('page');
+        $contents = $contents->offset($page)
+            ->limit(6)->all();
+        return $this->renderPartial('_contents_more', [
+            'contents' => $contents,
+        ]);
+    }
 }

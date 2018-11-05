@@ -219,4 +219,17 @@ class ShoppingCartController extends Controller
             return Json::encode(['success' => false, 'message' => $message]);
         }
     }
+
+    public function actionGetOrder()
+    {
+        $order = Order::find()
+            ->andWhere(['status' => Order::STATUS_ORDERED])
+            ->orderBy(['created_at' => SORT_DESC])
+            ->one();
+        if ($order) {
+            $message = Yii::t('app', 'Khách hàng địa chỉ Email ') . substr_replace($order->email_buyer,'xxx',2,3)
+                . Yii::t('app', ' vừa đặt hàng tại ') . Yii::$app->name;
+            return $message;
+        }
+    }
 }

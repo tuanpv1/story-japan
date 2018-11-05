@@ -29,7 +29,7 @@ use yii\helpers\Url;
                                     <div class="left-block">
                                         <a href="<?= \yii\helpers\Url::to(['content/detail', 'id' => $content->id]) ?>">
                                             <img class="img-responsive product_image_<?= $content->id ?>" alt="product"
-                                                 src="<?= $content->getFirstImageLinkFE() ?>"/>
+                                                 src="<?= $content->getFirstImageLinkFE('ld9.jpg') ?>"/>
                                         </a>
                                         <div class="quick-view">
                                             <a title="Quick view" class="search" href="<?= Url::to(['content/detail','id' => $content->id]) ?>"></a>
@@ -57,12 +57,12 @@ use yii\helpers\Url;
                                         <div class="content_price">
                                             <?php if ($content->price_promotion) { ?>
                                                 <span id="product_price_promotion_<?= $content->id ?>" class="price product-price"><?= CUtils::formatNumber($content->price_promotion) ?>
-                                                    VND</span>
+                                                    Đ</span>
                                                 <span id="product_price_<?= $content->id ?>" class="price old-price"><?= CUtils::formatNumber($content->price) ?>
-                                                    VND</span>
+                                                    Đ</span>
                                             <?php } else { ?>
                                                 <span id="product_price_promotion_<?= $content->id ?>"  class="price product-price"><?= CUtils::formatNumber($content->price) ?>
-                                                    VND</span>
+                                                    Đ</span>
                                             <?php } ?>
                                         </div>
                                     </div>

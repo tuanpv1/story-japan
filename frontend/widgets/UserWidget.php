@@ -14,6 +14,7 @@ use Yii;
 class UserWidget extends Widget{
 
     public $message;
+    public $model;
 
     public  function init()
     {
@@ -22,10 +23,8 @@ class UserWidget extends Widget{
 
     public  function run()
     {
-        $id = Yii::$app->user->id;
-        $model = User::findOne($id);
         return $this->render('user-widget',[
-            'model'=>$model
+            'model'=>$this->model
         ]);
     }
 }

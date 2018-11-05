@@ -1,17 +1,38 @@
 <?php
+use common\assets\ToastAssetFe;
 use frontend\widgets\FooterWidget;
 use frontend\widgets\HeaderWidget;
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use frontend\widgets\Alert;
+use common\models\InfoPublic;
+use yii\helpers\Url;
+use yii\web\View;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
 
 AppAsset::register($this);
+ToastAssetFe::register($this);
+ToastAssetFe::config($this, [
+    'positionClass' => ToastAssetFe::POSITION_TOP_LEFT
+]);
+$time = InfoPublic::findOne(InfoPublic::ID_DEFAULT)->time_show_order * 60000;
+$orderUrl = Url::to(['shopping-cart/get-order']);
+$js = <<<JS
+    setInterval(
+        function(){
+            jQuery.post(
+                '{$orderUrl}'
+                )
+                .done(function(result) {
+                     toastr.info(result);
+                })
+        }, {$time}
+    );
+    
+JS;
+$this->registerJs($js, View::POS_END);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -24,12 +45,11 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body class="home option2">
-
+<div id="my-chart"></div>
 <?php $this->beginBody() ?>
+<?= Alert::widget() ?>
 
 <?= HeaderWidget::widget() ?>
-
-<?= Alert::widget() ?>
 
 <?= $content ?>
 

@@ -17,7 +17,7 @@ use yii\helpers\Url;
         <div class="container">
             <div class="nav-top-links">
                 <a class="first-item" href="#"><img alt="phone" src="/images/phone.png"/><?= $info->phone ?></a>
-                <a href="<?= Url::to(['news/contact']) ?>">Liên hệ</a>
+                <a href="<?= Url::to(['site/contact']) ?>">Liên hệ</a>
             </div>
 
             <div id="user-info-top" class="user-info pull-right">
@@ -34,18 +34,16 @@ use yii\helpers\Url;
                         } else {
                             ?>
                             <li><a class="uppercase"
-                                   href="<?= Url::to(['subcriber/info']) ?>"><?= Yii::$app->user->identity->fullname ? Yii::$app->user->identity->fullname : Yii::$app->user->identity->username ?></a>
+                                   href="<?= Url::to(['subscriber/info']) ?>"><?= Yii::$app->user->identity->full_name ? Yii::$app->user->identity->full_name : Yii::$app->user->identity->username ?></a>
                             </li>
-                            <li><a href="<?= Url::to(['#']) ?>">Đơn hàng</a></li>
+                            <li><a class="uppercase" href="<?= Url::to(['subscriber/info']) ?>">Đơn hàng</a></li>
                             <?php
                         }
                         ?>
-                        <li><a href="#">So sánh</a></li>
-                        <li><a href="#">Yêu thích</a></li>
                         <?php
                         if (!Yii::$app->user->isGuest) {
                             ?>
-                            <li><a href="<?= \yii\helpers\Url::to(['site/logout']) ?>" data-method="post">Đăng xuất</a>
+                            <li><a class="uppercase" href="<?= Url::to(['site/logout']) ?>" data-method="post">Đăng xuất</a>
                             </li>
                             <?php
                         }

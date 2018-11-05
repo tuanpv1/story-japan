@@ -8,6 +8,7 @@
 
 namespace frontend\widgets;
 
+use common\models\Category;
 use common\models\InfoPublic;
 use Yii;
 use yii\base\Widget;
@@ -29,6 +30,7 @@ class FooterWidget extends Widget
         if (!$info) {
             throw new NotFoundHttpException(Yii::t('app', 'Chưa được cài đặt thông số tĩnh xin cập nhật từ trang quản trị'));
         }
-        return $this->render('footer-widget', ['info' => $info]);
+        $cats = Category::findAll(['parent_id' => null, 'status' => Category::STATUS_ACTIVE]);
+        return $this->render('footer-widget', ['info' => $info, 'cats' => $cats]);
     }
 }

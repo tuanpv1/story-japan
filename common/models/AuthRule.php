@@ -65,4 +65,14 @@ class AuthRule extends \yii\db\ActiveRecord
     {
         return $this->hasMany(AuthItem::className(), ['rule_name' => 'name']);
     }
+
+    public function beforeValidate()
+    {
+        foreach (array_keys($this->getAttributes()) as $attr){
+            if(!empty($this->$attr)){
+                $this->$attr = \yii\helpers\HtmlPurifier::process($this->$attr);
+            }
+        }
+        return parent::beforeValidate();// to keep parent validator available
+    }
 }

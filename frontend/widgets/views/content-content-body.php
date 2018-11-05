@@ -29,19 +29,19 @@ use yii\helpers\Url;
                     <div class="content_price">
                         <?php if ($content->price_promotion) { ?>
                             <span class="price product-price"><?= CUtils::formatNumber($content->price_promotion) ?>
-                                VND</span>
+                                Đ</span>
                             <span class="price old-price"><?= CUtils::formatNumber($content->price) ?>
-                                VND</span>
+                                Đ</span>
                         <?php } else { ?>
                             <span class="price product-price"><?= CUtils::formatNumber($content->price) ?>
-                                VND</span>
+                                Đ</span>
                         <?php } ?>
                     </div>
                 </div>
                 <div class="left-block">
                     <a href="<?= Url::to(['content/detail', 'id' => $content->id]) ?>">
                         <img class="img-responsive" alt="<?= $content->display_name ?>"
-                             src="<?= $content->getFirstImageLinkFE() ?>"/>
+                             src="<?= $content->getFirstImageLinkFE('p48.jpg') ?>"/>
                     </a>
                     <div class="quick-view">
                         <a title="Add to my wishlist" class="heart" href="#"></a>

@@ -23,6 +23,7 @@ use yii\helpers\Url;
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $convert_price_vnd
+ * @property integer $time_show_order
  */
 class InfoPublic extends \yii\db\ActiveRecord
 {
@@ -72,8 +73,8 @@ class InfoPublic extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['status', 'created_at', 'updated_at','convert_price_vnd'], 'integer'],
-            [['image_header', 'image_footer', 'email', 'phone', 'link_face', 'address', 'youtube', 'twitter','google'], 'string', 'max' => 500],
+            [['status', 'created_at', 'updated_at', 'convert_price_vnd', 'time_show_order'], 'integer'],
+            [['image_header', 'image_footer', 'email', 'phone', 'link_face', 'address', 'youtube', 'twitter', 'google'], 'string', 'max' => 500],
             ['image_header', 'required', 'message' => Yii::t('app', '{attribute} không được để trống'), 'on' => 'create'],
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'email', 'message' => Yii::t('app', '{attribute} không hợp lệ!')],
@@ -116,5 +117,15 @@ class InfoPublic extends \yii\db\ActiveRecord
         if ($image) {
             return Url::to(Yii::getAlias('@web') . '/' . Yii::getAlias('@image_info') . '/' . $image, true);
         }
+    }
+
+    public function beforeValidate()
+    {
+        foreach (array_keys($this->getAttributes()) as $attr){
+            if(!empty($this->$attr)){
+                $this->$attr = \yii\helpers\HtmlPurifier::process($this->$attr);
+            }
+        }
+        return parent::beforeValidate();// to keep parent validator available
     }
 }

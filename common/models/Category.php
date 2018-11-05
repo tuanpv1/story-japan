@@ -3,12 +3,14 @@
 namespace common\models;
 
 use api\helpers\UserHelpers;
-//use api\models\Content;
 use common\helpers\CUtils;
 use Yii;
+use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
+
+//use api\models\Content;
 
 /**
  * This is the model class for table "{{%category}}".
@@ -40,11 +42,11 @@ use yii\web\NotFoundHttpException;
 class Category extends \yii\db\ActiveRecord
 {
 
-    const STATUS_ACTIVE   = 10;
+    const STATUS_ACTIVE = 10;
     const STATUS_INACTIVE = 0;
-    const CHILD_NODE_PREFIX  = '|--';
+    const CHILD_NODE_PREFIX = '|--';
     public $path_name;
-    private static $catTree  = array();
+    private static $catTree = array();
 
     const TYPE_MENU_RIGHT = 1;
     const TYPE_MENU_ABOVE = 2;
@@ -96,10 +98,10 @@ class Category extends \yii\db\ActiveRecord
             [['images'], 'safe'],
             [['images'],
                 'file',
-                'tooBig'         => ' File ảnh chưa đúng quy cách. Vui lòng thử lại',
+                'tooBig' => ' File ảnh chưa đúng quy cách. Vui lòng thử lại',
                 'wrongExtension' => ' File ảnh chưa đúng quy cách. Vui lòng thử lại',
-                'skipOnEmpty'    => true,
-                'extensions'     => 'png, jpg, jpeg', 'maxSize' => 10 * 1024 * 1024]
+                'skipOnEmpty' => true,
+                'extensions' => 'png, jpg, jpeg', 'maxSize' => 10 * 1024 * 1024]
         ];
     }
 
@@ -109,23 +111,23 @@ class Category extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id'               => Yii::t('app', 'ID'),
-            'display_name'     => Yii::t('app', 'Tên danh mục'),
-            'ascii_name'       => Yii::t('app', 'Ascii Name'),
-            'description'      => Yii::t('app', 'Mô tả'),
-            'status'           => Yii::t('app', 'Trạng thái'),
-            'order_number'     => Yii::t('app', 'Sắp xếp'),
-            'parent_id'        => Yii::t('app', 'Danh mục cha'),
-            'path'             => Yii::t('app', 'Path'),
-            'level'            => Yii::t('app', 'Level'),
-            'child_count'      => Yii::t('app', 'Child Count'),
-            'images'           => Yii::t('app', 'Ảnh đại diện'),
-            'created_at'       => Yii::t('app', 'Ngày tạo'),
-            'updated_at'       => Yii::t('app', 'Ngày thay đổi thông tin'),
-            'type'             => Yii::t('app', 'Kiểu menu'),
-            'location_image'   => Yii::t('app', 'Vị trí hiển thị ảnh'),
-            'hide'   => Yii::t('app', 'Không hiện trên trang chủ chỉ hiện trên menu'),
-            'is_news'   => Yii::t('app', 'Danh mục dành riêng cho loại tin tức'),
+            'id' => Yii::t('app', 'ID'),
+            'display_name' => Yii::t('app', 'Tên danh mục'),
+            'ascii_name' => Yii::t('app', 'Ascii Name'),
+            'description' => Yii::t('app', 'Mô tả'),
+            'status' => Yii::t('app', 'Trạng thái'),
+            'order_number' => Yii::t('app', 'Sắp xếp'),
+            'parent_id' => Yii::t('app', 'Danh mục cha'),
+            'path' => Yii::t('app', 'Path'),
+            'level' => Yii::t('app', 'Level'),
+            'child_count' => Yii::t('app', 'Child Count'),
+            'images' => Yii::t('app', 'Ảnh đại diện'),
+            'created_at' => Yii::t('app', 'Ngày tạo'),
+            'updated_at' => Yii::t('app', 'Ngày thay đổi thông tin'),
+            'type' => Yii::t('app', 'Kiểu menu'),
+            'location_image' => Yii::t('app', 'Vị trí hiển thị ảnh'),
+            'hide' => Yii::t('app', 'Không hiện trên trang chủ chỉ hiện trên menu'),
+            'is_news' => Yii::t('app', 'Danh mục dành riêng cho loại tin tức'),
         ];
     }
 
@@ -142,33 +144,35 @@ class Category extends \yii\db\ActiveRecord
      */
     public function getCategories()
     {
-            return $this->hasMany(Category::className(), ['parent_id' => 'id'])
-                ->andWhere(['category.status' => Category::STATUS_ACTIVE]) // Ai commen phải báo loop vì comment là không đúng
-                ->orderBy(['order_number' => SORT_DESC])->all();
+        return $this->hasMany(Category::className(), ['parent_id' => 'id'])
+            ->andWhere(['category.status' => Category::STATUS_ACTIVE])// Ai commen phải báo loop vì comment là không đúng
+            ->orderBy(['order_number' => SORT_DESC])->all();
 
     }
 
     public function getBECategories()
     {
-            return $this->hasMany(Category::className(), ['parent_id' => 'id'])
-                ->orderBy(['order_number' => SORT_DESC])->all();
+        return $this->hasMany(Category::className(), ['parent_id' => 'id'])
+            ->orderBy(['order_number' => SORT_DESC])->all();
 
     }
 
-    public static  function getListType(){
+    public static function getListType()
+    {
         return $getListType = [
-            self::TYPE_NONE => Yii::t('app','Menu bình thường'),
-            self::TYPE_MENU_ABOVE => Yii::t('app','Menu trên'),
-            self::TYPE_MENU_RIGHT => Yii::t('app','Menu trái'),
+            self::TYPE_NONE => Yii::t('app', 'Menu bình thường'),
+            self::TYPE_MENU_ABOVE => Yii::t('app', 'Menu trên'),
+            self::TYPE_MENU_RIGHT => Yii::t('app', 'Menu trái'),
         ];
     }
 
-    public static  function getLocationImage(){
+    public static function getLocationImage()
+    {
         return $getLocationImage = [
-            self::NO_IMAGE => Yii::t('app','Không có ảnh'),
-            self::LOCATION_TOP => Yii::t('app','Hiển thị bên trên'),
-            self::LOCATION_LEFT => Yii::t('app','Hiển thị bên trái'),
-            self::LOCATION_BOTTOM => Yii::t('app','Hiển thị bên dưới'),
+            self::NO_IMAGE => Yii::t('app', 'Không có ảnh'),
+            self::LOCATION_TOP => Yii::t('app', 'Hiển thị bên trên'),
+            self::LOCATION_LEFT => Yii::t('app', 'Hiển thị bên trái'),
+            self::LOCATION_BOTTOM => Yii::t('app', 'Hiển thị bên dưới'),
         ];
     }
 
@@ -207,7 +211,7 @@ class Category extends \yii\db\ActiveRecord
                     }
 //                    $child->name = $path . $child->name;
                     $child->path_name = $path . $child->display_name;
-                    $res[]            = $child;
+                    $res[] = $child;
                     if ($recursive) {
                         $res = ArrayHelper::merge($res,
                             Category::getAllCategories($child->id, $recursive));
@@ -215,13 +219,13 @@ class Category extends \yii\db\ActiveRecord
                 }
             }
         } else {
-                $root_cats = Category::find()->andWhere(['level' => 0])
-                    ->orderBy(['order_number' => SORT_DESC])->all();
+            $root_cats = Category::find()->andWhere(['level' => 0])
+                ->orderBy(['order_number' => SORT_DESC])->all();
             if ($root_cats) {
                 foreach ($root_cats as $cat) {
                     /* @var $cat Category */
                     $cat->path_name = $cat->display_name;
-                    $res[]          = $cat;
+                    $res[] = $cat;
                     if ($recursive) {
                         $res = ArrayHelper::merge($res,
                             Category::getAllCategories($cat->id, $recursive));
@@ -236,7 +240,7 @@ class Category extends \yii\db\ActiveRecord
     public static function getListStatus()
     {
         return [
-            self::STATUS_ACTIVE   => 'Đang hoạt động',
+            self::STATUS_ACTIVE => 'Đang hoạt động',
             self::STATUS_INACTIVE => 'Tạm khóa',
         ];
     }
@@ -257,12 +261,13 @@ class Category extends \yii\db\ActiveRecord
 
     public function getImageLink()
     {
-        $cat_image=  Yii::getAlias('@cat_image');
-        return $this->images ? Url::to('@web/'.$cat_image.'/'.$this->images, true) : '';
+        $cat_image = Yii::getAlias('@cat_image');
+        return $this->images ? Url::to('@web/' . $cat_image . '/' . $this->images, true) : '';
     }
+
     public static function getImageLinkFE($images)
     {
-        return $images?Url::to('@web/staticdata/category_image/'. $images, true) : '';
+        return $images ? Url::to('@web/staticdata/category_image/' . $images, true) : '';
     }
 
 
@@ -364,7 +369,7 @@ class Category extends \yii\db\ActiveRecord
         $res = [];
         if ($parren_id != null) {
 //            $model = Category::findOne(['id' => $parren_id,'status'=>Category::STATUS_ACTIVE]);
-            /** @var  $model Category*/
+            /** @var  $model Category */
             $model = Category::find()
                 ->andWhere(['category.id' => $parren_id, 'status' => Category::STATUS_ACTIVE])
                 ->one();
@@ -385,9 +390,9 @@ class Category extends \yii\db\ActiveRecord
                         $path .= Category::CHILD_NODE_PREFIX;
                     }
 //                    $child->name = $path . $child->name;
-                    $child->path_name         = $path . $child->display_name;
-                    $child_array              = $child->getAttributes(null, ['tvod1_id', 'is_content_service', 'show_on_portal', 'show_on_client', 'order_number', 'admin_note', 'path', 'updated_at', 'created_at']);
-                    $child_array['images']    = $child->getImageLink();
+                    $child->path_name = $path . $child->display_name;
+                    $child_array = $child->getAttributes(null, ['tvod1_id', 'is_content_service', 'show_on_portal', 'show_on_client', 'order_number', 'admin_note', 'path', 'updated_at', 'created_at']);
+                    $child_array['images'] = $child->getImageLink();
                     $child_array['shortname'] = CUtils::parseTitleToKeyword($child->display_name);
                     if ($recursive) {
                         $child_array['children'] = Category::getApiAllCategories($child->id, $recursive);
@@ -406,7 +411,6 @@ class Category extends \yii\db\ActiveRecord
      */
 
 
-
     public static function countContent($cat_id)
     {
         //validate
@@ -418,7 +422,7 @@ class Category extends \yii\db\ActiveRecord
         return false;
     }
 
-    public static function getAllChildCats( $parent = null)
+    public static function getAllChildCats($parent = null)
     {
         if ($parent === null) {
             return [];
@@ -426,18 +430,62 @@ class Category extends \yii\db\ActiveRecord
 
         static $listCat = [];
 
-        $cats = self::findAll([ 'parent_id' => $parent]);
+        $cats = self::findAll(['parent_id' => $parent]);
 
         if (!empty($cats)) {
             foreach ($cats as $cat) {
 
                 $listCat[$cat->id] = ['disabled' => true];
-                self::getAllChildCats( $cat->id);
+                self::getAllChildCats($cat->id);
             }
         }
 
         return $listCat;
     }
 
+    public static function allChildCats($parent = null)
+    {
+        if ($parent === null) {
+            return [];
+        }
 
+        static $listCat = [];
+        $cats = self::findAll(['parent_id' => $parent, 'status' => self::STATUS_ACTIVE]);
+        if (!empty($cats)) {
+            foreach ($cats as $cat) {
+
+                $listCat[] = $cat->id;
+                self::getAllChildCats($cat->id);
+            }
+        }
+
+        return $listCat;
+    }
+
+    public function getImageLinkContentFeature()
+    {
+        $image_default = 'banner-product1.jpg';
+        $content = Content::find()
+            ->innerJoin(['content_category_asm', 'content_category_asm.content_id = content.id'])
+            ->andWhere(['content_category_asm.category_id' => $this->id])
+            ->andWhere(['content.is_feature' => Content::IS_FEATURE])
+            ->orderBy(new Expression('rand()'))
+            ->one();
+        /** @var Content $content */
+        if ($content) {
+            return $content->getFirstImageLinkFE($image_default);
+        } else {
+            return Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
+        }
+    }
+
+    public function beforeValidate()
+    {
+        foreach (array_keys($this->getAttributes()) as $attr){
+            if(!empty($this->$attr)){
+                $this->$attr = \yii\helpers\HtmlPurifier::process($this->$attr);
+            }
+        }
+        return parent::beforeValidate();// to keep parent validator available
+    }
 }

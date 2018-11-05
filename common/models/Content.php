@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use Stichoza\GoogleTranslate\TranslateClient;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\data\ActiveDataProvider;
@@ -83,10 +84,6 @@ class Content extends \yii\db\ActiveRecord
     const AVAILABILITY_OK = 1;//con hàng
     const AVAILABILITY_NOK = 0;//hết hàng
 
-    const TYPE_STATUS_NEW = 1; //hang moi
-    const TYPE_STATUS_NEWLIKE = 2; //hang 99%
-    const TYPE_STATUS_OLD = 3; // hang cu
-
     const STATUS_ACTIVE = 10; // Đã duyệt
     const STATUS_INACTIVE = 0; // khóa
     const STATUS_DELETE = 2; // Xóa
@@ -107,6 +104,7 @@ class Content extends \yii\db\ActiveRecord
 
     const IS_FEATURE = 1;
     const IS_NO_FEATURE = 0;
+
 
     const MAX_SIZE_UPLOAD = 10485760; // 10 * 1024 * 1024
 
@@ -133,6 +131,16 @@ class Content extends \yii\db\ActiveRecord
         self::HONOR_FORYOU => 'Dành cho bạn',
     ];
 
+    const TYPE_CRAWL_TAOBAO = 1;
+    const TYPE_CRAWL_TMALL = 2;
+    const TYPE_CRAWL_1688 = 3;
+
+    public static $list_type_crawl = [
+        self::TYPE_CRAWL_TAOBAO => 'Tao Bao',
+        self::TYPE_CRAWL_TMALL => 'Tmall',
+        self::TYPE_CRAWL_1688 => '1688',
+    ];
+
     public static $listAvailability = [
         self::AVAILABILITY_OK => 'Còn hàng',
         self::AVAILABILITY_NOK => 'Hết hàng'
@@ -147,6 +155,14 @@ class Content extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'content';
+    }
+
+    public static function translateLanguage($text, $language)
+    {
+        $tr = new TranslateClient();
+        $tr->setSource($language);
+        $tr->setTarget('vi');
+        return $tr->translate($text);
     }
 
     /**
@@ -567,9 +583,8 @@ class Content extends \yii\db\ActiveRecord
         return $link;
     }
 
-    public function getFirstImageLinkFE()
+    public function getFirstImageLinkFE($image_default = null)
     {
-        // var_dump(Url::base());die;
         $link = '';
         if (!$this->images) {
             return;
@@ -583,11 +598,14 @@ class Content extends \yii\db\ActiveRecord
                 $link = Url::to(Url::base() . '/' . Yii::getAlias('@content_images') . '/' . $row['name'], true);
             }
         }
-
-        return $link;
+        if (file_exists($link)) {
+            return $link;
+        } else {
+            return Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
+        }
     }
 
-    public static function getFirstImageLinkFeStatic($image)
+    public static function getFirstImageLinkFeStatic($image, $image_default = '')
     {
         // var_dump(Url::base());die;
         $link = '';
@@ -604,10 +622,14 @@ class Content extends \yii\db\ActiveRecord
             }
         }
 
+        if(!file_exists($link)){
+            $link = Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
+        }
+
         return $link;
     }
 
-    public function getImageLinkFE()
+    public function getImageLinkFE($image_default)
     {
         // var_dump(Url::base());die;
         $link = [];
@@ -618,32 +640,20 @@ class Content extends \yii\db\ActiveRecord
         foreach ($listImages as $key => $row) {
             if ($row['type'] == self::IMAGE_TYPE_SCREENSHOOT) {
                 $link1 = Url::to(Url::base() . '/' . Yii::getAlias('@content_images') . '/' . $row['name'], true);
+                if (!file_exists($link1)) {
+                    $link1 = Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
+                }
                 $link[] = $link1;
             }
             if ($row['type'] == self::IMAGE_TYPE_THUMBNAIL) {
                 $link1 = Url::to(Url::base() . '/' . Yii::getAlias('@content_images') . '/' . $row['name'], true);
+                if (!file_exists($link1)) {
+                    $link1 = Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
+                }
                 $link[] = $link1;
             }
         }
         return $link;
-    }
-
-
-    public static function getTest()
-    {
-        return $test = self::find()
-            ->andWhere(['id' => 307])
-            ->all();
-    }
-
-
-    public function getRelatedContents()
-    {
-        $output = [];
-        foreach ($this->contentRelatedAsms as $related) {
-            $output[] = $related->id;
-        }
-        return $this->related_content = $output;
     }
 
     /**
@@ -699,5 +709,47 @@ class Content extends \yii\db\ActiveRecord
         $info = InfoPublic::findOne(InfoPublic::ID_DEFAULT);
         $convert_price = $info->convert_price_vnd;
         $this->price_promotion = $price * $convert_price;
+        $this->price = $price * $convert_price;
+    }
+
+    public function processImage($image,$type)
+    {
+        if($type== self::TYPE_CRAWL_TAOBAO || $type == self::TYPE_CRAWL_TMALL){
+            $image = str_replace('//', 'http://', $image);
+        }
+        $arrayNameImg = explode('.', $image);
+        $total = count($arrayNameImg);
+        $ext = $arrayNameImg[$total - 1];
+        $number = substr_count($image, $ext);
+        if ($number > 1) {
+            $imageNew = $arrayNameImg[0];
+            for ($i = 1; $i <= $total - 1; $i++) {
+                if ($i == $total - 2) {
+                    continue;
+                }
+                $imageNew .= '.' . $arrayNameImg[$i];
+            }
+            $image = $imageNew;
+        }
+        $file_name = uniqid() . time() . '.' . $ext;
+        $uploadPath = Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . Yii::getAlias('@content_images') . DIRECTORY_SEPARATOR . $file_name;;
+        if (copy($image, $uploadPath)) {
+            $size = filesize($uploadPath);
+            $new_file['name'] = $file_name;
+            $new_file['type'] = self::IMAGE_TYPE_THUMBNAIL;
+            $new_file['size'] = $size;
+            $imageFile[] = $new_file;
+            $this->images = json_encode($imageFile);
+        }
+    }
+
+    public function beforeValidate()
+    {
+        foreach (array_keys($this->getAttributes()) as $attr){
+            if(!empty($this->$attr)){
+                $this->$attr = \yii\helpers\HtmlPurifier::process($this->$attr);
+            }
+        }
+        return parent::beforeValidate();// to keep parent validator available
     }
 }

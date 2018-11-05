@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use yii\behaviors\TimestampBehavior;
+use yii\helpers\Url;
 
 /**
  * This is the model class for table "order_detail".
@@ -22,6 +23,9 @@ use yii\behaviors\TimestampBehavior;
  */
 class OrderDetail extends \yii\db\ActiveRecord
 {
+    public $display_name;
+    public $image;
+
     /**
      * @inheritdoc
      */
@@ -29,20 +33,23 @@ class OrderDetail extends \yii\db\ActiveRecord
     {
         return 'order_detail';
     }
+
     public function behaviors()
     {
         return [
             TimestampBehavior::className(),
         ];
     }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            ['code','string'],
-            [['order_id', 'content_id', 'price','sale', 'price_promotion', 'number', 'total','created_at', 'updated_at'], 'integer'],
+            ['code', 'string'],
+            [['order_id', 'content_id', 'price', 'sale', 'price_promotion', 'number', 'total', 'created_at', 'updated_at'], 'integer'],
+            [['display_name', 'image'], 'safe']
         ];
     }
 
@@ -64,5 +71,35 @@ class OrderDetail extends \yii\db\ActiveRecord
             'created_at' => 'Ngày tạo',
             'updated_at' => 'Ngày thay đổi',
         ];
+    }
+
+    public function getImageContent()
+    {
+        $content = Content::findOne($this->content_id);
+        if ($content) {
+            return $content->getFirstImageLinkFE('product-100x122.jpg');
+        } else {
+            return Url::to(Url::base() . '/' . Yii::getAlias('data') . '/product-100x122.jpg', true);
+        }
+    }
+
+    public function getContentName()
+    {
+        $content = Content::findOne($this->content_id);
+        if ($content) {
+            return $content->display_name;
+        } else {
+            return '';
+        }
+    }
+
+    public function beforeValidate()
+    {
+        foreach (array_keys($this->getAttributes()) as $attr){
+            if(!empty($this->$attr)){
+                $this->$attr = \yii\helpers\HtmlPurifier::process($this->$attr);
+            }
+        }
+        return parent::beforeValidate();// to keep parent validator available
     }
 }

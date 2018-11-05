@@ -2026,7 +2026,7 @@ span.notify-right{
     right: 0;
     bottom: -50px;
     width: 100%;
-    background-color: rgba(0,0,0,0.4);
+    background-color: #c60909;
     color: #fff;
     text-align: center;
     line-height: 50px;
@@ -4412,7 +4412,7 @@ span.notify-right{
   border: 1px solid #eaeaea;
   -webkit-box-shadow: inherit;
   box-shadow: inherit;
-  width: 50%;
+  width: 100%;
 }
 .box-authentication  .button{
   margin-top: 15px;

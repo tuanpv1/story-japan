@@ -1,11 +1,11 @@
 <?php
 
-use common\models\Subcriber;
+use common\models\subscriber;
 use yii\helpers\Html;
 use kartik\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel common\models\SubcriberSearch */
+/* @var $searchModel common\models\subscriberSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('app','Quản lý khách hàng');
@@ -43,13 +43,13 @@ $this->params['breadcrumbs'][] = $this->title;
                             'format' => 'raw',
                             'value' => function ($model, $key, $index, $widget) {
                                 /**
-                                 * @var $model \common\models\Subcriber
+                                 * @var $model \common\models\subscriber
                                  */
                                 if($model->user_name != null){
-                                    $res = Html::a('<kbd>'.$model->user_name.'</kbd>', ['subcriber/view', 'id' => $model->id ]);
+                                    $res = Html::a('<kbd>'.$model->user_name.'</kbd>', ['subscriber/view', 'id' => $model->id ]);
                                     return $res;
                                 }else{
-                                    $res = Html::a('<kbd>'.$model->full_name.'</kbd>', ['subcriber/view', 'id' => $model->id ]);
+                                    $res = Html::a('<kbd>'.$model->full_name.'</kbd>', ['subscriber/view', 'id' => $model->id ]);
                                     return $res;
                                 }
                             },
@@ -60,12 +60,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             'width'=>'200px',
                             'value' => function ($model, $key, $index, $widget) {
                                 /**
-                                 * @var $model \common\models\Subcriber
+                                 * @var $model \common\models\subscriber
                                  */
                                 return $model->getGenderName();
                             },
                             'filterType' => GridView::FILTER_SELECT2,
-                            'filter' => Subcriber::listGender(),
+                            'filter' => subscriber::listGender(),
                             'filterWidgetOptions' => [
                                 'pluginOptions' => ['allowClear' => true],
                             ],
@@ -77,12 +77,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             'width'=>'200px',
                             'value' => function ($model, $key, $index, $widget) {
                                 /**
-                                 * @var $model \common\models\Subcriber
+                                 * @var $model \common\models\subscriber
                                  */
                                 return $model->getStatusName();
                             },
                             'filterType' => GridView::FILTER_SELECT2,
-                            'filter' => Subcriber::listStatus(),
+                            'filter' => subscriber::listStatus(),
                             'filterWidgetOptions' => [
                                 'pluginOptions' => ['allowClear' => true],
                             ],

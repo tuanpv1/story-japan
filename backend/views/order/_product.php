@@ -5,6 +5,7 @@
  * Date: 11/24/2016
  * Time: 6:20 PM
  */
+use common\helpers\CUtils;
 use common\models\Content;
 use kartik\grid\GridView;
 use yii\helpers\Html;
@@ -37,7 +38,7 @@ use yii\helpers\Html;
             'attribute' => 'price',
             'format' => 'html',
             'value' => function ($model, $key, $index, $widget) {
-                return Content::formatNumber($model->price).' Đ';
+                return CUtils::formatNumber($model->price).' Đ';
             },
         ],
         [
@@ -53,7 +54,7 @@ use yii\helpers\Html;
             'attribute' => 'price_promotion',
             'format' => 'html',
             'value' => function ($model, $key, $index, $widget) {
-                return Content::formatNumber($model->price_promotion).' Đ';
+                return CUtils::formatNumber($model->price_promotion).' Đ';
             },
         ],
         [
@@ -67,7 +68,7 @@ use yii\helpers\Html;
             'class' => '\kartik\grid\DataColumn',
             'attribute' => 'total',
             'value' => function ($model, $key, $index, $widget) {
-                return Content::formatNumber($model->total).' Đ';
+                return CUtils::formatNumber($model->total).' Đ';
             },
         ],
         [

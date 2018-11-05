@@ -99,5 +99,6 @@ div.required label.control-label:after {
 }
 
 .file-preview-image{
-    width: 300px;
+    height: 180px;
+    width: auto;
 }

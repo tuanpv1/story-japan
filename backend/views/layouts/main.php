@@ -210,7 +210,7 @@ $menuItems = [
             [
                 'encode' => false,
                 'label' => '<i class="icon-users"></i> '.Yii::t('app','QL khách hàng'),
-                'url' => ['subcriber/index'],
+                'url' => ['subscriber/index'],
                 'require_auth' => true,
             ],
             [

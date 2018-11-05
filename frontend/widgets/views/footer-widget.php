@@ -28,27 +28,48 @@ use yii\helpers\Url;
                         <div class="introduce-title"><?= Yii::$app->name ?></div>
                         <ul id="introduce-company" class="introduce-list">
                             <li><a href="<?= Url::to(['site/about']) ?>">Giới thiệu</a></li>
-                            <li><a href="#">Testimonials</a></li>
-                            <li><a href="#">Affiliate Program</a></li>
-                            <li><a href="#">Terms & Conditions</a></li>
-                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="<?= Url::to(['site/contact']) ?>">Liên hệ</a></li>
+                            <li>
+                                <?php if (Yii::$app->user->isGuest) { ?>
+                                    <a data-toggle="modal" data-target="#myModal" href="javascript:void(0)">Thông tin
+                                        tài khoản</a>
+                                <?php } else { ?>
+                                    <a href="<?= Url::to(['subscriber/info']) ?>">Thông
+                                        tin <?= Yii::$app->user->identity->username ?></a>
+                                <?php } ?>
+                            </li>
+                            <li>
+                                <?php if (Yii::$app->user->isGuest) { ?>
+                                    <a data-toggle="modal" data-target="#myModal" href="javascript:void(0)">Thông
+                                        tin</a>
+                                <?php } else { ?>
+                                    <a href="<?= Url::to(['subscriber/info']) ?>">Đơn hàng</a>
+                                <?php } ?>
+                            </li>
                         </ul>
                     </div>
                     <div class="col-sm-6">
-                        <div class="introduce-title">My Account</div>
+                        <div class="introduce-title">Truy cập nhanh</div>
                         <ul id="introduce-Account" class="introduce-list">
-                            <li><a href="#">My Order</a></li>
-                            <li><a href="#">My Wishlist</a></li>
-                            <li><a href="#">My Credit Slip</a></li>
-                            <li><a href="#">My Addresses</a></li>
-                            <li><a href="#">My Personal In</a></li>
+                            <?php
+                            iF ($cats) {
+                                /** @var \common\models\Category $category */
+                                foreach ($cats as $category) {
+                                    ?>
+                                    <li>
+                                        <a href="<?= Url::to(['category/index', 'id' => $category->id]) ?>"><?= $category->display_name ?></a>
+                                    </li>
+                                    <?php
+                                }
+                            }
+                            ?>
                         </ul>
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div id="contact-box">
-                    <div class="introduce-title">Let's Socialize</div>
+                    <div class="introduce-title">Kết nối cùng <?= Yii::$app->name ?></div>
                     <div class="social-link">
                         <a href="<?= $info->link_face ?>"><i class="fa fa-facebook"></i></a>
                         <a href="<?= $info->youtube ?>"><i class="fa fa-youtube-play"></i></a>

@@ -4,6 +4,7 @@ use common\models\Content;
 use common\models\Site;
 use kartik\widgets\ActiveForm;
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\Content */
@@ -49,145 +50,185 @@ $this->registerJs($js, \yii\web\View::POS_END);
 ?>
 
 <div class="form-body">
-    <div class="row">
-        <form action="<?= \yii\helpers\Url::to(['content/process']) ?>" method="post">
-            <div class="col-md-2 text-right">
-                <label for="linkProcess">Link: </label>
+    <ul class="nav nav-tabs nav-justified">
+        <li class="active">
+            <a href="#tab_info" data-toggle="tab">
+                Thông tin</a>
+        </li>
+        <li>
+            <a href="#tab_images" data-toggle="tab">Ảnh </a>
+        </li>
+        <li>
+            <a href="#tab_prices" data-toggle="tab">Giá và khuyễn mại</a>
+        </li>
+        <li>
+            <a href="#tab_attributes" data-toggle="tab">Thuộc tính</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="tab_info">
+            <div class="row">
+                <form action="<?= \yii\helpers\Url::to(['content/process']) ?>" method="post">
+                    <div class="col-md-2 text-right">
+                        <label for="linkProcess">Link: </label>
+                    </div>
+                    <div class="col-md-6">
+                        <input required type="text" name="linkProcess" id="linkProcess" class="form-control"
+                               placeholder="Nhập link sản phẩm">
+                    </div>
+                    <div class="col-md-2">
+                        <select name="sourceProcess" class="form-control">
+                            <option selected="selected">Chọn nguồn</option>
+                            <?php foreach (Content::$list_type_crawl as $key => $type) { ?>
+                                <option value="<?= $key ?>"><?= $type ?></option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="submit" id="btProcess" class="btn btn-success" value="Phân tích sản phẩm">
+                    </div>
+                </form>
             </div>
-            <div class="col-md-6">
-                <input required type="text" name="linkProcess" id="linkProcess" class="form-control" placeholder="Nhập link sản phẩm">
+            <?php $form = ActiveForm::begin([
+                'options' => ['enctype' => 'multipart/form-data'],
+                'id' => 'form-create-content',
+                'type' => ActiveForm::TYPE_HORIZONTAL,
+                'enableAjaxValidation' => false,
+                'enableClientValidation' => false,
+                'action' => $model->isNewRecord ? Url::to(['content/create']) : Url::to(['content/update', 'id' => $model->id])
+            ]); ?>
+
+            <h3 class="form-section"><?= Yii::t('app', 'Thông tin nội dung') ?></h3>
+            <div class="row">
+                <div class="col-md-12">
+                    <?= $form->field($model, 'display_name')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle']) ?>
+                </div>
             </div>
-            <div class="col-md-2">
-                <input type="submit" id="btProcess" class="btn btn-success" value="Phân tích sản phẩm">
+            <div class="row">
+                <div class="col-md-12">
+                    <?= $form->field($model, 'title_short')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle']) ?>
+                </div>
             </div>
-        </form>
-    </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <?php $listCheckbox = Content::$list_type; ?>
+                    <?= $form->field($model, 'type')->dropDownList($listCheckbox, ['prompt' => 'Chọn kiểu sản phẩm'])->label(Yii::t('app', 'Kiểu sản phẩm')) ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <?php $listCheckbox = Content::$listAvailability; ?>
+                    <?= $form->field($model, 'availability')->dropDownList($listCheckbox)->label(Yii::t('app', 'Tình trạng hàng')) ?>
+                </div>
+            </div>
 
-    <?php $form = ActiveForm::begin([
-        'options' => ['enctype' => 'multipart/form-data'],
-        'id' => 'form-create-content',
-        'type' => ActiveForm::TYPE_HORIZONTAL,
-        'enableAjaxValidation' => false,
-        'enableClientValidation' => false,
+            <div class="row">
+                <div class="col-md-12">
+                    <?= $form->field($model, 'code')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle', 'readonly' => true]) ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <?= $form->field($model, 'is_feature')->checkbox() ?>
+                </div>
+            </div>
 
-    ]); ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <?= $form->field($model, 'status')->dropDownList(
+                        \common\models\Content::getListStatus('filter'), ['class' => 'input-circle']
+                    ) ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <?= $form->field($model, 'tags')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle']) ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <?= $form->field($model, 'rating')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle'])->label(Yii::t('app', 'Đánh giá')) ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <?= $form->field($model, 'order')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle'])->label(Yii::t('app', 'Sắp xếp')) ?>
+                </div>
+            </div>
+            <div class="row">
 
-    <h3 class="form-section"><?= Yii::t('app', 'Thông tin nội dung') ?></h3>
-    <div class="row">
-        <div class="col-md-12">
-            <?= $form->field($model, 'display_name')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle']) ?>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <?= $form->field($model, 'title_short')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle']) ?>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <?php $listCheckbox = Content::$list_type; ?>
-            <?= $form->field($model, 'type')->dropDownList($listCheckbox, ['prompt' => 'Chọn kiểu sản phẩm'])->label(Yii::t('app', 'Kiểu sản phẩm')) ?>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <?php $listCheckbox = Content::$listAvailability; ?>
-            <?= $form->field($model, 'availability')->dropDownList($listCheckbox)->label(Yii::t('app', 'Tình trạng hàng')) ?>
-        </div>
-    </div>
+                <div class="form-group field-content-price">
+                    <label class="control-label col-md-2" for="content-price"><?= Yii::t('app', 'Danh mục') ?></label>
 
-    <div class="row">
-        <div class="col-md-12">
-            <?= $form->field($model, 'code')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle', 'readonly' => true]) ?>
-        </div>
-    </div>
+                    <div class="col-md-10">
+                        <?= \common\widgets\Jstree::widget([
+                            'clientOptions' => [
+                                "checkbox" => ["keep_selected_style" => false],
+                                "plugins" => ["checkbox"]
+                            ],
+                            'type' => 1,
+                            'cp_id' => true,
+                            'data' => isset($selectedCats) ? $selectedCats : [],
+                            'eventHandles' => [
+                                'changed.jstree' => "function(e,data) {
+                            jQuery('#list-cat-id').val('');
+                            var i, j, r = [];
+                            var catIds='';
+                            for(i = 0, j = data.selected.length; i < j; i++) {
+                                var item = $(\"#\" + data.selected[i]);
+                                var value = item.attr(\"id\");
+                                if(i==j-1){
+                                    catIds += value;
+                                } else{
+                                    catIds += value +',';
 
-    <div class="row">
-        <div class="col-md-12">
-            <?= $form->field($model, 'price')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle']) ?>
-        </div>
-    </div>
+                                }
+                            }
+                            jQuery(\"#default_category_id\").val(data.selected[0])
+                            jQuery(\"#list-cat-id\").val(catIds);
+                            console.log(jQuery(\"#list-cat-id\").val());
+                         }"
+                            ]
+                        ]) ?>
+                    </div>
+                    <div class="col-md-offset-2 col-md-10"></div>
+                    <div class="col-md-offset-2 col-md-10">
+                        <div class="help-block"></div>
+                    </div>
+                </div>
+                <?= $form->field($model, 'list_cat_id')->hiddenInput(['id' => 'list-cat-id'])->label(false) ?>
 
-    <div class="row">
-        <div class="col-md-12">
-            <?= $form->field($model, 'price_promotion')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle']) ?>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <?= $form->field($model, 'is_feature')->checkbox() ?>
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <?= $form->field($model, 'status')->dropDownList(
-                \common\models\Content::getListStatus('filter'), ['class' => 'input-circle']
-            ) ?>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <?= $form->field($model, 'tags')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle']) ?>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <?= $form->field($model, 'rating')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle'])->label(Yii::t('app', 'Đánh giá')) ?>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <?= $form->field($model, 'order')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle'])->label(Yii::t('app', 'Sắp xếp')) ?>
-        </div>
-    </div>
+        <div class="tab-pane" id="tab_images">
+            <h3 class="form-section"><?= Yii::t('app', 'Ảnh') ?> </h3>
 
-    <div class="row">
-        <div class="col-md-12">
-            <?= $form->field($model, 'short_description')->widget(\dosamigos\ckeditor\CKEditor::className(), [
-                'options' => ['rows' => 6],
-                'preset' => 'basic'
-            ]) ?>
-        </div>
-    </div>
+            <div class="row">
+                <div class="col-md-12">
 
-    <div class="row">
-        <div class="col-md-12">
-            <?= $form->field($model, 'description')->widget(\dosamigos\ckeditor\CKEditor::className(), [
-                'options' => ['rows' => 8],
-                'preset' => 'full'
-            ]) ?>
-        </div>
-    </div>
-
-
-    <h3 class="form-section"><?= Yii::t('app', 'Ảnh') ?> </h3>
-
-    <div class="row">
-        <div class="col-md-12">
-
-            <?=
-            $form->field($model, 'thumbnail[]')->widget(\kartik\widgets\FileInput::classname(), [
-                'options' => [
-                    'multiple' => false,
-                    'id' => 'content-thumbnail',
-                    'accept' => 'image/*'
-                ],
-                'pluginOptions' => [
-                    'uploadUrl' => $upload_url,
-                    'uploadExtraData' => [
-                        'type' => \common\models\Content::IMAGE_TYPE_THUMBNAIL,
-                        'thumbnail_old' => $model->thumbnail
-                    ],
-                    'language' => 'vi-VN',
-                    'showUpload' => false,
-                    'showUploadedThumbs' => false,
-                    'initialPreview' => $thumbnailPreview,
-                    'initialPreviewConfig' => $thumbnailInit,
-                    'maxFileSize' => 1024 * 1024 * 10,
-                ],
-                'pluginEvents' => [
-                    "fileuploaded" => "function(event, data, previewId, index) {
+                    <?=
+                    $form->field($model, 'thumbnail[]')->widget(\kartik\widgets\FileInput::classname(), [
+                        'options' => [
+                            'multiple' => false,
+                            'id' => 'content-thumbnail',
+                            'accept' => 'image/*'
+                        ],
+                        'pluginOptions' => [
+                            'uploadUrl' => $upload_url,
+                            'uploadExtraData' => [
+                                'type' => \common\models\Content::IMAGE_TYPE_THUMBNAIL,
+                                'thumbnail_old' => $model->thumbnail
+                            ],
+                            'language' => 'vi-VN',
+                            'showUpload' => false,
+                            'showUploadedThumbs' => false,
+                            'initialPreview' => $thumbnailPreview,
+                            'initialPreviewConfig' => $thumbnailInit,
+                            'maxFileSize' => 1024 * 1024 * 10,
+                        ],
+                        'pluginEvents' => [
+                            "fileuploaded" => "function(event, data, previewId, index) {
                     var response=data.response;
                     if(response.success){
                         var current_screenshots=response.output;
@@ -213,7 +254,7 @@ $this->registerJs($js, \yii\web\View::POS_END);
                         $('#images_tmp').val(JSON.stringify(old_value));
                     }
                 }",
-                    "filedeleted" => "function(event, data) {
+                            "filedeleted" => "function(event, data) {
                     var response = data.response
                     console.log(event);
                     console.log(data);
@@ -222,37 +263,37 @@ $this->registerJs($js, \yii\web\View::POS_END);
 
                     // }
                 }",
-                ],
+                        ],
 
-            ]) ?>
+                    ]) ?>
 
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
 
-            <?=
-            $form->field($model, 'slide[]')->widget(\kartik\widgets\FileInput::classname(), [
-                'options' => [
-                    'multiple' => false,
-                    'id' => 'content-slide',
-                    'accept' => 'image/*'
-                ],
-                'pluginOptions' => [
-                    'uploadUrl' => $upload_url,
-                    'uploadExtraData' => [
-                        'type' => \common\models\Content::IMAGE_TYPE_SLIDE,
-                        'thumbnail_old' => $model->slide
-                    ],
-                    'language' => 'vi-VN',
-                    'showUpload' => false,
-                    'showUploadedThumbs' => false,
-                    'initialPreview' => $slidePreview,
-                    'initialPreviewConfig' => $slideInit,
-                    'maxFileSize' => 1024 * 1024 * 10,
-                ],
-                'pluginEvents' => [
-                    "fileuploaded" => "function(event, data, previewId, index) {
+                    <?=
+                    $form->field($model, 'slide[]')->widget(\kartik\widgets\FileInput::classname(), [
+                        'options' => [
+                            'multiple' => false,
+                            'id' => 'content-slide',
+                            'accept' => 'image/*'
+                        ],
+                        'pluginOptions' => [
+                            'uploadUrl' => $upload_url,
+                            'uploadExtraData' => [
+                                'type' => \common\models\Content::IMAGE_TYPE_SLIDE,
+                                'thumbnail_old' => $model->slide
+                            ],
+                            'language' => 'vi-VN',
+                            'showUpload' => false,
+                            'showUploadedThumbs' => false,
+                            'initialPreview' => $slidePreview,
+                            'initialPreviewConfig' => $slideInit,
+                            'maxFileSize' => 1024 * 1024 * 10,
+                        ],
+                        'pluginEvents' => [
+                            "fileuploaded" => "function(event, data, previewId, index) {
                     var response=data.response;
                     if(response.success){
                         var current_screenshots=response.output;
@@ -278,7 +319,7 @@ $this->registerJs($js, \yii\web\View::POS_END);
                         $('#images_tmp').val(JSON.stringify(old_value));
                     }
                 }",
-                    "filedeleted" => "function(event, data) {
+                            "filedeleted" => "function(event, data) {
                     var response = data.response
                     console.log(event);
                     console.log(data);
@@ -287,37 +328,37 @@ $this->registerJs($js, \yii\web\View::POS_END);
 
                     // }
                 }",
-                ],
+                        ],
 
-            ]) ?>
+                    ]) ?>
 
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
 
-            <?=
-            $form->field($model, 'slide_category[]')->widget(\kartik\widgets\FileInput::classname(), [
-                'options' => [
-                    'multiple' => false,
-                    'id' => 'content-slidecategory',
-                    'accept' => 'image/*'
-                ],
-                'pluginOptions' => [
-                    'uploadUrl' => $upload_url,
-                    'uploadExtraData' => [
-                        'type' => \common\models\Content::IMAGE_TYPE_SLIDECATEGORY,
-                        'logo_old' => $model->slide_category
-                    ],
-                    'language' => 'vi-VN',
-                    'showUpload' => false,
-                    'showUploadedThumbs' => false,
-                    'initialPreview' => $logoPreview,
-                    'initialPreviewConfig' => $logoInit,
-                    'maxFileSize' => 1024 * 1024 * 10,
-                ],
-                'pluginEvents' => [
-                    "fileuploaded" => "function(event, data, previewId, index) {
+                    <?=
+                    $form->field($model, 'slide_category[]')->widget(\kartik\widgets\FileInput::classname(), [
+                        'options' => [
+                            'multiple' => false,
+                            'id' => 'content-slidecategory',
+                            'accept' => 'image/*'
+                        ],
+                        'pluginOptions' => [
+                            'uploadUrl' => $upload_url,
+                            'uploadExtraData' => [
+                                'type' => \common\models\Content::IMAGE_TYPE_SLIDECATEGORY,
+                                'logo_old' => $model->slide_category
+                            ],
+                            'language' => 'vi-VN',
+                            'showUpload' => false,
+                            'showUploadedThumbs' => false,
+                            'initialPreview' => $logoPreview,
+                            'initialPreviewConfig' => $logoInit,
+                            'maxFileSize' => 1024 * 1024 * 10,
+                        ],
+                        'pluginEvents' => [
+                            "fileuploaded" => "function(event, data, previewId, index) {
                     var response=data.response;
                     if(response.success){
                         var current_screenshots=response.output;
@@ -343,7 +384,7 @@ $this->registerJs($js, \yii\web\View::POS_END);
                         $('#images_tmp').val(JSON.stringify(old_value));
                     }
                 }",
-                    "filedeleted" => "function(event, data) {
+                            "filedeleted" => "function(event, data) {
                     var response = data.response
                     console.log(event);
                     console.log(data);
@@ -352,36 +393,36 @@ $this->registerJs($js, \yii\web\View::POS_END);
 
                     // }
                 }",
-                ],
+                        ],
 
-            ]) ?>
+                    ]) ?>
 
-        </div>
-    </div>
+                </div>
+            </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <?=
-            $form->field($model, 'screenshoot[]')->widget(\kartik\widgets\FileInput::classname(), [
-                'options' => [
-                    'multiple' => true,
-                    'accept' => 'image/png,image/jpg,image/jpeg,image/gif',
-                    'id' => 'content-screenshoot'
-                ],
-                'pluginOptions' => [
-                    'uploadUrl' => $upload_url,
-                    'uploadExtraData' => [
-                        'type' => \common\models\Content::IMAGE_TYPE_SCREENSHOOT,
-                        'screenshots_old' => $model->screenshoot
-                    ],
-                    'maxFileCount' => 20,
-                    'showUpload' => false,
-                    'initialPreview' => $screenshootPreview,
-                    'initialPreviewConfig' => $screenshootInit,
-                    'maxFileSize' => 1024 * 1024 * 10,
-                ],
-                'pluginEvents' => [
-                    "fileuploaded" => "function(event, data, previewId, index) {
+            <div class="row">
+                <div class="col-md-12">
+                    <?=
+                    $form->field($model, 'screenshoot[]')->widget(\kartik\widgets\FileInput::classname(), [
+                        'options' => [
+                            'multiple' => true,
+                            'accept' => 'image/png,image/jpg,image/jpeg,image/gif',
+                            'id' => 'content-screenshoot'
+                        ],
+                        'pluginOptions' => [
+                            'uploadUrl' => $upload_url,
+                            'uploadExtraData' => [
+                                'type' => \common\models\Content::IMAGE_TYPE_SCREENSHOOT,
+                                'screenshots_old' => $model->screenshoot
+                            ],
+                            'maxFileCount' => 20,
+                            'showUpload' => false,
+                            'initialPreview' => $screenshootPreview,
+                            'initialPreviewConfig' => $screenshootInit,
+                            'maxFileSize' => 1024 * 1024 * 10,
+                        ],
+                        'pluginEvents' => [
+                            "fileuploaded" => "function(event, data, previewId, index) {
                         var response=data.response;
                         if(response.success){
                             var current_screenshots=response.output;
@@ -401,69 +442,53 @@ $this->registerJs($js, \yii\web\View::POS_END);
                             $('#images_tmp').val(JSON.stringify(old_value));
                          }
                      }",
-                    "filesuccessremove" => "function() {  console.log('delete'); }",
-                ],
+                            "filesuccessremove" => "function() {  console.log('delete'); }",
+                        ],
 
-            ]) ?>
+                    ]) ?>
 
-        </div>
-    </div>
-
-
-    <div class="row">
-
-        <div class="form-group field-content-price">
-            <label class="control-label col-md-2" for="content-price"><?= Yii::t('app', 'Danh mục') ?></label>
-
-            <div class="col-md-10">
-                <?= \common\widgets\Jstree::widget([
-                    'clientOptions' => [
-                        "checkbox" => ["keep_selected_style" => false],
-                        "plugins" => ["checkbox"]
-                    ],
-                    'type' => 1,
-                    'cp_id' => true,
-                    'data' => isset($selectedCats) ? $selectedCats : [],
-                    'eventHandles' => [
-                        'changed.jstree' => "function(e,data) {
-                            jQuery('#list-cat-id').val('');
-                            var i, j, r = [];
-                            var catIds='';
-                            for(i = 0, j = data.selected.length; i < j; i++) {
-                                var item = $(\"#\" + data.selected[i]);
-                                var value = item.attr(\"id\");
-                                if(i==j-1){
-                                    catIds += value;
-                                } else{
-                                    catIds += value +',';
-
-                                }
-                            }
-                            jQuery(\"#default_category_id\").val(data.selected[0])
-                            jQuery(\"#list-cat-id\").val(catIds);
-                            console.log(jQuery(\"#list-cat-id\").val());
-                         }"
-                    ]
-                ]) ?>
-            </div>
-            <div class="col-md-offset-2 col-md-10"></div>
-            <div class="col-md-offset-2 col-md-10">
-                <div class="help-block"></div>
+                </div>
             </div>
         </div>
+
+        <div class="tab-pane" id="tab_prices">
+            <div class="row">
+                <div class="col-md-12">
+                    <?= $form->field($model, 'price')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle']) ?>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <?= $form->field($model, 'price_promotion')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle']) ?>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="tab_attributes">
+            <div class="row">
+                <div class="col-md-12">
+                    <?= $form->field($model, 'short_description')->widget(\dosamigos\ckeditor\CKEditor::className(), [
+                        'options' => ['rows' => 6],
+                        'preset' => 'basic'
+                    ]) ?>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <?= $form->field($model, 'description')->widget(\dosamigos\ckeditor\CKEditor::className(), [
+                        'options' => ['rows' => 8],
+                        'preset' => 'full'
+                    ]) ?>
+                </div>
+            </div>
+        </div>
+        <?php if ($model->isNewRecord): ?>
+            <?= $form->field($model, 'images')->hiddenInput(['id' => 'images_tmp'])->label(false) ?>
+        <?php endif; ?>
     </div>
-    <!--    --><?php //endif; ?>
-    <?= $form->field($model, 'list_cat_id')->hiddenInput(['id' => 'list-cat-id'])->label(false) ?>
-
-
-
-
-
-    <?php if ($model->isNewRecord): ?>
-        <?= $form->field($model, 'images')->hiddenInput(['id' => 'images_tmp'])->label(false) ?>
-    <?php endif; ?>
     <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Tạo') : Yii::t('app', 'Cập nhật'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
-
 
     <?php ActiveForm::end(); ?>
 

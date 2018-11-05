@@ -1,7 +1,7 @@
 <?php
 namespace frontend\models;
 
-use common\models\Subcriber;
+use common\models\subscriber;
 use common\models\User;
 use yii\base\Model;
 use Yii;
@@ -83,15 +83,26 @@ class SignupForm extends Model
         if (!$this->validate()) {
             return null;
         }
-        $user = new Subcriber();
+        $user = new subscriber();
         $user->user_name = $this->username;
         $user->email = $this->email;
         $user->address = $this->address;
         $user->phone = $this->phone_number;
+        $user->status = subscriber::STATUS_ACTIVE;
         $user->setPassword($this->password);
         $user->generateAuthKey();
 
         return $user->save(false) ? $user : null;
 
+    }
+
+    public function beforeValidate()
+    {
+        foreach (array_keys($this->getAttributes()) as $attr){
+            if(!empty($this->$attr)){
+                $this->$attr = \yii\helpers\HtmlPurifier::process($this->$attr);
+            }
+        }
+        return parent::beforeValidate();// to keep parent validator available
     }
 }

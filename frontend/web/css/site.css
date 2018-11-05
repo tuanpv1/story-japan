@@ -138,3 +138,13 @@ a.desc:after {
 .tp_200{
     width: 400px;
 }
+
+#my-chart.loading {
+    background: url(../images/Preloader_8.gif) center no-repeat #fff;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+}
