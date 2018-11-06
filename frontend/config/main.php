@@ -17,7 +17,7 @@ return [
     ],
     'components' => [
         'user' => [
-            'identityClass' => 'common\models\subscriber',
+            'identityClass' => 'common\models\Subscriber',
             'enableAutoLogin' => true,
         ],
         'log' => [

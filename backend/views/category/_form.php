@@ -35,26 +35,6 @@ $images = !$model->isNewRecord && !empty($model->images);
         Category::getListStatus(), ['class' => 'input-circle']
     ) ?>
 
-    <?= $form->field($model, 'images')->widget(\kartik\file\FileInput::classname(), [
-        'pluginOptions' => [
-
-            'showCaption' => false,
-            'showRemove' => false,
-            'showUpload' => false,
-            'browseClass' => 'btn btn-primary btn-block',
-            'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
-            'browseLabel' => 'Chọn hình ảnh',
-            'initialPreview' => $images ? [
-                Html::img(Yii::getAlias('@web') . '/' . Yii::getAlias('@category_image') . "/" . $model->images, ['class' => 'file-preview-image', 'style' => 'width: 100%;']),
-
-            ] : [],
-        ],
-        'options' => [
-            'accept' => 'image/*',
-        ],
-    ]);
-    ?>
-
     <?php
     $dataList = \common\models\Category::getTreeCategories();
     $disableId = false;

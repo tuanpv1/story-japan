@@ -138,7 +138,7 @@ class Content extends \yii\db\ActiveRecord
     public static $list_type_crawl = [
         self::TYPE_CRAWL_TAOBAO => 'Tao Bao',
         self::TYPE_CRAWL_TMALL => 'Tmall',
-        self::TYPE_CRAWL_1688 => '1688',
+//        self::TYPE_CRAWL_1688 => '1688',
     ];
 
     public static $listAvailability = [

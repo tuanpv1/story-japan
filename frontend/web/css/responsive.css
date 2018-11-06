@@ -689,7 +689,7 @@
 	.top-header .nav-top-links,
 	.top-header .user-info,
 	.top-header .support-link{
-		width: 100%;
+		width: auto;
 		float: left;
 	}
 	.main-header .logo{

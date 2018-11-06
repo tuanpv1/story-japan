@@ -80,13 +80,13 @@ $avatarPreview = $model->isNewRecord;
                             ])
                             ?>
 
-                            <?=
-                            $form->field($model, 'birthday')->widget(DatePicker::classname(), [
-                                'options' => ['placeholder' => 'Chọn ngày sinh'],
-                                'pluginOptions' => [
-                                    'autoclose' => true
-                                ]
-                            ])
+                            <?php
+//                            $form->field($model, 'birthday')->widget(DatePicker::classname(), [
+//                                'options' => ['placeholder' => 'Chọn ngày sinh'],
+//                                'pluginOptions' => [
+//                                    'autoclose' => true
+//                                ]
+//                            ])
                             ?>
 
                             <div class="text-center">

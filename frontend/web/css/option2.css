@@ -1167,7 +1167,7 @@
 */
 @media (max-width: 480px) {
 	.group-button-header{
-		width: 100%;
+		width: 20%;
 		margin-top: 30px;
 	}
 	.main-header .group-button-header .btn-cart:hover .cart-block {
@@ -1175,6 +1175,7 @@
 	}
 	.option2 .main-header .header-search-box{
 		padding-right: 15px;
+		width: 80%;
 	}
 	.option2 #main-menu .navbar{
 		background: none;

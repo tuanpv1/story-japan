@@ -20,7 +20,7 @@ use common\models\Slide;
                                     foreach($slide as $item){
                                         /** @var  $item \common\models\Slide*/
                                         ?>
-                                        <li><img style="height: 450px" alt="<?= $item->des ?>" src="<?= Slide::getSlideHomeFe($item->content_id) ?>" title="<?= $item->des ?>" /></li>
+                                        <li><img class="fix-width" alt="<?= $item->des ?>" src="<?= Slide::getSlideHomeFe($item->content_id) ?>" title="<?= $item->des ?>" /></li>
                                         <?php
                                     }
                                 }

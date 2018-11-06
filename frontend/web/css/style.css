@@ -1597,10 +1597,10 @@ span.notify-right{
   width: 100%;
   height: auto;
 }
-.header-top-right .homeslider img{
-    width: 100%;
-    height: 450px;
-}
+/*.header-top-right .homeslider img{*/
+    /*width: 100%;*/
+    /*height: 450px;*/
+/*}*/
 .header-top-right .homeslider .bx-wrapper .bx-viewport {
   -moz-box-shadow: 0;
   -webkit-box-shadow: 0;
