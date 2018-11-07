@@ -148,6 +148,12 @@ a.desc:after {
     height: 100%;
     z-index: 9999;
 }
+
+.fix-width{
+    width: 100%;
+    height: 450px;
+}
+
 @media (max-width: 480px) {
     .top-header a {
         padding-right: 4px;
@@ -155,16 +161,11 @@ a.desc:after {
     }
 
     .show-brand .navbar-brand a {
-        font-size: 17px;
+        font-size: 15px;
     }
 
     .fix-width{
         width: 100%;
         height: auto;
     }
-}
-
-.fix-width{
-    width: 100%;
-    height: 450px;
 }

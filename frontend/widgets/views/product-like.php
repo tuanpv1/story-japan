@@ -5,6 +5,7 @@
  * Date: 2/17/2017
  * Time: 12:15 PM
  */
+use common\helpers\CUtils;
 use common\models\Content;
 use yii\helpers\Url;
 
@@ -32,7 +33,7 @@ use yii\helpers\Url;
                 <div class="right-block">
                     <h5 class="product-name">
                         <a href="<?= Url::to(['product/detail','id'=>$item->id]) ?>">
-                            <?= Content::substr($item->display_name,25) ?>
+                            <?= CUtils::substr($item->display_name,25) ?>
                         </a>
                     </h5>
                     <div class="product-star">
@@ -44,10 +45,10 @@ use yii\helpers\Url;
                     </div>
                     <div class="content_price">
                         <?php if($item->price_promotion){ ?>
-                        <span class="price product-price"><?= Content::formatNumber($item->price_promotion) ?> VND</span>
-                        <span class="price old-price"><?= Content::formatNumber($item->price) ?> VND</span>
+                        <span class="price product-price"><?= CUtils::formatNumber($item->price_promotion) ?> VND</span>
+                        <span class="price old-price"><?= CUtils::formatNumber($item->price) ?> VND</span>
                         <?php } else { ?>
-                        <span class="price product-price"><?= Content::formatNumber($item->price_promotion) ?> VND</span>
+                        <span class="price product-price"><?= CUtils::formatNumber($item->price_promotion) ?> VND</span>
                         <?php } ?>
                     </div>
                 </div>

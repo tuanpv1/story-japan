@@ -25,7 +25,11 @@ if (isset($category)) {
                     </div>
                     <span class="toggle-menu"></span>
                     <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse"></div><!-- /.navbar-collapse -->
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav hidden-lg">
+                            <?= \frontend\widgets\MenuContentBody::widget(['id' => $item->id, 'show_phone' => $item->id]) ?>
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
                 </div>
             </nav>
             <div class="product-featured clearfix">

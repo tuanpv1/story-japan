@@ -33,7 +33,7 @@ class Order extends \yii\db\ActiveRecord
     const STATUS_RETURN = 7; // hoàn trả
     const STATUS_ORDERED = 6; // vừa đặt hàng xong
 
-    public  function  getListStatus(){
+    public static function getListStatus(){
         $list1 = [
             self::STATUS_SUCCESS => 'Đã nhận hàng',
             self::STATUS_TRANSPORT => 'Đang chuyển đi',

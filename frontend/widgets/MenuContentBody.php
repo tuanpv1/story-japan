@@ -16,6 +16,7 @@ class MenuContentBody extends Widget
 
     public $message;
     public $id;
+    public $show_phone;
 
     public function init()
     {
@@ -25,6 +26,11 @@ class MenuContentBody extends Widget
     public function run()
     {
         $categories = Category::findAll(['parent_id' => $this->id]);
+        if(!empty($this->show_phone)){
+            return $this->render('menu-show-phone',[
+               'categories' => $categories
+            ]);
+        }
         return $this->render('menu-content-body', [
             'categories' => $categories
         ]);
