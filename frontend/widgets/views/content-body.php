@@ -6,6 +6,7 @@
  * Time: 5:13 PM
  */
 use common\models\Category;
+use yii\helpers\Url;
 
 ?>
 <?php
@@ -36,7 +37,7 @@ if (isset($category)) {
                 <div class="row">
                     <div class="col-sm-4 sub-category-wapper">
                         <div class="banner-img">
-                            <a href="#"><img  style="height: 570px" src="<?= $item->getImageLinkContentFeature() ?>" alt="Banner Product"></a>
+                            <a href="<?= Url::to(['category/index','id' => $item->id]) ?>"><img  style="height: 570px" src="<?= $item->getImageLinkContentFeature() ?>" alt="<?= $item->display_name ?>"></a>
                         </div>
                     </div>
                     <?= \frontend\widgets\MenuContentBody::widget(['id' => $item->id]) ?>

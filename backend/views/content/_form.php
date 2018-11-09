@@ -66,29 +66,37 @@ $this->registerJs($js, \yii\web\View::POS_END);
         </li>
     </ul>
     <div class="tab-content">
+
         <div class="tab-pane active" id="tab_info">
-            <div class="row">
-                <form action="<?= \yii\helpers\Url::to(['content/process']) ?>" method="post">
-                    <div class="col-md-2 text-right">
-                        <label for="linkProcess">Link: </label>
-                    </div>
-                    <div class="col-md-6">
-                        <input required type="text" name="linkProcess" id="linkProcess" class="form-control"
-                               placeholder="Nhập link sản phẩm">
-                    </div>
-                    <div class="col-md-2">
-                        <select name="sourceProcess" class="form-control">
-                            <option selected="selected">Chọn nguồn</option>
-                            <?php foreach (Content::$list_type_crawl as $key => $type) { ?>
-                                <option value="<?= $key ?>"><?= $type ?></option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <input type="submit" id="btProcess" class="btn btn-success" value="Phân tích sản phẩm">
-                    </div>
-                </form>
-            </div>
+            <?php
+            if($model->isNewRecord){
+                ?>
+                <div class="row">
+                    <form action="<?= \yii\helpers\Url::to(['content/process']) ?>" method="post">
+                        <div class="col-md-2 text-right">
+                            <label for="linkProcess">Link: </label>
+                        </div>
+                        <div class="col-md-6">
+                            <input required type="text" name="linkProcess" id="linkProcess" class="form-control"
+                                   placeholder="Nhập link sản phẩm">
+                        </div>
+                        <div class="col-md-2">
+                            <select name="sourceProcess" class="form-control">
+                                <option selected="selected">Chọn nguồn</option>
+                                <?php foreach (Content::$list_type_crawl as $key => $type) { ?>
+                                    <option value="<?= $key ?>"><?= $type ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <input type="submit" id="btProcess" class="btn btn-success" value="Phân tích sản phẩm">
+                        </div>
+                    </form>
+                </div>
+                <?php
+            }
+            ?>
+
             <?php $form = ActiveForm::begin([
                 'options' => ['enctype' => 'multipart/form-data'],
                 'id' => 'form-create-content',

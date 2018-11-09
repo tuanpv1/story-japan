@@ -7,6 +7,7 @@ use common\models\Content;
 use common\models\Slide;
 use Yii;
 use yii\data\Pagination;
+use yii\db\Expression;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -22,7 +23,6 @@ class CategoryController extends Controller
         $value_max = null;
         $value_min = 0;
         $id = Yii::$app->request->get('id');
-        $banner = Slide::findAll(['status' => Slide::STATUS_ACTIVE, 'type' => Slide::SLIDE_CATEGORY]);
         $cat = Category::findOne($id);
         if (!$cat) {
             throw new NotFoundHttpException(Yii::t('app', 'Không tìm thấy danh mục'));
@@ -63,6 +63,11 @@ class CategoryController extends Controller
                 'pages' => $pages,
             ]);
         }
+
+        $banner = Slide::find()
+            ->andWhere(['status' => Slide::STATUS_ACTIVE, 'type' => Slide::SLIDE_CATEGORY])
+            ->andWhere(['IN', 'category_id', $listCats])
+            ->all();
         return $this->render('index', [
             'contents' => $contents,
             'banner' => $banner,

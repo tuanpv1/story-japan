@@ -62,16 +62,20 @@ class FindBreadcrumb extends Widget{
     public static function getBreadcrumbChild($id_cat,$id_content){
         $cat = ContentCategoryAsm::findOne(['content_id'=>$id_content]);
         $cat1 = Category::find()->andWhere(['id'=>$cat->category_id])->andWhere(['status'=>Category::STATUS_ACTIVE])->one();
-        $cat2 = Category::find()->andWhere(['id'=>$cat1->parent_id])->andWhere(['status'=>Category::STATUS_ACTIVE])->one();
+        if($cat1->parent_id){
+            $cat2 = Category::find()->andWhere(['id'=>$cat1->parent_id])->andWhere(['status'=>Category::STATUS_ACTIVE])->one();
+        }
         $cat3 = Category::find()->andWhere(['parent_id'=>$id_cat])->andWhere(['status'=>Category::STATUS_ACTIVE])->all();
-        foreach($cat3 as $item){
-            if($item->id == $cat2->id){
+        if($cat3 && !empty($cat2)){
+            foreach($cat3 as $item){
+                if($item->id == $cat2->id){
 //                echo "<pre>";print_r($cat2);die();
-                $st = new FindBreadcrumb();
-                return $st->render('find-breadcrumb-child', [
-                    'cat_parent' => $cat2,
-                    'id_content'=>$id_content,
-                ]);
+                    $st = new FindBreadcrumb();
+                    return $st->render('find-breadcrumb-child', [
+                        'cat_parent' => $cat2,
+                        'id_content'=>$id_content,
+                    ]);
+                }
             }
         }
     }

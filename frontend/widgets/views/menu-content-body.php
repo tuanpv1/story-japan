@@ -18,7 +18,7 @@ use frontend\widgets\ContentContentBody;
             foreach ($categories as $category) {
                 ?>
                 <li class="<?= $i == 1 ? 'active' : '' ?>">
-                    <a data-toggle="tab" href="#tab-<?= $i ?>"><?= $category->display_name ?></a>
+                    <a data-toggle="tab" href="#tab-<?= $category->id ?>"><?= $category->display_name ?></a>
                 </li>
                 <?php
                 $i++;
@@ -36,7 +36,7 @@ use frontend\widgets\ContentContentBody;
                 /** @var Category $category */
                 foreach ($categories as $category) {
                     ?>
-                    <div class="tab-panel <?= $i == 1 ? 'active' : '' ?>" id="tab-<?= $i ?>">
+                    <div class="tab-panel <?= $i == 1 ? 'active' : '' ?>" id="tab-<?= $category->id ?>">
                         <?= ContentContentBody::widget(['id' => $category->id]) ?>
                     </div>
                     <?php

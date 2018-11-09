@@ -468,9 +468,9 @@ class Category extends \yii\db\ActiveRecord
         $listCats[] = $this->id;
         $content = Content::find()
             ->innerJoin('content_category_asm', 'content_category_asm.content_id = content.id')
-            ->andWhere(['IN', 'content_category_asm.category_id', $listCats])
             ->andWhere(['content.is_feature' => Content::IS_FEATURE])
-            ->orderBy(new Expression('rand()'))
+            ->andWhere(['IN', 'content_category_asm.category_id', $listCats])
+//            ->orderBy(new Expression('rand()'))
             ->one();
         /** @var Content $content */
         if ($content) {

@@ -2063,14 +2063,15 @@ span.notify-right{
     display: inline-block;
 }
 .product-list li .product-price{
-    font-size: 18px;
+    font-size: 15px;
     color: #c60909;
 }
 .product-list li .old-price{
     text-decoration:line-through;
-    margin-left: 11px;
+    margin-left: 5px;
     line-height: 25px;
     color: #666;
+    font-size: 12px;
 
 }
 .product-list li .colreduce-percentage{
