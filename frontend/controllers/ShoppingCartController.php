@@ -153,6 +153,7 @@ class ShoppingCartController extends Controller
                 </thead>
                 <tbody>";
             foreach ($cart as $key => $value) {
+                $txtTable .= "<tr>";
                 $content = Content::findOne($value['id']);
                 $total_one = 0;
                 if ($content->price_promotion == 0) {
@@ -180,7 +181,7 @@ class ShoppingCartController extends Controller
                                 <td class=\"cart_description\">";
                 $txtTable .= "<p>" . $value['display_name'] . "</p>";
                 $txtTable .= "</td>";
-                if ($content->price_promotion == 0) {
+                if ($content->price_promotion == 0 || $content->price_promotion == $content->price) {
                     $txtTable .= "<td class=\"cart_price\">";
                     $txtTable .= "<p>" . CUtils::formatNumber($content->price) . ' Đ' . "</p>";
                     $txtTable .= "</td>";
@@ -195,10 +196,10 @@ class ShoppingCartController extends Controller
                 $txtTable .= "<td class=\"cart_quantity\">
                                     <div class=\"cart_quantity_button\">";
                 $txtTable .= $value['amount'];
-                $txtTable .= "</div>
-                                </td>
-                                <td class=\"cart_total\">";
-                $txtTable .= "<p class=\"cart_total_price\">" . CUtils::formatNumber($total_one) . ' Đ' . "</p>";
+                $txtTable .= "      </div>
+                              </td>
+                              <td class=\"cart_total\">";
+                $txtTable .= "     <p class=\"cart_total_price\">" . CUtils::formatNumber($total_one) . ' Đ' . "</p>";
 
                 $txtTable .= "</td>";
                 $txtTable .= "</tr>

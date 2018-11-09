@@ -268,14 +268,16 @@ class Slide extends \yii\db\ActiveRecord
         $link = '';
         foreach ($listImages as $key => $row) {
             if ($row['type'] == Content::IMAGE_TYPE_SLIDECATEGORY) {
-                $link = Url::to('@web/staticdata/content_images/'. $row['name'], true);
+                $link = Url::to('@web/admin/staticdata/content_images/'. $row['name'], true);
             }
         }
-        if(file_exists($link)){
-            return $link;
-        }else{
-            return Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
-        }
+        Yii::error($link);
+        return $link;
+//        if(file_exists($link)){
+//            return $link;
+//        }else{
+//            return Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
+//        }
     }
 
     public static function getSlideHomeFe($id){
@@ -285,14 +287,16 @@ class Slide extends \yii\db\ActiveRecord
         $link = '';
         foreach ($listImages as $key => $row) {
             if ($row['type'] == Content::IMAGE_TYPE_SLIDE) {
-                $link = Url::to('@web/staticdata/content_images/'. $row['name'], true);
+                $link = Url::to('@web/admin/staticdata/content_images/'. $row['name'], true);
             }
         }
-        if(file_exists($link)){
-            return $link;
-        }else{
-            return Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
-        }
+        Yii::error($link);
+        return $link;
+//        if(file_exists($link)){
+//            return $link;
+//        }else{
+//            return Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
+//        }
     }
 
     public static function getSlider($sp){

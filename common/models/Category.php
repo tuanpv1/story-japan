@@ -453,7 +453,6 @@ class Category extends \yii\db\ActiveRecord
         $cats = self::findAll(['parent_id' => $parent, 'status' => self::STATUS_ACTIVE]);
         if (!empty($cats)) {
             foreach ($cats as $cat) {
-
                 $listCat[] = $cat->id;
                 self::getAllChildCats($cat->id);
             }
@@ -465,9 +464,11 @@ class Category extends \yii\db\ActiveRecord
     public function getImageLinkContentFeature()
     {
         $image_default = 'banner-product1.jpg';
+        $listCats = self::allChildCats($this->id);
+        $listCats[] = $this->id;
         $content = Content::find()
-            ->innerJoin(['content_category_asm', 'content_category_asm.content_id = content.id'])
-            ->andWhere(['content_category_asm.category_id' => $this->id])
+            ->innerJoin('content_category_asm', 'content_category_asm.content_id = content.id')
+            ->andWhere(['IN', 'content_category_asm.category_id', $listCats])
             ->andWhere(['content.is_feature' => Content::IS_FEATURE])
             ->orderBy(new Expression('rand()'))
             ->one();
@@ -481,8 +482,8 @@ class Category extends \yii\db\ActiveRecord
 
     public function beforeValidate()
     {
-        foreach (array_keys($this->getAttributes()) as $attr){
-            if(!empty($this->$attr)){
+        foreach (array_keys($this->getAttributes()) as $attr) {
+            if (!empty($this->$attr)) {
                 $this->$attr = \yii\helpers\HtmlPurifier::process($this->$attr);
             }
         }

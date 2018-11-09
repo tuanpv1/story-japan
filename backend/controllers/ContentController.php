@@ -61,10 +61,10 @@ class ContentController extends BaseBEController
                     if ($cat->update()) {
                         echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
                     } else {
-                        echo \yii\helpers\Json::encode(['output' => '', 'message' => Yii::t('app', 'Dữ liệu không hợp lệ')]);
+                        echo \yii\helpers\Json::encode(['output' => '', 'message' => Yii::t('app', 'Dá»¯ liá»‡u khÃ´ng há»£p lá»‡')]);
                     }
                 } else {
-                    echo \yii\helpers\Json::encode(['output' => '', 'message' => Yii::t('app', 'Danh mục không tồn tại')]);
+                    echo \yii\helpers\Json::encode(['output' => '', 'message' => Yii::t('app', 'Danh má»¥c khÃ´ng tá»“n táº¡i')]);
                 }
             } // else if nothing to do always return an empty JSON encoded output
             else {
@@ -176,7 +176,7 @@ class ContentController extends BaseBEController
             if ($model->save()) {
                 $model->createCategoryAsm();
 
-                // lưu loại is_slide để lọc bên quản lý slide
+                // lÆ°u loáº¡i is_slide Ä‘á»ƒ lá»c bÃªn quáº£n lÃ½ slide
                 $image_slide = Content::convertJsonToArray($model->images);
                 foreach ($image_slide as $key => $row) {
                     if ($row['type'] == Content::IMAGE_TYPE_SLIDE) {
@@ -189,11 +189,11 @@ class ContentController extends BaseBEController
                 }
                 $model->save(false);
                 // tao log
-                \Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Lưu Content thành công'));
+                \Yii::$app->getSession()->setFlash('success', Yii::t('app', 'LÆ°u Content thÃ nh cÃ´ng'));
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 Yii::info($model->getErrors());
-                \Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Lưu Content thất bại'));
+                \Yii::$app->getSession()->setFlash('error', Yii::t('app', 'LÆ°u Content tháº¥t báº¡i'));
             }
         }
         $selectedCats = explode(',', $model->list_cat_id);
@@ -317,11 +317,11 @@ class ContentController extends BaseBEController
                     }
                 }
                 $model->save(false);
-                \Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Cập nhật Content thành công'));
+                \Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Cáº­p nháº­t Content thÃ nh cÃ´ng'));
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
                 Yii::error($model->getErrors());
-                \Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Cập nhật Content thất bại') . json_encode($model->getErrors()));
+                \Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Cáº­p nháº­t Content tháº¥t báº¡i') . json_encode($model->getErrors()));
             }
         }
         // get screenshoot
@@ -420,9 +420,9 @@ class ContentController extends BaseBEController
     {
         $model = $this->findModel($id);
         $model->status = Content::STATUS_DELETE;
-        /** cuongvm 20160725 - phải insert created_at, updated_at bằng tay, không dùng behaviors - begin */
+        /** cuongvm 20160725 - pháº£i insert created_at, updated_at báº±ng tay, khÃ´ng dÃ¹ng behaviors - begin */
         $model->updated_at = time();
-        /** cuongvm 20160725 - phải insert created_at, updated_at bằng tay, không dùng behaviors - end */
+        /** cuongvm 20160725 - pháº£i insert created_at, updated_at báº±ng tay, khÃ´ng dÃ¹ng behaviors - end */
         $model->save();
 
         return $this->redirect(['index', 'type' => $model->type]);
@@ -443,7 +443,7 @@ class ContentController extends BaseBEController
         if (($model = Content::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException(Yii::t('app', 'Không tìm thấy trang'));
+            throw new NotFoundHttpException(Yii::t('app', 'KhÃ´ng tÃ¬m tháº¥y trang'));
         }
     }
 
@@ -496,11 +496,11 @@ class ContentController extends BaseBEController
         }
 
         if (!in_array($checkExt, $allowExt)) {
-            return ['success' => false, 'error' => Yii::t('app', "Ảnh không đúng định dạng")];
+            return ['success' => false, 'error' => Yii::t('app', "áº¢nh khÃ´ng Ä‘Ãºng Ä‘á»‹nh dáº¡ng")];
         }
 
         if ($size > Content::MAX_SIZE_UPLOAD) {
-            return ['success' => false, 'error' => Yii::t('app', "Ảnh vượt quá dung lượng cho phép")];
+            return ['success' => false, 'error' => Yii::t('app', "áº¢nh vÆ°á»£t quÃ¡ dung lÆ°á»£ng cho phÃ©p")];
         }
 
         if (move_uploaded_file($files['tmp_name']["$attribute"][0], $target)) {
@@ -569,12 +569,12 @@ class ContentController extends BaseBEController
 
             return [
                 'success' => true,
-                'message' => Yii::t('app', 'Duyệt ' . $count . ' content thành công!'),
+                'message' => Yii::t('app', 'Duyá»‡t ' . $count . ' content thÃ nh cÃ´ng!'),
             ];
         } else {
             return [
                 'success' => false,
-                'message' => Yii::t('app', 'Không tìm thấy content trên hệ thống'),
+                'message' => Yii::t('app', 'KhÃ´ng tÃ¬m tháº¥y content trÃªn há»‡ thá»‘ng'),
             ];
         }
     }
@@ -598,16 +598,16 @@ class ContentController extends BaseBEController
                 }
             }
 
-            $successMess = $newStatus == Content::STATUS_DELETE ? Yii::t('app', 'Xóa') : Yii::t('app', 'Cập nhật');
+            $successMess = $newStatus == Content::STATUS_DELETE ? Yii::t('app', 'XÃ³a') : Yii::t('app', 'Cáº­p nháº­t');
 
             return [
                 'success' => true,
-                'message' => $successMess . ' ' . $count . Yii::t('app', ' content thành công!'),
+                'message' => $successMess . ' ' . $count . Yii::t('app', ' content thÃ nh cÃ´ng!'),
             ];
         } else {
             return [
                 'success' => false,
-                'message' => Yii::t('app', 'Không thành công. Vui lòng thử'),
+                'message' => Yii::t('app', 'KhÃ´ng thÃ nh cÃ´ng. Vui lÃ²ng thá»­'),
             ];
         }
     }
@@ -621,16 +621,16 @@ class ContentController extends BaseBEController
         if (!$content_id || !$name) {
             return [
                 'success' => false,
-                'message' => 'Thiếu tham số!',
-                'error' => 'Thiếu tham số!',
+                'message' => 'Thiáº¿u tham sá»‘!',
+                'error' => 'Thiáº¿u tham sá»‘!',
             ];
         }
         $content = $this->findModel($content_id);
         if (!$content) {
             return [
                 'success' => false,
-                'message' => 'Không thấy nội dung!',
-                'error' => 'Không thấy nội dung!',
+                'message' => 'KhÃ´ng tháº¥y ná»™i dung!',
+                'error' => 'KhÃ´ng tháº¥y ná»™i dung!',
             ];
         } else {
             $index = -1;
@@ -644,8 +644,8 @@ class ContentController extends BaseBEController
             if ($index == -1) {
                 return [
                     'success' => false,
-                    'message' => 'Không thấy ảnh!',
-                    'error' => 'Không thấy ảnh!',
+                    'message' => 'KhÃ´ng tháº¥y áº£nh!',
+                    'error' => 'KhÃ´ng tháº¥y áº£nh!',
                 ];
             } else {
                 array_splice($images, $index, 1);
@@ -654,7 +654,7 @@ class ContentController extends BaseBEController
                 if ($content->save(false)) {
                     return [
                         'success' => true,
-                        'message' => 'Xóa ảnh thành công',
+                        'message' => 'XÃ³a áº£nh thÃ nh cÃ´ng',
                     ];
                 } else {
                     return [
@@ -668,7 +668,7 @@ class ContentController extends BaseBEController
 
     public function actionProcess()
     {
-        require_once '../models/simple_html_dom.php';
+        require_once __DIR__.'/../models/simple_html_dom.php';
         if (!empty($_POST['linkProcess']) && !empty($_POST['sourceProcess'])) {
             $display_name = null;
             if ($_POST['sourceProcess'] == Content::TYPE_CRAWL_TAOBAO) {
@@ -700,28 +700,27 @@ class ContentController extends BaseBEController
                 $image = $html->find('.box-img >img', 0);
                 $price = $html->find('.obj-content >.value', 0);
             }
-
-            $display_name = iconv('gb2312', 'utf-8', $display_name);
             if(!empty($display_name)){
                 $display_name = $display_name->innertext;
             }else{
-                Yii::$app->session->setFlash('warning', Yii::t('app', 'Rất tiếc chúng tôi không thể phân tích tên sản phẩm'));
+                Yii::$app->session->setFlash('warning', Yii::t('app', 'Ráº¥t tiáº¿c chÃºng tÃ´i khÃ´ng thá»ƒ phÃ¢n tÃ­ch tÃªn sáº£n pháº©m'));
             }
+            $display_name = iconv('gb2312', 'utf-8', $display_name);
 
             if(!empty($image)){
                 $image = $image->src;
             }else{
-                Yii::$app->session->setFlash('warning', Yii::t('app', 'Rất tiếc chúng tôi không thể phân tích hình ảnh sản phẩm'));
+                Yii::$app->session->setFlash('warning', Yii::t('app', 'Ráº¥t tiáº¿c chÃºng tÃ´i khÃ´ng thá»ƒ phÃ¢n tÃ­ch hÃ¬nh áº£nh sáº£n pháº©m'));
             }
 
             if(!empty($price)){
                 $price = $price->innertext;
             }else{
-                Yii::$app->session->setFlash('warning', Yii::t('app', 'Rất tiếc chúng tôi không thể phân tích giá sản phẩm'));
+                Yii::$app->session->setFlash('warning', Yii::t('app', 'Ráº¥t tiáº¿c chÃºng tÃ´i khÃ´ng thá»ƒ phÃ¢n tÃ­ch giÃ¡ sáº£n pháº©m'));
             }
 
             if (empty($display_name) && empty($image) && empty($price)) {
-                Yii::$app->session->setFlash('error', Yii::t('app', 'Không phân tích dữ liệu thành công'));
+                Yii::$app->session->setFlash('error', Yii::t('app', 'KhÃ´ng phÃ¢n tÃ­ch dá»¯ liá»‡u thÃ nh cÃ´ng'));
                 return $this->redirect(['create']);
             }
 
@@ -732,7 +731,7 @@ class ContentController extends BaseBEController
             $model->processImage($image, $_POST['sourceProcess']);
             return Yii::$app->runAction('content/create', ['model' => $model]);
         } else {
-            Yii::$app->session->setFlash('error', Yii::t('app', 'Không phân tích dữ liệu thành công'));
+            Yii::$app->session->setFlash('error', Yii::t('app', 'KhÃ´ng phÃ¢n tÃ­ch dá»¯ liá»‡u thÃ nh cÃ´ng'));
             return $this->redirect(['create']);
         }
     }

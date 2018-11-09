@@ -171,7 +171,7 @@ class Content extends \yii\db\ActiveRecord
     public function rules()
     {
         return array_merge([
-            [['display_name', 'code', 'status', 'list_cat_id', 'price', 'expired_at'], 'required', 'on' => 'adminModify', 'message' => '{attribute} không được để trống'],
+            [['display_name', 'code', 'status', 'list_cat_id', 'price'], 'required', 'on' => 'adminModify', 'message' => '{attribute} không được để trống'],
             [['started_at', 'ended_at'], 'required', 'message' => Yii::t('app', '{attribute} không được để trống'), 'on' => 'adminModifyLiveContent'],
             [['ended_at'], 'validEnded', 'on' => 'adminModifyLiveContent'],
             [['display_name', 'code'], 'required', 'message' => Yii::t('app', '{attribute} không được để trống')],
@@ -194,8 +194,6 @@ class Content extends \yii\db\ActiveRecord
                     'created_at',
                     'updated_at',
                     'honor',
-                    'expired_at',
-                    'approved_at',
                     'order',
                     'type_status',
                     'availability',
@@ -598,11 +596,13 @@ class Content extends \yii\db\ActiveRecord
                 $link = Url::to(Url::base() . '/' . Yii::getAlias('@content_images') . '/' . $row['name'], true);
             }
         }
-        if (file_exists($link)) {
-            return $link;
-        } else {
-            return Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
-        }
+        $link = str_replace('/staticdata/','/admin/staticdata/',$link);
+        return $link;
+//        if (file_exists($link)) {
+//            return $link;
+//        } else {
+//            return Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
+//        }
     }
 
     public static function getFirstImageLinkFeStatic($image, $image_default = '')
@@ -621,10 +621,10 @@ class Content extends \yii\db\ActiveRecord
                 $link = Url::to(Url::base() . '/' . Yii::getAlias('@content_images') . '/' . $row['name'], true);
             }
         }
-
-        if(!file_exists($link)){
-            $link = Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
-        }
+        $link = str_replace('/staticdata/','/admin/staticdata/',$link);
+//        if(!file_exists($link)){
+//            $link = Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
+//        }
 
         return $link;
     }
@@ -640,16 +640,18 @@ class Content extends \yii\db\ActiveRecord
         foreach ($listImages as $key => $row) {
             if ($row['type'] == self::IMAGE_TYPE_SCREENSHOOT) {
                 $link1 = Url::to(Url::base() . '/' . Yii::getAlias('@content_images') . '/' . $row['name'], true);
-                if (!file_exists($link1)) {
-                    $link1 = Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
-                }
+                $link1 = str_replace('/staticdata/','/admin/staticdata/',$link1);
+//                if (!file_exists($link1)) {
+//                    $link1 = Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
+//                }
                 $link[] = $link1;
             }
             if ($row['type'] == self::IMAGE_TYPE_THUMBNAIL) {
                 $link1 = Url::to(Url::base() . '/' . Yii::getAlias('@content_images') . '/' . $row['name'], true);
-                if (!file_exists($link1)) {
-                    $link1 = Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
-                }
+                $link1 = str_replace('/staticdata/','/admin/staticdata/',$link1);
+//                if (!file_exists($link1)) {
+//                    $link1 = Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
+//                }
                 $link[] = $link1;
             }
         }

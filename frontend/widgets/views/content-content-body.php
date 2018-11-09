@@ -40,7 +40,7 @@ use yii\helpers\Url;
                 </div>
                 <div class="left-block">
                     <a href="<?= Url::to(['content/detail', 'id' => $content->id]) ?>">
-                        <img class="img-responsive" alt="<?= $content->display_name ?>"
+                        <img style="height:170px" class="img-responsive" alt="<?= $content->display_name ?>"
                              src="<?= $content->getFirstImageLinkFE('p48.jpg') ?>"/>
                     </a>
                     <div class="quick-view">
@@ -48,7 +48,7 @@ use yii\helpers\Url;
                         <a title="Add to compare" class="compare" href="#"></a>
                         <a title="Quick view" class="search" href="#"></a>
                     </div>
-                    <div class="add-to-cart">
+                    <div class="add-to-cart" style="padding-bottom: 0px">
                         <a title="Add to Cart" href="javascript:void(0)" onclick="addCart(<?= $content->id ?>)">Thêm giỏ
                             hàng</a>
                     </div>
