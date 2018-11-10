@@ -237,40 +237,29 @@ $this->registerJs($js, \yii\web\View::POS_END);
                         ],
                         'pluginEvents' => [
                             "fileuploaded" => "function(event, data, previewId, index) {
-                    var response=data.response;
-                    if(response.success){
-                        var current_screenshots=response.output;
-                        var old_value_text=$('#images_tmp').val();
-                        if(old_value_text !=null && old_value_text !='' && old_value_text !=undefined)
-                        {
-                            var old_value=jQuery.parseJSON(old_value_text);
-
-                            if(jQuery.isArray(old_value)){
-                                old_value = old_value.filter(function(v){
-                                    v = jQuery.parseJSON(v)
-                                    console.log(typeof v.type, v.type);
-                                    return v.type !== '2';
-                                })
+                            var response=data.response;
+                            if(response.success){
+                                var current_screenshots=response.output;
+                                var old_value_text=$('#images_tmp').val();
+                                if(old_value_text !=null && old_value_text !='' && old_value_text !=undefined)
+                                {
+                                    var old_value=jQuery.parseJSON(old_value_text);
+                                    if(jQuery.isArray(old_value)){
+                                        console.log(old_value);
+                                        old_value.push(current_screenshots);
+                                    }
+                                }
+                                else{
+                                    var old_value= [current_screenshots];
+                                }
                                 console.log(old_value);
-                                old_value.push(current_screenshots);
-                                console.log(old_value);
+                                $('#images_tmp').val(JSON.stringify(old_value));
+                                console.log($('#images_tmp').val());
                             }
-                        }
-                        else{
-                            var old_value= [current_screenshots];
-                        }
-                        $('#images_tmp').val(JSON.stringify(old_value));
-                    }
-                }",
-                            "filedeleted" => "function(event, data) {
-                    var response = data.response
-                    console.log(event);
-                    console.log(data);
-                    // if(response.success){
-                    //     console.log(response.output);
-
-                    // }
-                }",
+                        }",
+                                    "filedeleted" => "function(event, data) {
+                            var response = data.response
+                        }",
                         ],
 
                     ]) ?>
@@ -291,7 +280,7 @@ $this->registerJs($js, \yii\web\View::POS_END);
                             'uploadUrl' => $upload_url,
                             'uploadExtraData' => [
                                 'type' => \common\models\Content::IMAGE_TYPE_SLIDE,
-                                'thumbnail_old' => $model->slide
+                                'slide_old' => $model->slide
                             ],
                             'language' => 'vi-VN',
                             'showUpload' => false,
@@ -302,40 +291,29 @@ $this->registerJs($js, \yii\web\View::POS_END);
                         ],
                         'pluginEvents' => [
                             "fileuploaded" => "function(event, data, previewId, index) {
-                    var response=data.response;
-                    if(response.success){
-                        var current_screenshots=response.output;
-                        var old_value_text=$('#images_tmp').val();
-                        if(old_value_text !=null && old_value_text !='' && old_value_text !=undefined)
-                        {
-                            var old_value=jQuery.parseJSON(old_value_text);
-
-                            if(jQuery.isArray(old_value)){
-                                old_value = old_value.filter(function(v){
-                                    v = jQuery.parseJSON(v)
-                                    console.log(typeof v.type, v.type);
-                                    return v.type !== '2';
-                                })
+                            var response=data.response;
+                            if(response.success){
+                                var current_screenshots=response.output;
+                                var old_value_text=$('#images_tmp').val();
+                                if(old_value_text !=null && old_value_text !='' && old_value_text !=undefined)
+                                {
+                                    var old_value=jQuery.parseJSON(old_value_text);
+                                    if(jQuery.isArray(old_value)){
+                                        console.log(old_value);
+                                        old_value.push(current_screenshots);
+                                    }
+                                }
+                                else{
+                                    var old_value= [current_screenshots];
+                                }
                                 console.log(old_value);
-                                old_value.push(current_screenshots);
-                                console.log(old_value);
+                                $('#images_tmp').val(JSON.stringify(old_value));
+                                console.log($('#images_tmp').val());
                             }
-                        }
-                        else{
-                            var old_value= [current_screenshots];
-                        }
-                        $('#images_tmp').val(JSON.stringify(old_value));
-                    }
-                }",
+                        }",
                             "filedeleted" => "function(event, data) {
-                    var response = data.response
-                    console.log(event);
-                    console.log(data);
-                    // if(response.success){
-                    //     console.log(response.output);
-
-                    // }
-                }",
+                            var response = data.response
+                        }",
                         ],
 
                     ]) ?>
@@ -356,7 +334,7 @@ $this->registerJs($js, \yii\web\View::POS_END);
                             'uploadUrl' => $upload_url,
                             'uploadExtraData' => [
                                 'type' => \common\models\Content::IMAGE_TYPE_SLIDECATEGORY,
-                                'logo_old' => $model->slide_category
+                                'slide_category_old' => $model->slide_category
                             ],
                             'language' => 'vi-VN',
                             'showUpload' => false,
@@ -367,40 +345,29 @@ $this->registerJs($js, \yii\web\View::POS_END);
                         ],
                         'pluginEvents' => [
                             "fileuploaded" => "function(event, data, previewId, index) {
-                    var response=data.response;
-                    if(response.success){
-                        var current_screenshots=response.output;
-                        var old_value_text=$('#images_tmp').val();
-                        if(old_value_text !=null && old_value_text !='' && old_value_text !=undefined)
-                        {
-                            var old_value=jQuery.parseJSON(old_value_text);
-
-                            if(jQuery.isArray(old_value)){
-                                old_value = old_value.filter(function(v){
-                                    v = jQuery.parseJSON(v)
-                                    console.log(typeof v.type, v.type);
-                                    return v.type !== '2';
-                                })
+                            var response=data.response;
+                            if(response.success){
+                                var current_screenshots=response.output;
+                                var old_value_text=$('#images_tmp').val();
+                                if(old_value_text !=null && old_value_text !='' && old_value_text !=undefined)
+                                {
+                                    var old_value=jQuery.parseJSON(old_value_text);
+                                    if(jQuery.isArray(old_value)){
+                                        console.log(old_value);
+                                        old_value.push(current_screenshots);
+                                    }
+                                }
+                                else{
+                                    var old_value= [current_screenshots];
+                                }
                                 console.log(old_value);
-                                old_value.push(current_screenshots);
-                                console.log(old_value);
+                                $('#images_tmp').val(JSON.stringify(old_value));
+                                console.log($('#images_tmp').val());
                             }
-                        }
-                        else{
-                            var old_value= [current_screenshots];
-                        }
-                        $('#images_tmp').val(JSON.stringify(old_value));
-                    }
-                }",
+                        }",
                             "filedeleted" => "function(event, data) {
-                    var response = data.response
-                    console.log(event);
-                    console.log(data);
-                    // if(response.success){
-                    //     console.log(response.output);
-
-                    // }
-                }",
+                            var response = data.response
+                        }",
                         ],
 
                     ]) ?>
@@ -431,26 +398,29 @@ $this->registerJs($js, \yii\web\View::POS_END);
                         ],
                         'pluginEvents' => [
                             "fileuploaded" => "function(event, data, previewId, index) {
-                        var response=data.response;
-                        if(response.success){
-                            var current_screenshots=response.output;
-                            var old_value_text=$('#images_tmp').val();
-                            if(old_value_text !=null && old_value_text !='' && old_value_text !=undefined)
-                            {
-                                var old_value=jQuery.parseJSON(old_value_text);
-
-                                if(jQuery.isArray(old_value)){
-                                    old_value.push(current_screenshots);
-
+                            var response=data.response;
+                            if(response.success){
+                                var current_screenshots=response.output;
+                                var old_value_text=$('#images_tmp').val();
+                                if(old_value_text !=null && old_value_text !='' && old_value_text !=undefined)
+                                {
+                                    var old_value=jQuery.parseJSON(old_value_text);
+                                    if(jQuery.isArray(old_value)){
+                                        console.log(old_value);
+                                        old_value.push(current_screenshots);
+                                    }
                                 }
+                                else{
+                                    var old_value= [current_screenshots];
+                                }
+                                console.log(old_value);
+                                $('#images_tmp').val(JSON.stringify(old_value));
+                                console.log($('#images_tmp').val());
                             }
-                            else{
-                                var old_value= [current_screenshots];
-                            }
-                            $('#images_tmp').val(JSON.stringify(old_value));
-                         }
-                     }",
-                            "filesuccessremove" => "function() {  console.log('delete'); }",
+                        }",
+                            "filedeleted" => "function(event, data) {
+                            var response = data.response
+                        }",
                         ],
 
                     ]) ?>

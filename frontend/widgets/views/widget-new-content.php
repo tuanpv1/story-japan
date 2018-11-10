@@ -35,44 +35,32 @@ use yii\helpers\Url;
                                             <a href="<?= Url::to(['content/detail','id'=>$item->id]) ?>"><?= $item->display_name ?></a>
                                         </p>
                                         <p class="product-price"><?= $item->price_promotion?CUtils::formatNumber($item->price_promotion):CUtils::formatNumber($item->price) ?> VND</p>
-                                        <p class="product-star">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-half-o"></i>
-                                        </p>
                                     </div>
                                 </li>
                             </ul>
                             <?php
-                        $i++;}
-                        ?>
-                        <ul class="products-block best-sell">
-                            <li>
-                                <div class="products-block-left">
-                                    <a href="<?= Url::to(['content/detail','id'=>$item->id]) ?>">
-                                        <img src="<?= $item->getFirstImageLinkFE() ?>"
-                                             alt="<?= $item->display_name ?>">
-                                    </a>
-                                </div>
-                                <div class="products-block-right">
-                                    <p class="product-name">
-                                        <a href="<?= Url::to(['content/detail','id'=>$item->id]) ?>"><?= $item->display_name ?></a>
-                                    </p>
-                                    <p class="product-price"><?= $item->price_promotion?CUtils::formatNumber($item->price_promotion):CUtils::formatNumber($item->price) ?> VND</p>
-                                    <p class="product-star">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-half-o"></i>
-                                    </p>
-                                </div>
-                            </li>
-                        </ul>
-                        <?php
-                        $i++;
+                        $i++;}else {
+                            ?>
+                            <ul class="products-block best-sell">
+                                <li>
+                                    <div class="products-block-left">
+                                        <a href="<?= Url::to(['content/detail', 'id' => $item->id]) ?>">
+                                            <img src="<?= $item->getFirstImageLinkFE() ?>"
+                                                 alt="<?= $item->display_name ?>">
+                                        </a>
+                                    </div>
+                                    <div class="products-block-right">
+                                        <p class="product-name">
+                                            <a href="<?= Url::to(['content/detail', 'id' => $item->id]) ?>"><?= $item->display_name ?></a>
+                                        </p>
+                                        <p class="product-price"><?= $item->price_promotion ? CUtils::formatNumber($item->price_promotion) : CUtils::formatNumber($item->price) ?>
+                                            VND</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            <?php
+                            $i++;
+                        }
                     }
                 }
             ?>

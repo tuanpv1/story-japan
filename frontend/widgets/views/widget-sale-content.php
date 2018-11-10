@@ -5,6 +5,7 @@
  * Date: 2/17/2017
  * Time: 4:39 PM
  */
+use common\helpers\CUtils;
 use common\models\Content;
 use yii\helpers\Url;
 
@@ -37,12 +38,9 @@ use yii\helpers\Url;
                             <i class="fa fa-star-half-o"></i>
                         </div>
                         <div class="content_price">
-                            <span class="price"><?= Content::formatNumber($item->price_promotion) ?> VND</span>
-                            <span class="old-price"><?= Content::formatNumber($item->price) ?> VND</span>
+                            <span class="price"><?= CUtils::formatNumber($item->price_promotion) ?> VND</span>
+                            <span class="old-price"><?= CUtils::formatNumber($item->price) ?> VND</span>
                         </div>
-                    </div>
-                    <div class="product-bottom">
-                        <a class="btn-add-cart" title="Add to Cart" href="#add"><?= Yii::t('app','Thêm vào giỏ hàng')?></a>
                     </div>
                 </div>
             </li>

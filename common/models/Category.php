@@ -449,7 +449,7 @@ class Category extends \yii\db\ActiveRecord
             return [];
         }
 
-        static $listCat = [];
+        $listCat = [];
         $cats = self::findAll(['parent_id' => $parent, 'status' => self::STATUS_ACTIVE]);
         if (!empty($cats)) {
             foreach ($cats as $cat) {
@@ -467,13 +467,14 @@ class Category extends \yii\db\ActiveRecord
         $listCats = self::allChildCats($this->id);
         $listCats[] = $this->id;
         $content = Content::find()
+            ->select('content.images')
             ->innerJoin('content_category_asm', 'content_category_asm.content_id = content.id')
             ->andWhere(['content.is_feature' => Content::IS_FEATURE])
-            ->andWhere(['IN', 'content_category_asm.category_id', $listCats])
-//            ->orderBy(new Expression('rand()'))
+            ->andFilterWhere(['IN', 'content_category_asm.category_id', $listCats])
             ->one();
+        Yii::error($content);
         /** @var Content $content */
-        if ($content) {
+        if (!empty($content)) {
             return $content->getFirstImageLinkFE($image_default);
         } else {
             return Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);

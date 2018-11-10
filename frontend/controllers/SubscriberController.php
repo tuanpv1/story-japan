@@ -41,7 +41,7 @@ class SubscriberController extends Controller
         if ($model) {
             $order = Order::findOne($id);
             $orderDetails = OrderDetail::find()
-                ->select('order_detail.*,content.display_name,content.images')
+                ->select('order_detail.*,content.display_name,content.images as image')
                 ->innerJoin('content', 'content.id = order_detail.content_id')
                 ->andWhere(['order_id' => $id])->all();
             return $this->render('order-detail', [

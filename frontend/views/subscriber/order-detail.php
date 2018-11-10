@@ -70,7 +70,7 @@ use yii\helpers\Url;
                                         <tr>
                                             <td class="cart_product">
                                                 <a href="<?= Url::to(['content/detail', 'id' => $orderDetail->content_id]) ?>">
-                                                    <img src="<?php \common\models\Content::getFirstImageLinkFeStatic($orderDetail->image) ?>"
+                                                    <img src="<?= \common\models\Content::getFirstImageLinkFeStatic($orderDetail->image) ?>"
                                                          alt="<?= $orderDetail->display_name ?>">
                                                 </a>
                                             </td>

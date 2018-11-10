@@ -180,10 +180,10 @@ function checkOutInfo() {
                 if (rs['success']) {
                     location.href = baseurl + 'site/index';
                     $("#my-chart").removeClass("loading");
-                    toastr.success(rs['message']);
+                    alert(rs['message']);
                 } else {
                     $("#my-chart").removeClass("loading");
-                    toastr.error(rs['message']);
+                    alert(rs['message']);
                 }
             }
         });

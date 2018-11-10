@@ -111,9 +111,7 @@ class Content extends \yii\db\ActiveRecord
     public static $list_type = [
         self::TYPE_SELLER => 'Bán chạy nhất',
         self::TYPE_NEWEST => 'Mới nhất',
-        self::TYPE_DEAL => 'Lastest Deal',
         self::TYPE_PRICEPROMO => 'Giảm giá',
-        self::TYPE_FORYOU => 'Dành cho bạn'
     ];
 
     public static $list_honor = [
@@ -596,7 +594,7 @@ class Content extends \yii\db\ActiveRecord
                 $link = Url::to(Url::base() . '/' . Yii::getAlias('@content_images') . '/' . $row['name'], true);
             }
         }
-        $link = str_replace('/staticdata/','/admin/staticdata/',$link);
+        $link = str_replace('/staticdata/', '/admin/staticdata/', $link);
         return $link;
 //        if (file_exists($link)) {
 //            return $link;
@@ -617,11 +615,8 @@ class Content extends \yii\db\ActiveRecord
             if ($row['type'] == self::IMAGE_TYPE_THUMBNAIL) {
                 $link = Url::to(Url::base() . '/' . Yii::getAlias('@content_images') . '/' . $row['name'], true);
             }
-            if ($row['type'] == self::IMAGE_TYPE_THUMBNAIL_EPG) {
-                $link = Url::to(Url::base() . '/' . Yii::getAlias('@content_images') . '/' . $row['name'], true);
-            }
         }
-        $link = str_replace('/staticdata/','/admin/staticdata/',$link);
+        $link = str_replace('/staticdata/', '/admin/staticdata/', $link);
 //        if(!file_exists($link)){
 //            $link = Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
 //        }
@@ -640,7 +635,7 @@ class Content extends \yii\db\ActiveRecord
         foreach ($listImages as $key => $row) {
             if ($row['type'] == self::IMAGE_TYPE_SCREENSHOOT) {
                 $link1 = Url::to(Url::base() . '/' . Yii::getAlias('@content_images') . '/' . $row['name'], true);
-                $link1 = str_replace('/staticdata/','/admin/staticdata/',$link1);
+                $link1 = str_replace('/staticdata/', '/admin/staticdata/', $link1);
 //                if (!file_exists($link1)) {
 //                    $link1 = Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
 //                }
@@ -648,7 +643,7 @@ class Content extends \yii\db\ActiveRecord
             }
             if ($row['type'] == self::IMAGE_TYPE_THUMBNAIL) {
                 $link1 = Url::to(Url::base() . '/' . Yii::getAlias('@content_images') . '/' . $row['name'], true);
-                $link1 = str_replace('/staticdata/','/admin/staticdata/',$link1);
+                $link1 = str_replace('/staticdata/', '/admin/staticdata/', $link1);
 //                if (!file_exists($link1)) {
 //                    $link1 = Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
 //                }
@@ -714,9 +709,9 @@ class Content extends \yii\db\ActiveRecord
         $this->price = $price * $convert_price;
     }
 
-    public function processImage($image,$type)
+    public function processImage($image, $type)
     {
-        if($type== self::TYPE_CRAWL_TAOBAO || $type == self::TYPE_CRAWL_TMALL){
+        if ($type == self::TYPE_CRAWL_TAOBAO || $type == self::TYPE_CRAWL_TMALL) {
             $image = str_replace('//', 'http://', $image);
         }
         $arrayNameImg = explode('.', $image);
@@ -747,8 +742,8 @@ class Content extends \yii\db\ActiveRecord
 
     public function beforeValidate()
     {
-        foreach (array_keys($this->getAttributes()) as $attr){
-            if(!empty($this->$attr)){
+        foreach (array_keys($this->getAttributes()) as $attr) {
+            if (!empty($this->$attr)) {
                 $this->$attr = \yii\helpers\HtmlPurifier::process($this->$attr);
             }
         }

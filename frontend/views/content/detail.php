@@ -25,13 +25,13 @@ use yii\helpers\Url;
                 <!-- block category -->
                 <!-- ./block category  -->
                 <!-- block best sellers -->
-                <?= \frontend\widgets\WidgetNewContent::widget() ?>
+                <?= \frontend\widgets\WidgetNewContent::widget(['id' => $content->id]) ?>
                 <!-- ./block best sellers  -->
                 <!-- left silide -->
                 <?= \frontend\widgets\SlideLeft::getSlideLeft($content->id) ?>
                 <!--./left silde-->
                 <!-- block best sellers -->
-                <?= \frontend\widgets\WidgetSaleContent::widget() ?>
+                <?= \frontend\widgets\WidgetSaleContent::widget(['id' => $content->id]) ?>
                 <!-- ./block best sellers  -->
                 <!-- left silide -->
                 <div class="col-left-slide left-module">
