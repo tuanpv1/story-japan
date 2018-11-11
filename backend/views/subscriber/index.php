@@ -1,6 +1,6 @@
 <?php
 
-use common\models\subscriber;
+use common\models\Subscriber;
 use yii\helpers\Html;
 use kartik\grid\GridView;
 
@@ -43,10 +43,10 @@ $this->params['breadcrumbs'][] = $this->title;
                             'format' => 'raw',
                             'value' => function ($model, $key, $index, $widget) {
                                 /**
-                                 * @var $model \common\models\subscriber
+                                 * @var $model \common\models\Subscriber
                                  */
-                                if($model->user_name != null){
-                                    $res = Html::a('<kbd>'.$model->user_name.'</kbd>', ['subscriber/view', 'id' => $model->id ]);
+                                if($model->username != null){
+                                    $res = Html::a('<kbd>'.$model->username.'</kbd>', ['subscriber/view', 'id' => $model->id ]);
                                     return $res;
                                 }else{
                                     $res = Html::a('<kbd>'.$model->full_name.'</kbd>', ['subscriber/view', 'id' => $model->id ]);
@@ -60,12 +60,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             'width'=>'200px',
                             'value' => function ($model, $key, $index, $widget) {
                                 /**
-                                 * @var $model \common\models\subscriber
+                                 * @var $model \common\models\Subscriber
                                  */
                                 return $model->getGenderName();
                             },
                             'filterType' => GridView::FILTER_SELECT2,
-                            'filter' => subscriber::listGender(),
+                            'filter' => Subscriber::listGender(),
                             'filterWidgetOptions' => [
                                 'pluginOptions' => ['allowClear' => true],
                             ],
@@ -77,12 +77,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             'width'=>'200px',
                             'value' => function ($model, $key, $index, $widget) {
                                 /**
-                                 * @var $model \common\models\subscriber
+                                 * @var $model \common\models\Subscriber
                                  */
                                 return $model->getStatusName();
                             },
                             'filterType' => GridView::FILTER_SELECT2,
-                            'filter' => subscriber::listStatus(),
+                            'filter' => Subscriber::listStatus(),
                             'filterWidgetOptions' => [
                                 'pluginOptions' => ['allowClear' => true],
                             ],

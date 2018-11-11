@@ -20,27 +20,23 @@ use kartik\widgets\ActiveForm;
             'labelSpan' => 2,
             'deviceSize' => ActiveForm::SIZE_SMALL,
         ],
-        'enableAjaxValidation' => true,
-        'enableClientValidation' => false,
+//        'enableAjaxValidation' => true,
+//        'enableClientValidation' => false,
     ]); ?>
 
-    <?= $form->field($model, 'user_name')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'username')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'full_name')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'gender')->textInput() ?>
+    <?= $form->field($model, 'gender')->dropDownList(\common\models\Subscriber::listGender()) ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
-
-    <?= $form->field($model, 'password_hash')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'status')->dropDownList(\common\models\Subscriber::listStatus()) ?>
 
     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'phone')->textInput() ?>
-
-    <?= $form->field($model, 'birthday')->textInput() ?>
 
     <?= $form->field($model, 'about')->textInput(['maxlength' => true]) ?>
 

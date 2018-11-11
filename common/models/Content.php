@@ -736,6 +736,11 @@ class Content extends \yii\db\ActiveRecord
             $new_file['type'] = self::IMAGE_TYPE_THUMBNAIL;
             $new_file['size'] = $size;
             $imageFile[] = $new_file;
+
+            $new_file['name'] = $file_name;
+            $new_file['type'] = self::IMAGE_TYPE_SCREENSHOOT;
+            $new_file['size'] = $size;
+            $imageFile[] = $new_file;
             $this->images = json_encode($imageFile);
         }
     }

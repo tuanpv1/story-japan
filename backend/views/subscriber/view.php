@@ -1,13 +1,13 @@
 <?php
 
-use common\models\subscriber;
+use common\models\Subscriber;
 use yii\helpers\Html;
 use kartik\detail\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\subscriber */
+/* @var $model common\models\Subscriber */
 
-$this->title = $model->id;
+$this->title = $model->username;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app','Quản lý khách hàng'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -41,7 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'user_name',
+            'username',
             'full_name',
             [
                 'attribute'=>'gender',
@@ -63,11 +63,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]
                 ]
             ],
-            'password_hash',
             'email:email',
             'address',
             'phone',
-            'birthday',
             'about',
             [                      // the owner name of the model
                 'attribute'=>'created_at',

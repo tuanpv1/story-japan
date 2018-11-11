@@ -5,7 +5,7 @@ namespace common\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\subscriber;
+use common\models\Subscriber;
 
 /**
  * subscriberSearch represents the model behind the search form about `common\models\subscriber`.
@@ -19,7 +19,7 @@ class SubscriberSearch extends Subscriber
     {
         return [
             [['id', 'gender', 'status', 'phone', 'created_at', 'updated_at'], 'integer'],
-            [['user_name', 'full_name', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'address', 'birthday', 'about'], 'safe'],
+            [['username', 'full_name', 'auth_key', 'password_hash', 'password_reset_token', 'email', 'address', 'birthday', 'about'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class SubscriberSearch extends Subscriber
      */
     public function search($params)
     {
-        $query = subscriber::find();
+        $query = Subscriber::find();
 
         // add conditions that should always apply here
 
@@ -68,7 +68,7 @@ class SubscriberSearch extends Subscriber
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'user_name', $this->user_name])
+        $query->andFilterWhere(['like', 'username', $this->username])
             ->andFilterWhere(['like', 'full_name', $this->full_name])
             ->andFilterWhere(['like', 'auth_key', $this->auth_key])
             ->andFilterWhere(['like', 'password_hash', $this->password_hash])
