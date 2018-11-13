@@ -1,7 +1,7 @@
 <?php
 namespace frontend\models;
 
-use common\models\subscriber;
+use common\models\Subscriber;
 use common\models\User;
 use yii\base\Model;
 use Yii;
@@ -83,8 +83,8 @@ class SignupForm extends Model
         if (!$this->validate()) {
             return null;
         }
-        $user = new subscriber();
-        $user->user_name = $this->username;
+        $user = new Subscriber();
+        $user->username = $this->username;
         $user->email = $this->email;
         $user->address = $this->address;
         $user->phone = $this->phone_number;

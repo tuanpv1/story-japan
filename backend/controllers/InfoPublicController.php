@@ -15,6 +15,7 @@ use yii\web\UploadedFile;
  */
 class InfoPublicController extends BaseBEController
 {
+    public $enableCsrfValidation = false;
     /**
      * @inheritdoc
      */
@@ -73,7 +74,7 @@ class InfoPublicController extends BaseBEController
             $image_header = UploadedFile::getInstance($model, 'image_header');
             if ($image_header) {
                 $file_name = Yii::$app->user->id . '.' . uniqid() . time() . '.' . $image_header->extension;
-                $tmp = Yii::getAlias('@backend') . '/web/' . Yii::getAlias('@image_info') . '/';
+                $tmp = Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . Yii::getAlias('@image_info') . '/';
                 if (!file_exists($tmp)) {
                     mkdir($tmp, 0777, true);
                 }
@@ -84,7 +85,7 @@ class InfoPublicController extends BaseBEController
             $image_footer = UploadedFile::getInstance($model, 'image_footer');
             if ($image_footer) {
                 $file_name = Yii::$app->user->id . '.' . uniqid() . time() . '.' . $image_footer->extension;
-                $tmp = Yii::getAlias('@backend') . '/web/' . Yii::getAlias('@image_info') . '/';
+                $tmp = Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . Yii::getAlias('@image_info') . '/';
                 if (!file_exists($tmp)) {
                     mkdir($tmp, 0777, true);
                 }
@@ -95,7 +96,7 @@ class InfoPublicController extends BaseBEController
             $image_menu = UploadedFile::getInstance($model, 'image_menu');
             if ($image_menu) {
                 $file_name = Yii::$app->user->id . '.' . uniqid() . time() . '.' . $image_menu->extension;
-                $tmp = Yii::getAlias('@backend') . '/web/' . Yii::getAlias('@image_info') . '/';
+                $tmp = Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . Yii::getAlias('@image_info') . '/';
                 if (!file_exists($tmp)) {
                     mkdir($tmp, 0777, true);
                 }
@@ -133,12 +134,11 @@ class InfoPublicController extends BaseBEController
             $image_header = UploadedFile::getInstance($model, 'image_header');
             if ($image_header) {
                 $file_name = Yii::$app->user->id . '.' . uniqid() . time() . '.' . $image_header->extension;
-                $tmp = Yii::getAlias('@backend') . '/web/' . Yii::getAlias('@image_info') . '/';
+                $tmp = Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . Yii::getAlias('@image_info') . '/';
                 if (!file_exists($tmp)) {
                     mkdir($tmp, 0777, true);
                 }
                 if ($image_header->saveAs($tmp . $file_name)) {
-                    unlink($tmp.$old_image_header);
                     $model->image_header = $file_name;
                 }
             }else{
@@ -147,12 +147,11 @@ class InfoPublicController extends BaseBEController
             $image_footer = UploadedFile::getInstance($model, 'image_footer');
             if ($image_footer) {
                 $file_name = Yii::$app->user->id . '.' . uniqid() . time() . '.' . $image_footer->extension;
-                $tmp = Yii::getAlias('@backend') . '/web/' . Yii::getAlias('@image_info') . '/';
+                $tmp = Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . Yii::getAlias('@image_info') . '/';
                 if (!file_exists($tmp)) {
                     mkdir($tmp, 0777, true);
                 }
                 if ($image_footer->saveAs($tmp . $file_name)) {
-                    unlink($tmp.$old_image_footer);
                     $model->image_footer = $file_name;
                 }
             }else{

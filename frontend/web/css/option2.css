@@ -435,8 +435,7 @@
 .option2 .product-featured .product-list li{
 	padding: 0;
 	min-height: inherit;
-	border-right: 1px solid #eaeaea;
-	border-top: 1px solid #eaeaea;
+	border: 1px solid #eaeaea;
 	padding-bottom: 3px;
 	min-height: 286px;
 }

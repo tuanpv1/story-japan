@@ -20,6 +20,8 @@ use yii\web\UploadedFile;
  */
 class CategoryController extends BaseBEController
 {
+    public $enableCsrfValidation = false;
+
     public function behaviors()
     {
         return array_merge(parent::behaviors(), [
@@ -197,7 +199,7 @@ class CategoryController extends BaseBEController
             $image                   = UploadedFile::getInstance($model, 'images');
             if ($image) {
                 $file_name = Yii::$app->user->id . '.' . uniqid() . time() . '.' . $image->extension;
-                $tmp       = Yii::getAlias('@backend') . '/web/' . Yii::getAlias('@category_image') . '/';
+                $tmp       = Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . Yii::getAlias('@category_image') . '/';
                 if (!file_exists($tmp)) {
                     mkdir($tmp, 0777, true);
                 }

@@ -175,10 +175,10 @@ class ShoppingCartController extends Controller
                 } else {
                     $order_detail->price_promotion = $content->price_promotion;
                 }
-                $txtTable .= "<td class=\"cart_product\">";
+                $txtTable .= "<td class=\"cart_product\" width=\"25%\">";
                 $txtTable .= "<img style=\"width: 150px\" src=\"" . Content::getFirstImageLinkFeStatic($value['images']) . "\" alt=\"" . $value['display_name'] . "\">";
                 $txtTable .= "</td>
-                                <td class=\"cart_description\">";
+                                <td class=\"cart_description\" width=\"30%\">";
                 $txtTable .= "<p>" . $value['display_name'] . "</p>";
                 $txtTable .= "</td>";
                 if ($content->price_promotion == 0 || $content->price_promotion == $content->price) {
@@ -191,8 +191,6 @@ class ShoppingCartController extends Controller
                                             <p style=\"font-size: 12px\">Giá cũ: <span class=\"tp_002\">" . CUtils::formatNumber($content->price) . "</span> Đ</p>";
                     $txtTable .= "</td>";
                 }
-                $txtTable .= "<p>" . $value['amount'] . "</p>";
-                $txtTable .= "</td>";
                 $txtTable .= "<td class=\"cart_quantity\">
                                     <div class=\"cart_quantity_button\">";
                 $txtTable .= $value['amount'];
@@ -202,15 +200,19 @@ class ShoppingCartController extends Controller
                 $txtTable .= "     <p class=\"cart_total_price\">" . CUtils::formatNumber($total_one) . ' Đ' . "</p>";
 
                 $txtTable .= "</td>";
-                $txtTable .= "</tr>
-                        </tbody>
-                    </table>";
+                $txtTable .= "</tr>";
                 if (!$order_detail->save()) {
                     $message = 'Đặt hàng không thành công. không lưu thành công chi tiết đơn hàng!';
                     return Json::encode(['success' => false, 'message' => $message]);
                 }
             }
-            $txtTable .= "Cám ơn bạn đã tin tưởng và sử dụng dịch vụ của shop chúng tôi";
+            $txtTable .= "</tbody>
+                    </table>";
+            $txtTable .= "Cám ơn bạn đã tin tưởng và sử dụng dịch vụ của shop chúng tôi <br> 
+                Vui lòng thanh toán số tiền " . $total . " bằng cách chuyển khoản về STK: <br>
+                Ngân hàng: TPbank - 01010101010101 <br>
+                Họ và tên: PHAM VAN A <br>
+                Chi nhánh: Hà Nội";
             $this->sendEmail($user_email, $txtTable);
             $message = 'Đã đặt hàng thành công, đơn hàng đã được gửi về địa chỉ email của bạn.';
             $session->remove('cart');
@@ -228,7 +230,7 @@ class ShoppingCartController extends Controller
             ->orderBy(['created_at' => SORT_DESC])
             ->one();
         if ($order) {
-            $message = Yii::t('app', 'Khách hàng địa chỉ Email ') . substr_replace($order->email_buyer,'xxx',2,3)
+            $message = Yii::t('app', 'Khách hàng địa chỉ Email ') . substr_replace($order->email_buyer, 'xxx', 2, 3)
                 . Yii::t('app', ' vừa đặt hàng tại ') . Yii::$app->name;
             return $message;
         }

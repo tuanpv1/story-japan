@@ -12,7 +12,7 @@ use yii\helpers\Url;
 <div class="container">
     <div class="row">
     </div>
-    <div id="main-menu" class="col-sm-9 main-menu">
+    <div id="main-menu" class="main-menu">
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">

@@ -15,13 +15,12 @@ use yii\helpers\Html;
     'dataProvider' => $dataProvider,
     'filterModel' => $searchModel,
     'columns' => [
-        'id',
         [
             'class' => '\kartik\grid\DataColumn',
             'label' => 'Ảnh SP',
             'format' => 'raw',
             'value' => function ($model, $key, $index, $widget) {
-                $link = Content::getFirstImageLinkFeStatic(Content::findOne($model->content_id)->images);
+                $link = Content::findOne($model->content_id)->getFirstImageLink();
                 return $link ? Html::img($link, ['alt' => 'Thumbnail', 'width' => '50', 'height' => '50']) : '';
             },
         ],

@@ -143,63 +143,10 @@ use yii\helpers\Url;
                             <li class="active">
                                 <a aria-expanded="false" data-toggle="tab" href="#product-detail"><?= Yii::t('app','Mô tả sản phẩm') ?></a>
                             </li>
-                            <li>
-                                <a data-toggle="tab" href="#reviews"><?= Yii::t('app','Nhận xét') ?></a>
-                            </li>
                         </ul>
                         <div class="tab-container">
                             <div id="product-detail" class="tab-panel active">
                                 <?= $content->description?$content->description:Yii::t('app','Đang cập nhật') ?>
-                            </div>
-                            <div id="reviews" class="tab-panel">
-                                <div class="product-comments-block-tab">
-                                    <div class="comment row">
-                                        <div class="col-sm-3 author">
-                                            <div class="grade">
-                                                <span>Grade</span>
-                                                    <span class="reviewRating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                    </span>
-                                            </div>
-                                            <div class="info-author">
-                                                <span><strong>Jame</strong></span>
-                                                <em>04/08/2015</em>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-9 commnet-dettail">
-                                            Phasellus accumsan cursus velit. Pellentesque egestas, neque sit amet convallis pulvinar
-                                        </div>
-                                    </div>
-                                    <div class="comment row">
-                                        <div class="col-sm-3 author">
-                                            <div class="grade">
-                                                <span>Grade</span>
-                                                    <span class="reviewRating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                    </span>
-                                            </div>
-                                            <div class="info-author">
-                                                <span><strong>Author</strong></span>
-                                                <em>04/08/2015</em>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-9 commnet-dettail">
-                                            Phasellus accumsan cursus velit. Pellentesque egestas, neque sit amet convallis pulvinar
-                                        </div>
-                                    </div>
-                                    <p>
-                                        <a class="btn-comment" href="#">Write your review !</a>
-                                    </p>
-                                </div>
-
                             </div>
                         </div>
                     </div>

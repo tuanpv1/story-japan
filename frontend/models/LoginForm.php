@@ -2,7 +2,7 @@
 
 namespace frontend\models;
 
-use common\models\subscriber;
+use common\models\Subscriber;
 use Yii;
 use yii\base\Model;
 use yii\web\User;
@@ -83,7 +83,7 @@ class LoginForm extends Model
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = subscriber::findOne(['username' => $this->username, 'status' => subscriber::STATUS_ACTIVE]);
+            $this->_user = Subscriber::findOne(['username' => $this->username, 'status' => Subscriber::STATUS_ACTIVE]);
         }
 
         return $this->_user;

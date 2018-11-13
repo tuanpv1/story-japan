@@ -2,7 +2,6 @@
 
 namespace common\models;
 
-use api\helpers\UserHelpers;
 use common\helpers\CUtils;
 use Yii;
 use yii\db\Expression;
@@ -267,7 +266,9 @@ class Category extends \yii\db\ActiveRecord
 
     public static function getImageLinkFE($images)
     {
-        return $images ? Url::to('@web/staticdata/category_image/' . $images, true) : '';
+        $link = $images ? Url::to('@web/staticdata/category_image/' . $images, true) : '';;
+        $link = str_replace('/staticdata/', '/admin/staticdata/', $link);
+        return $link;
     }
 
 

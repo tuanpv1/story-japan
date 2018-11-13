@@ -104,7 +104,7 @@ class Order extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getStatus($status){
+    public static function getStatus($status){
         if($status == self::STATUS_ERROR){
             return '<span class="label label-danger">' . Order::getStatusNameID($status) . '</span>';
         }

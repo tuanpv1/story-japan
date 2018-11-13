@@ -59,8 +59,8 @@ use yii\helpers\Url;
         <div class="row">
             <div class="col-xs-12 col-sm-3 logo">
                 <a href="<?= Url::home() ?>">
-                    <img style="height:64px;width:auto" alt="<?= Yii::$app->name ?>"
-                         src="<?= \common\models\InfoPublic::getImage($info->image_header) ?>"/></a>
+                    <img id="fix-logo-header" alt="<?= Yii::$app->name ?>"
+                         src="<?= \common\models\InfoPublic::getImageFe($info->image_header) ?>"/></a>
             </div>
             <?= \frontend\widgets\SearchCategory::widget() ?>
             <div id="tp_id_reload">

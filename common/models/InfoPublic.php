@@ -115,7 +115,16 @@ class InfoPublic extends \yii\db\ActiveRecord
     public static function getImage($image)
     {
         if ($image) {
-            return Url::to(Yii::getAlias('@web') . '/' . Yii::getAlias('@image_info') . '/' . $image, true);
+            return Url::to(Yii::getAlias('@webroot') . '/' . Yii::getAlias('@image_info') . '/' . $image, true);
+        }
+    }
+
+    public static function getImageFe($image)
+    {
+        if ($image) {
+            $link = Url::to('@web/staticdata/image_info/' . $image, true);
+            $link = str_replace('/staticdata/', '/admin/staticdata/', $link);
+            return $link;
         }
     }
 

@@ -25,7 +25,6 @@ use yii\web\IdentityInterface;
  * @property string $access_login_token
  * @property string $email
  * @property string $image
- * @property string $id_facebook
  * @property integer $role
  * @property string $birthday
  * @property string $about
@@ -34,8 +33,6 @@ use yii\web\IdentityInterface;
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $type
- * @property integer $site_id
- * @property integer $dealer_id
  * @property integer $parent_id
  * @property integer $user_ref_id
  *
@@ -114,7 +111,6 @@ class User extends ActiveRecord implements IdentityInterface
                     'created_at',
                     'updated_at',
                     'type',
-                    'site_id',
                     'parent_id',
                     'user_ref_id',
                     'gender'
@@ -122,7 +118,7 @@ class User extends ActiveRecord implements IdentityInterface
                 'integer'
             ],
             [['birthday'], 'safe'],
-            [['phone_number', 'id_facebook'], 'string', 'max' => 200],
+            [['phone_number'], 'string', 'max' => 200],
             [['address'], 'string', 'max' => 200],
             [['about', 'image'], 'string', 'max' => 500],
             [['username', 'password_hash', 'password_reset_token', 'email', 'fullname', 'access_login_token'], 'string', 'max' => 255],
@@ -216,7 +212,6 @@ class User extends ActiveRecord implements IdentityInterface
             'created_at' => Yii::t('app', 'Created At'),
             'updated_at' => Yii::t('app', 'Ngày cập nhật'),
             'type' => Yii::t('app', 'Loại người dùng'),
-            'site_id' => Yii::t('app', 'Service Provider ID'),
             'dealer_id' => Yii::t('app', 'Dealer ID'),
             'parent_id' => Yii::t('app', 'Parent ID'),
             'fullname' => Yii::t('app', 'Họ và tên'),
@@ -626,8 +621,6 @@ class User extends ActiveRecord implements IdentityInterface
     public function validateChildUser($model)
     {
         if ($this->id != $model->parent_id ||
-            $this->site_id != $model->site_id ||
-            $this->dealer_id != $model->dealer_id ||
             $this->type != $model->type
         ) {
             return false;

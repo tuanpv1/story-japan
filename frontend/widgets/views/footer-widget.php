@@ -10,7 +10,7 @@ use yii\helpers\Url;
         <div id="introduce-box" class="row">
             <div class="col-md-3">
                 <div id="address-box">
-                    <a href="#"><img src="<?= InfoPublic::getImage($info->image_header) ?>"
+                    <a href="#"><img id="fix-logo-footer" src="<?= InfoPublic::getImageFe($info->image_header) ?>"
                                      alt="<?= Yii::$app->name ?>"/></a>
                     <div id="address-list">
                         <div class="tit-name">Địa chỉ:</div>

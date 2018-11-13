@@ -109,12 +109,12 @@ class UserController extends BaseBEController
             $model->setPassword($model->password);
             $model->generateAuthKey();
             if(!$model->save()){
-                Yii::$app->session->setFlash('error', Message::MSG_FAIL);
+                Yii::$app->session->setFlash('error', 'Thất bại');
                 return $this->render('create', [
                     'model' => $model,
                 ]);
             }
-            Yii::$app->session->setFlash('success', Message::MSG_ADD_SUCCESS);
+            Yii::$app->session->setFlash('success', 'Thành công');
             return $this->redirect(['index']);
 
         } else {
@@ -144,10 +144,10 @@ class UserController extends BaseBEController
             /** Set lại username */
             $model->username = $username;
             if($model->update()){
-                Yii::$app->session->setFlash('success', Message::MSG_UPDATE_PROFILE);
+                Yii::$app->session->setFlash('success', 'Không cập nhật thành công');
                 return $this->redirect(['view', 'id' => $model->id]);
             }
-            Yii::$app->getSession()->setFlash('error', Message::MSG_FAIL);
+            Yii::$app->getSession()->setFlash('error', 'Thất bại');
         }
 
         return $this->render('update', [
@@ -173,10 +173,10 @@ class UserController extends BaseBEController
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', Message::MSG_UPDATE_PROFILE);
+            Yii::$app->session->setFlash('success', 'Không cập nhật thành công');
             return $this->redirect(['info']);
         } else {
-            Yii::$app->session->setFlash('error', Message::MSG_FAIL);
+            Yii::$app->session->setFlash('error', 'Thất bại');
             return $this->redirect(['info']);
         }
     }
@@ -205,7 +205,7 @@ class UserController extends BaseBEController
                 Yii::$app->session->setFlash('success',Yii::t('app', 'Khôi phục mật khẩu thành công'));
                 return $this->redirect(['view', 'id' => $model->id]);
             }
-            Yii::$app->getSession()->setFlash('error', Message::MSG_FAIL);
+            Yii::$app->getSession()->setFlash('error', 'Thất bại');
 
 //            if($model->validatePassword($model->old_password)){
 //                $model->password = $model->new_password;
@@ -216,7 +216,7 @@ class UserController extends BaseBEController
 //                    Yii::$app->session->setFlash('success', 'Đổi mật khẩu thành công');
 //                    return $this->redirect(['view', 'id' => $model->id]);
 //                }
-//                Yii::$app->getSession()->setFlash('error', Message::MSG_FAIL);
+//                Yii::$app->getSession()->setFlash('error', 'Thất bại');
 //            }else{
 //                Yii::$app->getSession()->setFlash('error', 'Mật khẩu cũ không đúng');
 //            }
@@ -247,7 +247,7 @@ class UserController extends BaseBEController
                     Yii::$app->session->setFlash('success', 'Đổi mật khẩu thành công');
                     return $this->redirect(['view', 'id' => $model->id]);
                 }
-                Yii::$app->getSession()->setFlash('error', Message::MSG_FAIL);
+                Yii::$app->getSession()->setFlash('error', 'Thất bại');
             }else{
                 Yii::$app->getSession()->setFlash('error', 'Mật khẩu cũ không đúng');
             }
@@ -294,7 +294,7 @@ class UserController extends BaseBEController
                     Yii::$app->session->setFlash('success', Yii::t('app','Đổi mật khẩu thành công'));
                     return $this->redirect(['info']);
                 }
-                Yii::$app->getSession()->setFlash('error', Message::MSG_FAIL);
+                Yii::$app->getSession()->setFlash('error', 'Thất bại');
             }else{
                 Yii::$app->getSession()->setFlash('error', Yii::t('app','Mật khẩu cũ không đúng'));
             }
@@ -326,7 +326,7 @@ class UserController extends BaseBEController
             return $this->redirect(['index']);
         }
         var_dump($model->getFirstErrors());exit;
-        Yii::$app->session->setFlash('error', Message::MSG_FAIL);
+        Yii::$app->session->setFlash('error', 'Thất bại');
         return $this->redirect(['index']);
 
     }

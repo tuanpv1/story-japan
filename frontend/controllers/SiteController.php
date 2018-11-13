@@ -151,7 +151,11 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
+                    $message = Yii::t('app', 'Đăng kí thành công');
+                    return $this->render('index', [
+                        'message' => $message,
+                        'success' => true
+                    ]);
                 }
             }
         }

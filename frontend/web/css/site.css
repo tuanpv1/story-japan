@@ -153,6 +153,18 @@ a.desc:after {
     width: 100%;
     height: 450px;
 }
+@media (min-width: 768px) {
+    #fix-logo-footer {
+        height: 121px;
+        margin-left: 50px;
+    }
+
+    #fix-logo-header {
+        height: 70px;
+        width: auto;
+        padding-left: 100px;
+    }
+}
 
 @media (max-width: 480px) {
     .top-header a {

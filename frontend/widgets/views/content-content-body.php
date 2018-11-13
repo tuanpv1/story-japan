@@ -18,19 +18,20 @@ use yii\helpers\Url;
             ?>
             <li class="col-sm-4">
                 <div class="right-block">
-                    <h5 class="product-name">
+                    <h5 class="product-name text-center">
                         <a href="<?= Url::to(['content/detail', 'id' => $content->id]) ?>">
-                            <?= ucfirst(CUtils::substr($content->display_name, 25)) ?>
-                            <span style="font-size: small"
-                                  id="product_code_<?= $content->id ?>">Mã SP: #<?= $content->code ?></span>&nbsp;&nbsp;
+                            <?= ucfirst(CUtils::substr($content->display_name, 15)) ?><br>
+                            <span style="font-size: small" id="product_code_<?= $content->id ?>">Mã SP: #<?= $content->code ?></span><br>
                             <input type="hidden" class="product_amount_<?= $content->id ?>" value="1">
+                            <?php if($content->price_promotion && $content->price_promotion != $content->price){ ?>
+                                <span class="price old-price"><?= CUtils::formatNumber($content->price) ?>
+                                    Đ</span>
+                            <?php }else{ ?> <br><?php } ?>
                         </a>
                     </h5>
-                    <div class="content_price">
-                        <?php if ($content->price_promotion) { ?>
+                    <div class="text-center">
+                        <?php if ($content->price_promotion && $content->price_promotion != $content->price) { ?>
                             <span class="price product-price"><?= CUtils::formatNumber($content->price_promotion) ?>
-                                Đ</span>
-                            <span class="price old-price"><?= CUtils::formatNumber($content->price) ?>
                                 Đ</span>
                         <?php } else { ?>
                             <span class="price product-price"><?= CUtils::formatNumber($content->price) ?>

@@ -1,6 +1,5 @@
 <?php
 use frontend\widgets\HomeSlide;
-use frontend\widgets\LatestDeals;
 use yii\web\View;
 if(!empty($message)){
     if($success){
@@ -36,8 +35,7 @@ $this->registerJs($js_toastr, View::POS_READY);
 <!-- Home slideder-->
 <?= HomeSlide::widget() ?>
 <!-- END Home slideder-->
-<!-- servives -->
-<?= LatestDeals::widget() ?>
+
 <!-- end services -->
 <div class="content-page">
     <div class="container">
