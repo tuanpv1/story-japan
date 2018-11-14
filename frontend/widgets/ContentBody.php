@@ -26,6 +26,7 @@ class ContentBody extends Widget{
         $category = Category::find()
             ->andWhere(['status' => Category::STATUS_ACTIVE])
             ->andWhere('parent_id is null')
+            ->orderBy(['order_number' => SORT_DESC])
             ->all();
         return $this->render('content-body',[
             'category'=>$category,

@@ -22,10 +22,10 @@ use yii\helpers\Url;
                         <img style="height: 300px" class="img-responsive" alt="product" src="<?= $item->getFirstImageLinkFE() ?>" />
                     </a>
                     <div class="quick-view">
-                        <a title="Quick view" class="search" href="#"></a>
+                        <a title="Quick view" class="search" href="<?= Url::to(['content/detail','id'=>$item->id]) ?>"></a>
                     </div>
                     <div class="add-to-cart">
-                        <a title="Add to Cart" href="#add"><?= Yii::t('app','Thêm vào giỏ hàng') ?></a>
+                        <a title="Xem chi tiết" href="<?= Url::to(['content/detail','id'=>$item->id]) ?>"><?= Yii::t('app','Xem chi tiết') ?></a>
                     </div>
                 </div>
                 <div class="right-block">
@@ -34,13 +34,6 @@ use yii\helpers\Url;
                             <?= CUtils::substr($item->display_name,25) ?>
                         </a>
                     </h5>
-                    <div class="product-star">
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star"></i>
-                        <i class="fa fa-star-half-o"></i>
-                    </div>
                     <div class="content_price">
                         <?php if($item->price_promotion && $item->price_promotion != $item->price){ ?>
                         <span class="price product-price"><?= CUtils::formatNumber($item->price_promotion) ?> VND</span>
