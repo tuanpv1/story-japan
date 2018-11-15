@@ -14,10 +14,12 @@ use frontend\widgets\ContentContentBody;
         <?php
         $i = 1;
         if ($categories) {
+            $n = count($categories);
+            $height = 566/$n;
             /** @var Category $category */
             foreach ($categories as $category) {
                 ?>
-                <li class="<?= $i == 1 ? 'active' : '' ?>">
+                <li class="<?= $i == 1 ? 'active' : '' ?>" style="line-height: <?= $height ?>px">
                     <a data-toggle="tab" href="#tab-<?= $category->id ?>"><?= $category->display_name ?></a>
                 </li>
                 <?php

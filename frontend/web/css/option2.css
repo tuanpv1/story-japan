@@ -393,7 +393,7 @@
 }
 .option2 .product-featured .sub-category-list{
 	float: left;
-	padding: 20px 30px;
+	padding: 0;
 	line-height: 30px;
 	background: #fff;
 }
@@ -437,7 +437,7 @@
 	min-height: inherit;
 	border: 1px solid #eaeaea;
 	padding-bottom: 3px;
-	min-height: 286px;
+	height: 286px;
 }
 
 .option2 .product-featured .owl-prev, 
