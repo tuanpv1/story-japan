@@ -85,7 +85,6 @@ class Category extends \yii\db\ActiveRecord
                     'created_at',
                     'updated_at',
                     'type',
-                    'location_image',
                     'is_news',
                     'hide',
                 ],
@@ -93,9 +92,15 @@ class Category extends \yii\db\ActiveRecord
             ],
             [['description'], 'string'],
             [['display_name', 'ascii_name'], 'string', 'max' => 200],
-            [['images'], 'string', 'max' => 500],
-            [['images'], 'safe'],
+            [['images', 'location_image'], 'string', 'max' => 500],
+            [['images', 'location_image'], 'safe'],
             [['images'],
+                'file',
+                'tooBig' => ' File ảnh chưa đúng quy cách. Vui lòng thử lại',
+                'wrongExtension' => ' File ảnh chưa đúng quy cách. Vui lòng thử lại',
+                'skipOnEmpty' => true,
+                'extensions' => 'png, jpg, jpeg', 'maxSize' => 10 * 1024 * 1024],
+            [['location_image'],
                 'file',
                 'tooBig' => ' File ảnh chưa đúng quy cách. Vui lòng thử lại',
                 'wrongExtension' => ' File ảnh chưa đúng quy cách. Vui lòng thử lại',
@@ -124,7 +129,7 @@ class Category extends \yii\db\ActiveRecord
             'created_at' => Yii::t('app', 'Ngày tạo'),
             'updated_at' => Yii::t('app', 'Ngày thay đổi thông tin'),
             'type' => Yii::t('app', 'Kiểu menu'),
-            'location_image' => Yii::t('app', 'Vị trí hiển thị ảnh'),
+            'location_image' => Yii::t('app', 'Ảnh hiện trang chủ'),
             'hide' => Yii::t('app', 'Không hiện trên trang chủ chỉ hiện trên menu'),
             'is_news' => Yii::t('app', 'Danh mục dành riêng cho loại tin tức'),
         ];
@@ -465,18 +470,9 @@ class Category extends \yii\db\ActiveRecord
     public function getImageLinkContentFeature()
     {
         $image_default = 'banner-product1.jpg';
-        $listCats = self::allChildCats($this->id);
-        $listCats[] = $this->id;
-        $content = Content::find()
-            ->select('content.images')
-            ->innerJoin('content_category_asm', 'content_category_asm.content_id = content.id')
-            ->andWhere(['content.is_feature' => Content::IS_FEATURE])
-            ->andFilterWhere(['IN', 'content_category_asm.category_id', $listCats])
-            ->one();
-        Yii::error($content);
         /** @var Content $content */
-        if (!empty($content)) {
-            return $content->getFirstImageLinkFE($image_default);
+        if (!empty($this->location_image)) {
+            return static::getImageLinkFE($this->location_image);
         } else {
             return Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
         }

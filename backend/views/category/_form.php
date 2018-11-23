@@ -10,6 +10,25 @@ use common\models\Site;
 /* @var $model common\models\Category */
 /* @var $form yii\widgets\ActiveForm */
 $images = !$model->isNewRecord && !empty($model->images);
+$images_feature = !$model->isNewRecord && !empty($model->location_image);
+
+$check = Html::getInputId($model, 'parent_id');
+$js = <<<JS
+    if($("#$check").val() != ''){
+            $('#send_via_file').hide();
+        }else {
+            $('#send_via_file').show();
+        }
+        
+    $("#$check").change(function() {
+        if($('#$check').val() != ''){
+            $('#send_via_file').hide('slow');
+        }else {
+            $('#send_via_file').show('slow');
+        }
+    });
+JS;
+$this->registerJs($js, \yii\web\View::POS_READY);
 ?>
 
 <?php $form = ActiveForm::begin([
@@ -47,6 +66,28 @@ $images = !$model->isNewRecord && !empty($model->images);
         ],
     ]);
     ?>
+
+    <div id="send_via_file">
+        <?= $form->field($model, 'location_image')->widget(\kartik\file\FileInput::classname(), [
+            'pluginOptions' => [
+
+                'showCaption' => false,
+                'showRemove' => false,
+                'showUpload' => false,
+                'browseClass' => 'btn btn-primary btn-block',
+                'browseIcon' => '<i class="glyphicon glyphicon-camera"></i> ',
+                'browseLabel' => 'Chọn hình ảnh',
+                'initialPreview' => $images_feature ? [
+                    Html::img(Yii::getAlias('@web') . '/' . Yii::getAlias('@category_image') . "/" . $model->location_image, ['class' => 'file-preview-image', 'style' => 'width: 100%;']),
+
+                ] : [],
+            ],
+            'options' => [
+                'accept' => 'image/*',
+            ],
+        ]);
+        ?>
+    </div>
 
     <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
 

@@ -7,6 +7,7 @@
  */
 use common\models\Category;
 use frontend\widgets\ContentContentBody;
+use yii\helpers\Url;
 
 ?>
 <div class="col-sm-2 sub-category-wapper">
@@ -20,7 +21,7 @@ use frontend\widgets\ContentContentBody;
             foreach ($categories as $category) {
                 ?>
                 <li class="<?= $i == 1 ? 'active' : '' ?>" style="line-height: <?= $height ?>px">
-                    <a data-toggle="tab" href="#tab-<?= $category->id ?>"><?= $category->display_name ?></a>
+                    <a href="<?= Url::to(['category/index','id' => $category->id]) ?>"><?= $category->display_name ?></a>
                 </li>
                 <?php
                 $i++;

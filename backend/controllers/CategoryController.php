@@ -5,12 +5,10 @@ namespace backend\controllers;
 use common\components\ActionLogTracking;
 use common\helpers\CVietnameseTools;
 use common\models\Category;
-use common\models\User;
 use kartik\form\ActiveForm;
 use Yii;
 use yii\data\ArrayDataProvider;
 use yii\filters\VerbFilter;
-use yii\web\HttpException;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\UploadedFile;
@@ -26,14 +24,14 @@ class CategoryController extends BaseBEController
     {
         return array_merge(parent::behaviors(), [
             'verbs' => [
-                'class'   => VerbFilter::className(),
+                'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['post'],
                 ],
             ],
             [
-                'class'              => ActionLogTracking::className(),
-                'user'               => Yii::$app->user
+                'class' => ActionLogTracking::className(),
+                'user' => Yii::$app->user
             ],
         ]);
     }
@@ -50,17 +48,17 @@ class CategoryController extends BaseBEController
             $post = Yii::$app->request->post();
             if ($post['editableKey']) {
                 // read or convert your posted information
-                $cat   = Category::findOne($post['editableKey']);
+                $cat = Category::findOne($post['editableKey']);
                 $index = $post['editableIndex'];
                 if ($cat) {
                     $cat->load($post['Category'][$index], '');
                     if ($cat->update()) {
                         echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
                     } else {
-                        echo \yii\helpers\Json::encode(['output' => '', 'message' =>Yii::t('app', 'Dữ liệu không hợp lệ')]);
+                        echo \yii\helpers\Json::encode(['output' => '', 'message' => Yii::t('app', 'Dữ liệu không hợp lệ')]);
                     }
                 } else {
-                    echo \yii\helpers\Json::encode(['output' => '', 'message' =>Yii::t('app', 'Danh mục không tồn tại')]);
+                    echo \yii\helpers\Json::encode(['output' => '', 'message' => Yii::t('app', 'Danh mục không tồn tại')]);
                 }
             } // else if nothing to do always return an empty JSON encoded output
             else {
@@ -72,8 +70,8 @@ class CategoryController extends BaseBEController
 
         $categories = Category::getAllCategories(null, true);
         $dataProvider = new ArrayDataProvider([
-            'key'        => 'id',
-            'allModels'  => $categories,
+            'key' => 'id',
+            'allModels' => $categories,
             'pagination' => [
                 'pageSize' => 20,
             ],
@@ -116,10 +114,10 @@ class CategoryController extends BaseBEController
 
 
         if ($model->load(Yii::$app->request->post())) {
-            $image                   = UploadedFile::getInstance($model, 'images');
+            $image = UploadedFile::getInstance($model, 'images');
             if ($image) {
                 $file_name = Yii::$app->user->id . '.' . uniqid() . time() . '.' . $image->extension;
-                $tmp       = Yii::getAlias('@backend') . '/web/' . Yii::getAlias('@category_image') . '/';
+                $tmp = Yii::getAlias('@backend') . '/web/' . Yii::getAlias('@category_image') . '/';
                 if (!file_exists($tmp)) {
                     mkdir($tmp, 0777, true);
                 }
@@ -127,7 +125,19 @@ class CategoryController extends BaseBEController
                     $model->images = $file_name;
                 }
             }
-            $model->ascii_name  = CVietnameseTools::makeSearchableStr($model->display_name);
+
+            $image_feature = UploadedFile::getInstance($model, 'location_image');
+            if ($image_feature) {
+                $file_name_ = Yii::$app->user->id . '.' . uniqid() . time() . '.' . $image->extension;
+                $tmp = Yii::getAlias('@backend') . '/web/' . Yii::getAlias('@category_image') . '/';
+                if (!file_exists($tmp)) {
+                    mkdir($tmp, 0777, true);
+                }
+                if ($image->saveAs($tmp . $file_name_)) {
+                    $model->location_image = $file_name_;
+                }
+            }
+            $model->ascii_name = CVietnameseTools::makeSearchableStr($model->display_name);
             $model->child_count = 0;
             $model->created_at = time();
             $model->updated_at = time();
@@ -136,19 +146,19 @@ class CategoryController extends BaseBEController
 //            if($model->parent_id && $model->type !=  Category::TYPE_NONE ){
 //                \Yii::$app->getSession()->setFlash('error',Yii::t('app', 'Phải chọn menu bình thường nếu là danh mục con'));
 //            }else
-                if ($model->save()) {
+            if ($model->save()) {
                 if ($model->parent_id != null) {
                     $modelParent = $model->parent;
                     ++$modelParent->child_count;
                     // $model->order_number = $modelParent->child_count;
                     $model->level = $modelParent->level + 1;
-                    $model->path  = $modelParent->path . '/' . $model->id;
+                    $model->path = $modelParent->path . '/' . $model->id;
                     $modelParent->save();
                 } else {
-                    $model->path        = $model->id;
-                    $model->level       = 0;
+                    $model->path = $model->id;
+                    $model->level = 0;
                     $model->child_count = 0;
-                    $maxOrder           = Category::find()
+                    $maxOrder = Category::find()
                         ->select(['max(order_number) as `order`'])
                         ->where('level=0')
                         ->scalar();
@@ -160,7 +170,7 @@ class CategoryController extends BaseBEController
 
                 Yii::info($model->getErrors());
 
-                \Yii::$app->getSession()->setFlash('success',Yii::t('app', 'Thêm mới thành công'));
+                \Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Thêm mới thành công'));
 
                 return $this->redirect(['index']);
             } else {
@@ -193,13 +203,14 @@ class CategoryController extends BaseBEController
         }
 
         $oldParentId = $model->parent_id;
-        $oldParent   = $model->parent;
-        $oldImg      = $model->images;
+        $oldParent = $model->parent;
+        $oldImg = $model->images;
+        $oldImg_ = $model->location_image;
         if ($model->load(Yii::$app->request->post())) {
-            $image                   = UploadedFile::getInstance($model, 'images');
+            $image = UploadedFile::getInstance($model, 'images');
             if ($image) {
                 $file_name = Yii::$app->user->id . '.' . uniqid() . time() . '.' . $image->extension;
-                $tmp       = Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . Yii::getAlias('@category_image') . '/';
+                $tmp = Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . Yii::getAlias('@category_image') . '/';
                 if (!file_exists($tmp)) {
                     mkdir($tmp, 0777, true);
                 }
@@ -210,19 +221,34 @@ class CategoryController extends BaseBEController
             } else {
                 $model->images = $oldImg;
             }
+
+            $image = UploadedFile::getInstance($model, 'location_image');
+            if ($image) {
+                $file_name_ = Yii::$app->user->id . '.' . uniqid() . time() . '.' . $image->extension;
+                $tmp = Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . Yii::getAlias('@category_image') . '/';
+                if (!file_exists($tmp)) {
+                    mkdir($tmp, 0777, true);
+                }
+
+                if ($image->saveAs($tmp . $file_name_)) {
+                    $model->location_image = $file_name_;
+                }
+            } else {
+                $model->location_image = $oldImg_;
+            }
             $model->created_at = time();
             $model->updated_at = time();
             $model->ascii_name = CVietnameseTools::makeSearchableStr($model->display_name);
             if ($model->save()) {
-                $catParent = Category::findAll(['parent_id'=>$model->id]);
-                foreach($catParent as $item){
+                $catParent = Category::findAll(['parent_id' => $model->id]);
+                foreach ($catParent as $item) {
                     /** @var $item Category */
                     $item->status = $model->status;
                     $item->updated_at = time();
                     $item->save();
                 }
 
-                \Yii::$app->getSession()->setFlash('success', Yii::t('app','Cập nhật thành công'));
+                \Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Cập nhật thành công'));
 
                 return $this->redirect(['index']);
             }
@@ -243,7 +269,7 @@ class CategoryController extends BaseBEController
      */
     public function actionDelete($id)
     {
-        $model  = $this->findModel($id);
+        $model = $this->findModel($id);
 //        $model->status = Category::STATUS_INACTIVE;
 //        $model->save(false);
 //        $catParent  = Category::findAll(['parent_id'=>$id]);
@@ -253,17 +279,17 @@ class CategoryController extends BaseBEController
 //            $model_parent->status = Category::STATUS_INACTIVE;
 //            $model_parent->save(false);
 //        }
-        if($model->status == Category::STATUS_ACTIVE){
-            \Yii::$app->getSession()->setFlash('error',Yii::t('app', 'Không được xóa danh mục đang hoạt động!'));
-            return $this->redirect(['view','id'=>$id]);
-        }else{
-            $catParent  = Category::findAll(['parent_id'=>$id]);
-            if(isset($catParent) && $catParent != null){
-                \Yii::$app->getSession()->setFlash('error',Yii::t('app', 'Không được xóa danh mục đang chứa danh mục con!'));
-                return $this->redirect(['view','id'=>$id]);
-            }else{
+        if ($model->status == Category::STATUS_ACTIVE) {
+            \Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Không được xóa danh mục đang hoạt động!'));
+            return $this->redirect(['view', 'id' => $id]);
+        } else {
+            $catParent = Category::findAll(['parent_id' => $id]);
+            if (isset($catParent) && $catParent != null) {
+                \Yii::$app->getSession()->setFlash('error', Yii::t('app', 'Không được xóa danh mục đang chứa danh mục con!'));
+                return $this->redirect(['view', 'id' => $id]);
+            } else {
                 $model->delete();
-                \Yii::$app->getSession()->setFlash('success',Yii::t('app', 'Xóa thành công'));
+                \Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Xóa thành công'));
                 return $this->redirect(['index']);
             }
         }
@@ -284,7 +310,7 @@ class CategoryController extends BaseBEController
         if (($model = Category::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new NotFoundHttpException(Yii::t('app','Không tìm thấy trang'));
+            throw new NotFoundHttpException(Yii::t('app', 'Không tìm thấy trang'));
         }
     }
 
@@ -304,9 +330,9 @@ class CategoryController extends BaseBEController
 
     private function orderCat($id, $action = 'up')
     {
-        $sort  = ['up' => SORT_ASC, 'down' => SORT_DESC][$action];
+        $sort = ['up' => SORT_ASC, 'down' => SORT_DESC][$action];
         $state = ['up' => '>', 'down' => '<'][$action];
-        $cat1  = Category::findOne($id);
+        $cat1 = Category::findOne($id);
 
         $orderForNextCategories = $cat1->order_number;
 

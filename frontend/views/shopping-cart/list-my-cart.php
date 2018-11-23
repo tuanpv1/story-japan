@@ -28,8 +28,6 @@ use yii\helpers\Url;
             <ul class="step">
                 <li id="remove_class_1" class="current-step"><span>01. Sản phẩm đã chọn</span></li>
                 <li id="add_class_2"><span>02. Thông tin khách hàng</span></li>
-                <li id="add_class_3"
-                "><span>03. Hình thức nhận hàng</span></li>
                 <li id="add_class_4"><span>04. Xác nhận thông tin và thanh toán</span></li>
                 <li id="add_class_5"><span>05. Hoàn thành</span></li>
             </ul>
@@ -45,7 +43,6 @@ use yii\helpers\Url;
                             <tr>
                                 <th class="cart_product"></th>
                                 <th>Sản phẩm</th>
-                                <th>Tình trạng.</th>
                                 <th>Giá tiền</th>
                                 <th>Số Lượng</th>
                                 <th>Tổng tiền</th>
@@ -65,9 +62,6 @@ use yii\helpers\Url;
                                         <small class="cart_ref"><?= Yii::t('app', 'Mã sản phẩm: #') . $value['code'] ?></small>
                                         <br>
                                         <!--                            <small><a href="#">Color : Beige</a></small><br>-->
-                                    </td>
-                                    <td class="cart_avail"><span
-                                                class="label label-success"><?= \common\models\Content::$listAvailability[$value['availability']] ?></span>
                                     </td>
                                     <td class="price">
                                         <span><?= CUtils::formatNumber($value['price_promotion'] ? $value['price_promotion'] : $value['price']) ?>
@@ -93,17 +87,13 @@ use yii\helpers\Url;
                             </tbody>
                             <tfoot>
                             <tr>
-                                <td colspan="2" rowspan="2"></td>
-                                <td colspan="3">Tổng tiền trước thuế</td>
-                                <td colspan="2"><?= CUtils::formatNumber($total_price ? $total_price : 0) ?> VND</td>
-                            </tr>
-                            <tr>
-                                <td colspan="3"><strong><?= Yii::t('app', 'Tổng tiền') ?></strong></td>
+                                <td colspan="4"><strong><?= Yii::t('app', 'Tổng tiền') ?></strong></td>
                                 <td colspan="2"><strong><?= CUtils::formatNumber($total_price ? $total_price : 0) ?>
                                         VND</strong></td>
                             </tr>
                             </tfoot>
                         </table>
+                        <span>Quý khách chú ý: Giá trên chưa bao gồm tiền Ship. Phí ship hàng do đơn vị vận chuyển thu dựa trên cân nặng sản phẩm thực tế.</span>
                     </div>
                     <div id="info_customer">
                         <h2 class="page-heading"></h2>
@@ -211,27 +201,6 @@ use yii\helpers\Url;
                             </div>
                         </div>
                     </div>
-                    <div id="option_receiver">
-                        <h2 class="page-heading"></h2>
-                        <h2 class="page-heading"><?= Yii::t('app', 'Hình thức nhận hàng') ?></h2>
-                        <!-- ../page heading-->
-                        <div class="page-content">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="box-authentication">
-                                        <h3 class="text-center"><?= Yii::t('app', 'Nhận hàng tại nhà') ?></h3>
-                                        <input class="form-control" type="radio" name="option" value="home" checked>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="box-authentication">
-                                        <h3 class="text-center"><?= Yii::t('app', 'Nhận hàng tại cửa hàng') ?></h3>
-                                        <input class="form-control" type="radio" name="option" value="store">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="text-center">
                         <label id="c_validate" style="color:red">Vui lòng nhập đầy đủ các trường có dấu * để gửi yêu cầu
                             đơn hàng</label>
@@ -241,8 +210,6 @@ use yii\helpers\Url;
                            href="<?= Url::to(['site/index']) ?>"><?= Yii::t('app', 'Tiếp tục mua hàng') ?></a>
                         <a class="next-btn" id="input_info" onclick="onInputInfo()"
                            href="javascript:void(0)"><?= Yii::t('app', 'Điền thông tin đặt hàng') ?></a>
-                        <a class="next-btn" id="chose_receiver" onclick="choseReceiverContent()"
-                           href="javascript:void(0)"><?= Yii::t('app', 'Chọn hình thức nhận hàng') ?></a>
                         <a class="next-btn" id="show_infor_input" onclick="showAllInfo()"
                            href="javascript:void(0)"><?= Yii::t('app', 'Xem lại thông tin') ?></a>
                         <a class="next-btn" id="checkout" onclick="checkOutInfo()"

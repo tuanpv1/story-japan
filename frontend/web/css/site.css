@@ -172,14 +172,24 @@ a.desc:after {
     }
 
     #fix-logo-footer {
-        height: 121px;
-        margin-left: 50px;
+        /*height: 121px;*/
+        /*margin-left: 50px;*/
+        display: none;
     }
 
     #fix-logo-header {
-        height: 70px;
+        height: 100px;
         width: auto;
         padding-left: 100px;
+    }
+
+    .option2 .product-featured .product-list li{
+        padding: 0;
+        margin-bottom: 4px;
+        height: 285px;
+        margin-left: 6px;
+        width: 32%;
+        margin-top: 4px;
     }
 }
 

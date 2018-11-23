@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use common\models\Category;
 use common\models\Content;
+use common\models\InfoPublic;
 use common\models\Slide;
 use Yii;
 use yii\data\Pagination;
@@ -21,10 +22,11 @@ class ContentController extends Controller
     {
         $content = Content::findOne(['id' => $id, 'status' => Content::STATUS_ACTIVE]);
         $link = $content->getImageLinkFE('product-s3-100x122.jpg');
-
+        $info = InfoPublic::findOne(InfoPublic::ID_DEFAULT);
         return $this->render('detail', [
             'content' => $content,
             'link' => $link,
+            'info' => $info,
         ]);
     }
 

@@ -222,34 +222,7 @@ function onInputInfo() {
     $("#remove_class_1").removeClass("current-step");
     $("#add_class_2").addClass("current-step");
     $('#info_customer').show('slow');
-    $('#chose_receiver').show('slow');
-}
-
-function choseReceiverContent() {
-    full_name = $('#full_name').val();
-    user_email = $('#user_email').val();
-    user_phone = $('#user_phone').val();
-    user_adress = $('#user_adress').val();
-    if (full_name == '') {
-        $('#name_mua').show();
-    } else if (user_email == '') {
-        $('#email_mua').show();
-    } else if (user_phone == '') {
-        $('#phone_mua').show();
-    } else if (user_adress == '') {
-        $('#dc_mua').show();
-    } else {
-        $('#input_info').hide();
-        $('#number_total_cart').hide();
-        $('#table_list_cart').hide();
-        $('#info_customer').hide();
-        $('#chose_receiver').hide();
-        $("#remove_class_1").removeClass("current-step");
-        $("#add_class_2").removeClass("current-step");
-        $("#add_class_3").addClass("current-step");
-        $('#option_receiver').show('slow');
-        $('#show_infor_input').show('slow');
-    }
+    $('#show_infor_input').show('slow');
 }
 
 function showAllInfo() {

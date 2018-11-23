@@ -23,7 +23,6 @@ use yii\helpers\Url;
             <div class="column col-xs-12 col-sm-3" id="left_column">
                 <?= \frontend\widgets\SearchPriceWidget::widget() ?>
                 <?= \frontend\widgets\WidgetSaleContent::widget() ?>
-                <?= \frontend\widgets\TagsWidget::widget() ?>
             </div>
             <!-- ./left colunm -->
             <!-- Center colunm-->

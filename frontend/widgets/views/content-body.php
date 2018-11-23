@@ -20,7 +20,6 @@ if (isset($category)) {
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-brand"><a
                                 href="<?= \yii\helpers\Url::to(['category/index', 'id' => $item->id]) ?>">
-                            <img style="height: 40px;width: auto" alt="<?= $item->display_name ?>" src="<?= Category::getImageLinkFE($item->images) ?>"/>
                             <?= $item->display_name ?>
                         </a>
                     </div>

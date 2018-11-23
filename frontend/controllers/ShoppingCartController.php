@@ -109,7 +109,7 @@ class ShoppingCartController extends Controller
         $userAdress = $_POST['userAdress'];
         $full_name = $_POST['full_name'];
         $user_email = $_POST['user_email'];
-        $user_adress = $_POST['user_adress'];
+        $user_address = $_POST['user_adress'];
         $user_phone = $_POST['user_phone'];
 
         $session = Yii::$app->session;
@@ -128,7 +128,7 @@ class ShoppingCartController extends Controller
         $order = new Order();
         $order->status = Order::STATUS_ORDERED;
         $order->name_buyer = $full_name;
-        $order->address_buyer = $user_adress;
+        $order->address_buyer = $user_address;
         $order->phone_buyer = $user_phone;
         $order->email_buyer = $user_email;
         $order->name_receiver = $fullName;
@@ -140,18 +140,54 @@ class ShoppingCartController extends Controller
         $order->total_number = $totalAmount;
         if ($order->save()) {
             $order_id = $order->id;
-            $txtTable = "Thông tin đơn hàng tại " . Yii::$app->name . " Mã đơn hàng: #" . $order_id;
-            $txtTable .= "<table class=\"table table-condensed\">";
+            $txtTable = "
+            <i>Kính chào Quý khách</i><br><br>
+            Cảm ơn Quý khách đã quan tâm đến sản phẩm của chúng tôi. Chúng tôi sẽ liên hệ qua điện 
+            thoại để chốt đơn hàng trong thời gian gần nhất
+            <br><br>
+            <b>HÓA ĐƠN MUA HÀNG</b>
+            <br><br>
+            
+            <table style='border: 1px solid #ddd;'>
+              <tbody>
+                <tr>
+                  <td style='border: 1px solid #ddd;'><b>Mã đơn hàng: </b></td>
+                  <td style='border: 1px solid #ddd;'>#" . $order_id . "</td>
+                </tr>
+                <tr>
+                  <td style='border: 1px solid #ddd;'><b>Tên khách hàng: </b></td>
+                  <td style='border: 1px solid #ddd;'>" . $full_name . "</td>
+                </tr>
+                <tr>
+                  <td style='border: 1px solid #ddd;'><b>Email: </b></td>
+                  <td style='border: 1px solid #ddd;'>" . $user_email . "</td>
+                </tr>
+                <tr>
+                  <td style='border: 1px solid #ddd;'><b>Tel: </b></td>
+                  <td style='border: 1px solid #ddd;'>" . $user_phone . "</td>
+                </tr>
+                <tr>
+                  <td style='border: 1px solid #ddd;'><b>Adress: </b></td>
+                  <td style='border: 1px solid #ddd;'>" . $user_address . "</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <br><br>    
+            Thông tin đơn hàng tại " . Yii::$app->name . " Mã đơn hàng: #" . $order_id;
+            $txtTable .= "<br>
+                <table style=\"border: 1px solid #ddd;\" class=\"table table-condensed\">";
             $txtTable .= "<thead>";
             $txtTable .= "<tr class=\"cart_menu\">
-                    <td width=\"25%\" class=\"image\">Sản phẩm</td>
-                    <td width=\"30%\" class=\"description\"></td>
-                    <td width=\"15%\" class=\"price\">Giá</td>
-                    <td width=\"15%\" class=\"quantity\">Số Lượng</td>
-                    <td width=\"15%\" class=\"total\">Tổng tiền</td>
+                    <td style='border: 1px solid #ddd;' width=\"5%\" class=\"description\"><b>STT</b></td>
+                    <td style='border: 1px solid #ddd;' width=\"35%\" class=\"description\"><b>Sản phẩm</b></td>
+                    <td style='border: 1px solid #ddd;' width=\"20%\" class=\"price\"><b>Giá</b></td>
+                    <td style='border: 1px solid #ddd;' width=\"20%\" class=\"quantity\"><b>Số Lượng</b></td>
+                    <td style='border: 1px solid #ddd;' width=\"20%\" class=\"total\"><b>Tổng tiền</b></td>
                 </tr>
                 </thead>
                 <tbody>";
+            $i =1;
             foreach ($cart as $key => $value) {
                 $txtTable .= "<tr>";
                 $content = Content::findOne($value['id']);
@@ -175,28 +211,27 @@ class ShoppingCartController extends Controller
                 } else {
                     $order_detail->price_promotion = $content->price_promotion;
                 }
-                $txtTable .= "<td class=\"cart_product\" width=\"25%\">";
-                $txtTable .= "<img style=\"width: 150px\" src=\"" . Content::getFirstImageLinkFeStatic($value['images']) . "\" alt=\"" . $value['display_name'] . "\">";
-                $txtTable .= "</td>
-                                <td class=\"cart_description\" width=\"30%\">";
+                $txtTable .= "
+                        <td style='border: 1px solid #ddd;' width=\"5%\"> ". $i ."</td>
+                        <td style='border: 1px solid #ddd;' class=\"cart_description\" width=\"35%\">";
                 $txtTable .= "<p>" . $value['display_name'] . "</p>";
                 $txtTable .= "</td>";
                 if ($content->price_promotion == 0 || $content->price_promotion == $content->price) {
-                    $txtTable .= "<td class=\"cart_price\">";
+                    $txtTable .= "<td style='border: 1px solid #ddd;' class=\"cart_price\">";
                     $txtTable .= "<p>" . CUtils::formatNumber($content->price) . ' Đ' . "</p>";
                     $txtTable .= "</td>";
                 } else {
-                    $txtTable .= "<td class=\"cart_price\">";
+                    $txtTable .= "<td style='border: 1px solid #ddd;' class=\"cart_price\">";
                     $txtTable .= "<p>" . CUtils::formatNumber($content->price_promotion) . ' Đ' . "</p>
                                             <p style=\"font-size: 12px\">Giá cũ: <span class=\"tp_002\">" . CUtils::formatNumber($content->price) . "</span> Đ</p>";
                     $txtTable .= "</td>";
                 }
-                $txtTable .= "<td class=\"cart_quantity\">
+                $txtTable .= "<td style='border: 1px solid #ddd;' class=\"cart_quantity\">
                                     <div class=\"cart_quantity_button\">";
                 $txtTable .= $value['amount'];
                 $txtTable .= "      </div>
                               </td>
-                              <td class=\"cart_total\">";
+                              <td style='border: 1px solid #ddd;' class=\"cart_total\">";
                 $txtTable .= "     <p class=\"cart_total_price\">" . CUtils::formatNumber($total_one) . ' Đ' . "</p>";
 
                 $txtTable .= "</td>";
@@ -205,14 +240,49 @@ class ShoppingCartController extends Controller
                     $message = 'Đặt hàng không thành công. không lưu thành công chi tiết đơn hàng!';
                     return Json::encode(['success' => false, 'message' => $message]);
                 }
+                $i++;
             }
-            $txtTable .= "</tbody>
+            $txtTable .= "
+                        <tr>
+                              <td style='border: 1px solid #ddd;' colspan='5'>
+                                Tổng tiền thanh toán: <span style='color: red'>" . CUtils::formatNumber($order->total) . " VND</span><br>
+                                <span style='color: red'>Quý khách chú ý: Giá trên là giá khi về kho hàng ở Hà Nội chưa bao gồm tiền 
+                                Ship</span>
+                              </td>
+                            </tr>
+                        </tbody>
                     </table>";
-            $txtTable .= "Cám ơn bạn đã tin tưởng và sử dụng dịch vụ của shop chúng tôi <br> 
-                Vui lòng thanh toán số tiền " . $total . " bằng cách chuyển khoản về STK: <br>
-                Ngân hàng: TPbank - 01010101010101 <br>
-                Họ và tên: PHAM VAN A <br>
-                Chi nhánh: Hà Nội";
+            $txtTable .= "
+                <br><br>
+                PHƯƠNG THỨC THANH TOÁN 
+                <br><br>
+                -	Quý khách vui lòng chuyển tiền cọc theo thông tin người nhận dưới đây. 
+                Sau khi nhận được thông báo nhận tiền từ ngân hàng, chúng tôi sẽ tiến hàng đặt 
+                hàng theo yêu cầu của Quý khách. <br>
+                -	Khi chuyển tiền Quý khách vui lòng ghi rõ nội dung như sau: <br>
+                " . $full_name . " thanh toán tiền cho mã đơn hàng " . $order_id . " 
+                Việc này nhằm giúp cho việc quản lý đơn hàng của Quý khách hiệu quả nhất. <br>
+                Có vấn đề cần giải đáp, Quý khách có thể liên hệ theo số hotline: 0866.881.728 <br><br>
+                    
+            TÀI KHOẢN NGÂN HÀNG:
+            <br><br>
+            <table style='border: 1px solid #ddd;'>
+              <tbody>
+                <tr>
+                  <td style='border: 1px solid #ddd;'>
+                    <b>Ngân hàng Vietcombank – CN Thăng Long</b><br>
+                    Họ tên: Cao Thị Huyền Trang<br>
+                    STK: 00491000069627	
+                  </td>
+                  <td style='border: 1px solid #ddd;'>
+                   <b>Ngân hàng Sacombank – CN mùng 8 tháng 3</b><br>
+                    Họ tên: Cao Thị Huyền Trang<br>
+                    STK: 020039833965
+                    </td>
+                </tr>
+              </tbody>
+            </table>
+            ";
             $this->sendEmail($user_email, $txtTable);
             $message = 'Đã đặt hàng thành công, đơn hàng đã được gửi về địa chỉ email của bạn.';
             $session->remove('cart');
