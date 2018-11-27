@@ -93,7 +93,7 @@ use yii\helpers\Url;
                             </tr>
                             </tfoot>
                         </table>
-                        <span>Quý khách chú ý: Giá trên chưa bao gồm tiền Ship. Phí ship hàng do đơn vị vận chuyển thu dựa trên cân nặng sản phẩm thực tế.</span>
+                        <span style="color: red">Quý khách chú ý: Giá trên chưa bao gồm tiền Ship. Phí ship hàng do đơn vị vận chuyển thu dựa trên cân nặng sản phẩm thực tế.</span>
                     </div>
                     <div id="info_customer">
                         <h2 class="page-heading"></h2>

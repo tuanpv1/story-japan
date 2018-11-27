@@ -67,12 +67,13 @@ use common\models\Content;
                                         %</span>
                                 </div>
                                 <div class="info-orther">
-                                    <p id="product_code_<?= $content->id ?>"><?= Yii::t('app', 'Mã sản phẩm: #') ?>
+                                    <p id="product_code_<?= $content->id ?>"><b><?= Yii::t('app', 'Mã sản phẩm: #') ?></b>
                                         <span><?= $content->code ?></span></p>
-                                    <p><?= Yii::t('app', 'Tình trạng: ') ?><span
+                                    <p><b><?= Yii::t('app', 'Tình trạng: ') ?></b><span
                                                 class="in-stock"><?= Content::$listAvailability[$content->availability] ?></span>
                                     </p>
-                                    <p><?= Yii::t('app', 'Kiểu hàng: ') ?><?= Content::$list_type[$content->type] ?></p>
+                                    <p><b>Order từ:</b> Hồng kông, Trung Quốc</p>
+                                    <p><b>Thời gian hàng về dự kiến:</b> 5-7 ngày</p>
                                 </div>
                                 <div class="product-desc">
                                     <?= $content->short_description ? $content->short_description : Yii::t('app', 'Đang cập nhật') ?>
@@ -105,8 +106,8 @@ use common\models\Content;
                                            onclick="addCart(<?= $content->id ?>)">Mua</a>
                                     </div>
                                 </div>
-                                <div class="form-action text-center"><br>
-                                    <h2>Gọi Hotline tư vấn: <?= $info->phone ?></h2>
+                                <div class="form-action"><br>
+                                    <h2>Hotline tư vấn: <?= $info->phone ?></h2>
                                 </div>
                             </div>
                         </div>

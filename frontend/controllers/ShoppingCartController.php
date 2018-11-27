@@ -9,6 +9,7 @@ use common\models\OrderDetail;
 use frontend\models\Cart;
 use Yii;
 use yii\helpers\Json;
+use yii\helpers\Url;
 use yii\web\Controller;
 
 //use phpDocumentor\Reflection\DocBlock\Tags\Param;
@@ -214,7 +215,7 @@ class ShoppingCartController extends Controller
                 $txtTable .= "
                         <td style='border: 1px solid #ddd;' width=\"5%\"> ". $i ."</td>
                         <td style='border: 1px solid #ddd;' class=\"cart_description\" width=\"35%\">";
-                $txtTable .= "<p>" . $value['display_name'] . "</p>";
+                $txtTable .= "<a href=".Url::base('http').Url::to(['content/detail','id' => $content->id]).">" . $value['display_name'] . "</a>";
                 $txtTable .= "</td>";
                 if ($content->price_promotion == 0 || $content->price_promotion == $content->price) {
                     $txtTable .= "<td style='border: 1px solid #ddd;' class=\"cart_price\">";
@@ -259,9 +260,7 @@ class ShoppingCartController extends Controller
                 -	Quý khách vui lòng chuyển tiền cọc theo thông tin người nhận dưới đây. 
                 Sau khi nhận được thông báo nhận tiền từ ngân hàng, chúng tôi sẽ tiến hàng đặt 
                 hàng theo yêu cầu của Quý khách. <br>
-                -	Khi chuyển tiền Quý khách vui lòng ghi rõ nội dung như sau: <br>
-                " . $full_name . " thanh toán tiền cho mã đơn hàng " . $order_id . " 
-                Việc này nhằm giúp cho việc quản lý đơn hàng của Quý khách hiệu quả nhất. <br>
+                -	Khi chuyển tiền quý khách vui lòng ghi rõ nội dung như sau: <span style='color: red'>\"Trần văn A thanh toán đơn hàng mã #56832\". </span></span> <br>
                 Có vấn đề cần giải đáp, Quý khách có thể liên hệ theo số hotline: 0866.881.728 <br><br>
                     
             TÀI KHOẢN NGÂN HÀNG:

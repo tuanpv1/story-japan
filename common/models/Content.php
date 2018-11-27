@@ -140,7 +140,7 @@ class Content extends \yii\db\ActiveRecord
     ];
 
     public static $listAvailability = [
-        self::AVAILABILITY_OK => 'Còn hàng',
+        self::AVAILABILITY_OK => 'Không sẵn hàng',
         self::AVAILABILITY_NOK => 'Hết hàng'
     ];
 

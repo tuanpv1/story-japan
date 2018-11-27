@@ -10,7 +10,7 @@ use frontend\widgets\ContentContentBody;
 use yii\helpers\Url;
 
 ?>
-<div class="col-sm-2 sub-category-wapper">
+<div class="col-sm-1 sub-category-wapper">
     <ul class="sub-category-list">
         <?php
         $i = 1;
@@ -30,7 +30,7 @@ use yii\helpers\Url;
         ?>
     </ul>
 </div>
-<div class="col-sm-6 col-right-tab">
+<div class="col-sm-7 col-right-tab">
     <div class="product-featured-tab-content">
         <div class="tab-container">
             <?php
