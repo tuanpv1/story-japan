@@ -34,22 +34,6 @@ use yii\helpers\Html;
         ],
         [
             'class' => '\kartik\grid\DataColumn',
-            'attribute' => 'price',
-            'format' => 'html',
-            'value' => function ($model, $key, $index, $widget) {
-                return CUtils::formatNumber($model->price).' Đ';
-            },
-        ],
-        [
-            'class' => '\kartik\grid\DataColumn',
-            'attribute' => 'sale',
-            'format' => 'html',
-            'value' => function ($model, $key, $index, $widget) {
-                return $model->sale?$model->sale.' %':' 0%';
-            },
-        ],
-        [
-            'class' => '\kartik\grid\DataColumn',
             'attribute' => 'price_promotion',
             'format' => 'html',
             'value' => function ($model, $key, $index, $widget) {
@@ -72,9 +56,11 @@ use yii\helpers\Html;
         ],
         [
             'class' => '\kartik\grid\DataColumn',
-            'attribute' => 'created_at',
+            'attribute' => 'total',
+            'label' => 'Nguồn hàng',
+            'format' => 'html',
             'value' => function ($model, $key, $index, $widget) {
-                return date('d/m/Y H:i:s', $model->created_at);
+                return "<a href='" . Content::findOne($model->content_id)->link . "'>Link</a>";
             },
         ],
     ],

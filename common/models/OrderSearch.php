@@ -75,6 +75,8 @@ class OrderSearch extends Order
             ->andFilterWhere(['like', 'address_receiver', $this->address_receiver])
             ->andFilterWhere(['like', 'note', $this->note]);
 
+        $query->orderBy('created_at');
+
         return $dataProvider;
     }
 }

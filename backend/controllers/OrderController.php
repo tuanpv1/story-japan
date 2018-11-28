@@ -45,6 +45,12 @@ class OrderController extends Controller
                 $index = $post['editableIndex'];
                 if ($feedback) {
                     $feedback->load($post['Order'][$index], '');
+                    if($feedback->date_pay){
+                        Yii::error($feedback->date_pay);
+                        $date_pay = strtotime($feedback->date_pay);
+                        Yii::error($date_pay);
+                        $feedback->date_pay = $date_pay;
+                    }
                     if ($feedback->update()) {
                         echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
                     } else {

@@ -97,7 +97,7 @@ class ShoppingCartController extends Controller
         Yii::$app->mailer->compose()
             ->setFrom('phptest102@gmail.com')
             ->setTo($email)
-            ->setSubject("Thông báo đơn hàng từ " . Yii::$app->name)
+            ->setSubject("Thông báo đơn hàng từ Hanghieuorder.com")
             ->setHtmlBody($body)
             ->send();
     }
@@ -261,7 +261,7 @@ class ShoppingCartController extends Controller
                 Sau khi nhận được thông báo nhận tiền từ ngân hàng, chúng tôi sẽ tiến hàng đặt 
                 hàng theo yêu cầu của Quý khách. <br>
                 -	Khi chuyển tiền quý khách vui lòng ghi rõ nội dung như sau: <span style='color: red'>\"Trần văn A thanh toán đơn hàng mã #56832\". </span></span> <br>
-                Có vấn đề cần giải đáp, Quý khách có thể liên hệ theo số hotline: 0866.881.728 <br><br>
+                Có vấn đề cần giải đáp, Quý khách có thể liên hệ theo số hotline: 0865.115.558 <br><br>
                     
             TÀI KHOẢN NGÂN HÀNG:
             <br><br>

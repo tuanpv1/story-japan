@@ -24,6 +24,9 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $created_at
  * @property string $note
  * @property integer $updated_at
+ * @property integer $book
+ * @property integer $pay
+ * @property integer $date_pay
  */
 class Order extends \yii\db\ActiveRecord
 {
@@ -35,11 +38,11 @@ class Order extends \yii\db\ActiveRecord
 
     public static function getListStatus(){
         $list1 = [
-            self::STATUS_SUCCESS => 'Đã nhận hàng',
-            self::STATUS_TRANSPORT => 'Đang chuyển đi',
-            self::STATUS_ERROR => 'Thất lạc',
-            self::STATUS_RETURN => 'Trả lại',
-            self::STATUS_ORDERED => 'Vừa đặt hàng',
+            self::STATUS_SUCCESS => 'Đã mua hàng',
+            self::STATUS_TRANSPORT => 'Đang xử lý',
+            self::STATUS_ERROR => 'Đơn hàng ảo',
+            self::STATUS_RETURN => 'Đã xử lý',
+            self::STATUS_ORDERED => 'Chưa xử lý',
         ];
 
         return $list1;
@@ -74,9 +77,10 @@ class Order extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'status', 'phone_buyer', 'phone_receiver','total_number','total', 'created_at', 'updated_at'], 'integer'],
+            [['user_id', 'status', 'phone_buyer', 'phone_receiver','total_number','total', 'created_at', 'updated_at', 'book','pay'], 'integer'],
             [['note'], 'string'],
             [['name_buyer', 'address_buyer', 'email_buyer', 'name_receiver', 'address_receiver', 'email_receiver'], 'string', 'max' => 255],
+            ['date_pay','safe']
         ];
     }
 
@@ -96,11 +100,14 @@ class Order extends \yii\db\ActiveRecord
             'name_receiver' => 'Tên người nhận',
             'phone_receiver' => 'Số điện thoại người nhận',
             'address_receiver' => 'Địa chỉ người nhận',
-            'created_at' => 'Ngày tạo',
-            'note' => 'Ghi chú người mua',
+            'created_at' => 'Ngày đặt hàng',
+            'note' => 'Ghi chú',
             'total' => 'Tổng tiền',
             'total_number' => 'Tổng sản phẩm',
             'updated_at' => 'Ngày thay đổi',
+            'book' => 'Tiền đặt cọc',
+            'pay' => 'Tiền thu COD',
+            'date_pay' => 'Ngày thu COD',
         ];
     }
 

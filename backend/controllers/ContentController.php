@@ -723,6 +723,7 @@ class ContentController extends BaseBEController
 
             $model = new Content();
             $model->processPrice($price);
+            $model->link = $_POST['linkProcess'];
             $display_name = Content::translateLanguage($display_name, 'zh');
             $model->display_name = $display_name;
             $model->processImage($image, $_POST['sourceProcess']);

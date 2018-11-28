@@ -106,3 +106,6 @@ div.required label.control-label:after {
 .fileinput-cancel-button{
     display: none;
 }
+.kv-editable-link{
+    color: black;
+}

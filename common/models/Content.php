@@ -306,7 +306,7 @@ class Content extends \yii\db\ActiveRecord
             'ascii_name' => Yii::t('app', 'Ascii Name'),
             'title_short' => Yii::t('app', 'Tên hiển thị ngắn'),
             'type' => Yii::t('app', 'Kiểu hàng sắp xếp'),
-            'tags' => Yii::t('app', 'Tags'),
+            'tags' => Yii::t('app', 'Tối ưu từ khoá google seo'),
             'type_status' => Yii::t('app', 'Tình trạng hàng'),
             'availability' => Yii::t('app', 'Trạng thái hàng'),
             'short_description' => Yii::t('app', 'Mô tả ngắn'),
@@ -348,7 +348,7 @@ class Content extends \yii\db\ActiveRecord
             'order' => Yii::t('app', 'Sắp xếp'),
             'slide_category' => Yii::t('app', 'Ảnh slide Danh mục'),
             'is_feature' => Yii::t('app', 'Feature'),
-            'link' => Yii::t('app', 'Link'),
+            'link' => Yii::t('app', 'Ngồn hàng'),
         ];
     }
 
