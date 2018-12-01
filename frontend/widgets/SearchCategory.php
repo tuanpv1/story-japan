@@ -24,7 +24,7 @@ class SearchCategory extends Widget{
     public  function run()
     {
         $category = Category::find()
-            ->andWhere(['status' => Category::STATUS_ACTIVE])
+            ->andWhere(['status' => Category::STATUS_ACTIVE, 'parent_id' => null])
             ->all();
         return $this->render('search-category',[
             'category'=>$category,

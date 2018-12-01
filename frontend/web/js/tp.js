@@ -129,8 +129,8 @@ $(document).ready(function () {
 
     $('#idSearchPrice').click(function () {
         $("#my-chart").addClass("loading");
-        var value_min = $('#valueFrom').val();
-        var value_max = $('#valueTo').val();
+        var value_min = $('#valueFrom').val()?$('#valueFrom').val():$('.slider-range-price').data('valueMin');
+        var value_max = $('#valueTo').val()?$('#valueTo').val():$('.slider-range-price').data('valueMax');
         var category_id = $('#idCategorySearch').val();
         var keyword = $('#keywordSearch').val();
         $.post(

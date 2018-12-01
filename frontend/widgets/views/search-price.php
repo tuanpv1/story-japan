@@ -19,7 +19,7 @@ use common\helpers\CUtils;
                 <div data-label-reasult="Khoảng:" data-min="0" data-max="<?= $info->max_price_search ?>" data-unit=" Đ"
                      class="slider-range-price" data-value-min="500000" data-value-max="1000000"></div>
                 <div class="amount-range-price">Khoảng: 500,000 - 1,000,000 Đ</div>
-                <a href="#" id="idSearchPrice" >Lọc theo giá đã chọn: <i class="glyphicon glyphicon-play"></i></a>
+                <a href="#" id="idSearchPrice"  class="btn-search">Lọc theo giá đã chọn</a>
             </div>
             <!-- ./filter price -->
         </div>

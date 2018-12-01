@@ -7,7 +7,6 @@ use common\models\Content;
 use common\models\Slide;
 use Yii;
 use yii\data\Pagination;
-use yii\db\Expression;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -40,7 +39,7 @@ class CategoryController extends Controller
             ->select('content.id,content.display_name,content.type,content.short_description,content.price,content.images,content.price_promotion,content.code')
             ->innerJoin('content_category_asm', 'content_category_asm.content_id = content.id')
             ->andWhere(['content.status' => Content::STATUS_ACTIVE])
-            ->andWhere(['IN', 'content_category_asm.category_id', $listCats]);
+            ->andWhere(['content_category_asm.category_id' => $cat->id]);
         if (!empty($keyword)) {
             $contents->andWhere(['like', 'content.display_name', $keyword]);
         }
@@ -98,7 +97,7 @@ class CategoryController extends Controller
             ->select('content.id,content.display_name,content.type,content.short_description,content.price,content.images,content.price_promotion,content.code')
             ->innerJoin('content_category_asm', 'content_category_asm.content_id = content.id')
             ->andWhere(['content.status' => Content::STATUS_ACTIVE])
-            ->andWhere(['IN', 'content_category_asm.category_id', $listCats]);
+            ->andWhere(['content_category_asm.category_id' => $cat->id]);
         if (!empty($keyword)) {
             $contents->andWhere(['like', 'content.display_name', $keyword]);
         }

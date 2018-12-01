@@ -22,7 +22,7 @@ use yii\helpers\Url;
             </select>
         </div>
         <div class="form-group input-serach">
-            <input id="keyword" name="keyword" type="text" value="<?= !empty($keyword)?''.$keyword:'' ?>" placeholder="<?= Yii::t('app', 'Tìm kiếm') ?>...">
+            <input autocomplete="off" id="keyword" name="keyword" type="text" value="<?= !empty($keyword)?''.$keyword:'' ?>" placeholder="<?= Yii::t('app', 'Tìm kiếm') ?>...">
         </div>
         <button type="submit" class="pull-right btn-search"></button>
     </form>

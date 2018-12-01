@@ -179,6 +179,23 @@ $this->registerJs($js, \yii\web\View::POS_HEAD);
                     [
                         'format' => 'raw',
                         'class' => '\kartik\grid\DataColumn',
+                        'attribute' => 'link',
+                        'value' => function ($model, $key, $index) {
+                            return "<a href='" . $model->link. "'>Link</a>";
+                        },
+                    ],
+                    [
+                        'format' => 'raw',
+                        'class' => '\kartik\grid\DataColumn',
+                        'attribute' => 'display_name',
+                        'label' => 'Xem nhanh',
+                        'value' => function ($model, $key, $index) {
+                            return "<a target='_blank' href='" . Yii::$app->params['preview_link'].'content/preview&id='.$model->id. "'>Xem nhanh</a>";
+                        },
+                    ],
+                    [
+                        'format' => 'raw',
+                        'class' => '\kartik\grid\DataColumn',
                         'attribute' => 'display_name',
                         'value' => function ($model, $key, $index) {
                             return Html::a($model->display_name, ['view', 'id' => $model->id], ['class' => 'label label-primary']);

@@ -779,10 +779,9 @@ img.alignright{
 .select2-container .select2-selection--single .select2-selection__rendered {
     padding-left: 15px;
 }
-.main-header .header-search-box .form-inline .input-serach{
-    width: calc(100% - 200px);
-    
-}
+/*.main-header .header-search-box .form-inline .input-serach{*/
+    /*width: calc(100% - 150px);*/
+/*}*/
 .main-header .header-search-box .form-inline .input-serach input{
     border: none;
     padding-left: 15px;

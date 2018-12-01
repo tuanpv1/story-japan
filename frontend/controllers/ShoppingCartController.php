@@ -97,7 +97,7 @@ class ShoppingCartController extends Controller
         Yii::$app->mailer->compose()
             ->setFrom('phptest102@gmail.com')
             ->setTo($email)
-            ->setSubject("Thông báo đơn hàng từ Hanghieuorder.com")
+            ->setSubject("Đơn từ Hanghieuorder.com")
             ->setHtmlBody($body)
             ->send();
     }
@@ -188,7 +188,7 @@ class ShoppingCartController extends Controller
                 </tr>
                 </thead>
                 <tbody>";
-            $i =1;
+            $i = 1;
             foreach ($cart as $key => $value) {
                 $txtTable .= "<tr>";
                 $content = Content::findOne($value['id']);
@@ -213,9 +213,9 @@ class ShoppingCartController extends Controller
                     $order_detail->price_promotion = $content->price_promotion;
                 }
                 $txtTable .= "
-                        <td style='border: 1px solid #ddd;' width=\"5%\"> ". $i ."</td>
+                        <td style='border: 1px solid #ddd;' width=\"5%\"> " . $i . "</td>
                         <td style='border: 1px solid #ddd;' class=\"cart_description\" width=\"35%\">";
-                $txtTable .= "<a href=".Url::base('http').Url::to(['content/detail','id' => $content->id]).">" . $value['display_name'] . "</a>";
+                $txtTable .= "<a href=" . Url::base('http') . Url::to(['content/detail', 'id' => $content->id]) . ">" . $value['display_name'] . "</a>";
                 $txtTable .= "</td>";
                 if ($content->price_promotion == 0 || $content->price_promotion == $content->price) {
                     $txtTable .= "<td style='border: 1px solid #ddd;' class=\"cart_price\">";
@@ -299,9 +299,21 @@ class ShoppingCartController extends Controller
             ->orderBy(['created_at' => SORT_DESC])
             ->one();
         if ($order) {
-            $message = Yii::t('app', 'Khách hàng địa chỉ Email ') . substr_replace($order->email_buyer, 'xxx', 2, 3)
-                . Yii::t('app', ' vừa đặt hàng tại ') . Yii::$app->name;
+            $message = Yii::t('app', 'Khách hàng ' . $order->name_buyer . ' địa chỉ Email ') . substr_replace($order->email_buyer, 'xx', 2, 2)
+                . Yii::t('app', ' Đã đặt hàng tại ') . Yii::$app->name . $this->getHour($order->created_at);
             return $message;
         }
+    }
+
+    public function getHour($time)
+    {
+        $new_time = time() - $time;
+        if ($new_time < 86400) {
+            $result = $new_time / 3600 + ' giờ trước';
+        } else {
+            $result = round($new_time / 86400) + ' ngày trước';
+        }
+
+        return $result;
     }
 }

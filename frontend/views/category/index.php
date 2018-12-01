@@ -6,10 +6,11 @@
  * Time: 8:22 AM
  */
 use common\helpers\CUtils;
+use common\models\Category;
 use common\models\Content;
 use yii\helpers\Url;
 
-/** @var \common\models\Category $cat */
+/** @var Category $cat */
 
 ?>
 <div class="columns-container">
@@ -30,10 +31,11 @@ use yii\helpers\Url;
                 <!-- category-slider -->
                 <?php if (isset($banner)) { ?>
                     <div class="category-slider">
-                        <ul class="owl-carousel owl-style2" data-dots="false" data-loop="<?= count($banner)>1?'true':false ?>" data-nav="true"
+                        <ul class="owl-carousel owl-style2" data-dots="false"
+                            data-loop="<?= count($banner) > 1 ? 'true' : false ?>" data-nav="true"
                             data-autoplayTimeout="1000" data-autoplayHoverPause="true" data-items="1">
                             <?php foreach ($banner as $item) {
-                                /** @var \common\models\Slide $item */ ?>
+                                /** @var Slide $item */ ?>
                                 <li>
                                     <img style="height:288px;" src="<?= $item->getSlideImage() ?>"
                                          alt="<?= $item->id ?>">
@@ -46,10 +48,25 @@ use yii\helpers\Url;
                 <!-- subcategories -->
                 <div class="subcategories">
                     <ul>
-                        <li class="current-categorie">
-                            <a href="<?= Url::to(['category/index', 'id' => $cat->id]) ?>"><?= $cat->display_name ?></a>
-                        </li>
-                        <?= \frontend\widgets\CateRow::getCateRow($cat->id) ?>
+                        <?php
+                        $child = Category::findAll(['status' => Category::STATUS_ACTIVE, 'parent_id' => $cat->id]);
+                        if (!empty($child)) {
+                            ?>
+                            <li class="current-categorie">
+                                <a href="<?= Url::to(['category/index', 'id' => $cat->id]) ?>"><?= $cat->display_name ?></a>
+                            </li>
+                            <?= \frontend\widgets\CateRow::getCateRow($cat->id); ?>
+                            <?php
+                        } else {
+                            $cat_parent = Category::findOne($cat->parent_id);
+                            ?>
+                            <li class="current-categorie">
+                                <a href="<?= Url::to(['category/index', 'id' => $cat_parent->id]) ?>"><?= $cat_parent->display_name ?></a>
+                            </li>
+                            <?php
+                            echo \frontend\widgets\CateRow::getCateRow($cat_parent->id);
+                        }
+                        ?>
                     </ul>
                 </div>
                 <!-- ./subcategories -->
@@ -83,7 +100,7 @@ use yii\helpers\Url;
                                             </div>
                                             <div class="add-to-cart">
                                                 <a title="Add to Cart" href="javascript:void(0)"
-                                                   onclick="addCart(<?= $item['id'] ?>)">Mua</a>
+                                                   onclick="addCart(<?= $item['id'] ?>)">Thêm vào giỏ hàng</a>
                                             </div>
                                             <div class="group-price">
                                                 <?php if ($item['price'] != $item['price_promotion'] && $item['price_promotion'] != 0) { ?>
@@ -142,7 +159,8 @@ use yii\helpers\Url;
                                 <?php if (count($contents) >= 9) { ?>
                                     <button class="button" id="more"
                                             onclick="loadMore('<?= Url::to(['category/get-more-contents']) ?>');">Xem
-                                        thêm</button>
+                                        thêm
+                                    </button>
                                 <?php } ?>
                             <?php } ?>
                         </div>

@@ -30,6 +30,18 @@ class ContentController extends Controller
         ]);
     }
 
+    public function actionPreview($id)
+    {
+        $content = Content::findOne(['id' => $id]);
+        $link = $content->getImageLinkFE('product-s3-100x122.jpg');
+        $info = InfoPublic::findOne(InfoPublic::ID_DEFAULT);
+        return $this->render('detail', [
+            'content' => $content,
+            'link' => $link,
+            'info' => $info,
+        ]);
+    }
+
     public function actionSearch()
     {
         if (!empty($_POST['keyword'])) {

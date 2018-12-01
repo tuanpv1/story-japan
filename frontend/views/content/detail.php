@@ -103,7 +103,7 @@ use common\models\Content;
                                 <div class="form-action">
                                     <div class="button-group">
                                         <a class="btn-add-cart" href="javascript:void(0)"
-                                           onclick="addCart(<?= $content->id ?>)">Mua</a>
+                                           onclick="addCart(<?= $content->id ?>)">Thêm vào giỏ hàng</a>
                                     </div>
                                 </div>
                                 <div class="form-action"><br>
