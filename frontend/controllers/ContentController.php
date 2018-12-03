@@ -46,15 +46,18 @@ class ContentController extends Controller
     {
         if (!empty($_POST['keyword'])) {
             $category = '';
-            $value_max = null;
+            $value_max = 0;
             $value_min = 0;
+            $is_search = false;
             if (!empty(Yii::$app->request->post('value_max'))) {
                 $value_max = Yii::$app->request->post('value_max');
             }
             if (!empty(Yii::$app->request->post('value_min'))) {
                 $value_min = Yii::$app->request->post('value_min');
             }
-            $banner = Slide::findAll(['status' => Slide::STATUS_ACTIVE, 'type' => Slide::SLIDE_CATEGORY]);
+            if (!empty(Yii::$app->request->post('is_search'))) {
+                $is_search = Yii::$app->request->post('is_search');
+            }
             $contents = Content::find()
                 ->select('content.id,content.display_name,content.type,content.short_description,content.price,content.images,content.price_promotion,content.code')
                 ->andWhere(['status' => Content::STATUS_ACTIVE])
@@ -71,8 +74,12 @@ class ContentController extends Controller
                 $contents->innerJoin('content_category_asm', 'content_category_asm.content_id = content.id')
                     ->andWhere(['IN','content_category_asm.category_id',$listCats]);
             }
-            if ($value_max) {
-                $contents->andWhere(['BETWEEN', 'content.price_promotion', $value_min, $value_max]);
+            if ($is_search) {
+                if($value_max == 0 && $value_min){
+                    $contents->andWhere(['>=', 'content.price_promotion', $value_min]);
+                }else{
+                    $contents->andWhere(['BETWEEN', 'content.price_promotion', $value_min, $value_max]);
+                }
             }
             $contents->orderBy(['content.created_at' => 'DESC']);
 
@@ -82,7 +89,7 @@ class ContentController extends Controller
             $pages->setPageSize($pageSize);
             $contents = $contents->offset($pages->offset)
                 ->limit(9)->all();
-            if($value_max){
+            if($is_search){
                 return $this->renderPartial('_contents',[
                     'contents' => $contents,
                     'category' => $category,
@@ -92,7 +99,6 @@ class ContentController extends Controller
             }
             return $this->render('content-search', [
                 'contents' => $contents,
-                'banner' => $banner,
                 'category' => $category,
                 'pages' => $pages,
                 'keyword' => $_POST['keyword']

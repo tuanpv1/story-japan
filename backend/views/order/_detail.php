@@ -62,9 +62,21 @@ use yii\widgets\DetailView;
                 'attribute' => 'note',
                 'value' => $model->note,
             ],
+            [
+                'attribute' => 'pay',
+                'value' => $model->pay . ' VND',
+            ],
+            [
+                'attribute' => 'date_pay',
+                'value' => $model->date_pay?date('d/m/Y H:i:s', $model->date_pay):'',
+            ],
+            [
+                'attribute' => 'book',
+                'value' => $model->book . ' VND',
+            ],
             [                      // the owner name of the model
                 'attribute' => 'created_at',
-                'label' => 'Ngày tạo',
+                'label' => 'Ngày đặt',
                 'value' => date('d/m/Y H:i:s', $model->created_at),
             ],
             [                      // the owner name of the model

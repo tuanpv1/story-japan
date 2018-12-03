@@ -59,6 +59,11 @@ use yii\helpers\Url;
 
     <?= $form->field($model, 'address')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'payment_type')->widget(\dosamigos\ckeditor\CKEditor::className(), [
+        'options' => ['rows' => 6],
+        'preset' => 'basic'
+    ]) ?>
+
     <?= $form->field($model, 'convert_price_vnd')->textInput(['maxlength' => true]) ?>
     
     <?= $form->field($model, 'time_show_order')->textInput(['maxlength' => true]) ?>

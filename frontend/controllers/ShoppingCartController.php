@@ -8,6 +8,7 @@ use common\models\Order;
 use common\models\OrderDetail;
 use frontend\models\Cart;
 use Yii;
+use yii\db\Expression;
 use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\Controller;
@@ -95,9 +96,15 @@ class ShoppingCartController extends Controller
     public function sendEmail($email, $body)
     {
         Yii::$app->mailer->compose()
-            ->setFrom('phptest102@gmail.com')
+            ->setFrom('Đơn từ Hanghieuorder.com')
             ->setTo($email)
-            ->setSubject("Đơn từ Hanghieuorder.com")
+            ->setSubject("Đơn hàng từ Hanghieuorder.com")
+            ->setHtmlBody($body)
+            ->send();
+        Yii::$app->mailer->compose()
+            ->setFrom('Đơn từ Hanghieuorder.com')
+            ->setTo(Yii::$app->params['email_want_send_order'])
+            ->setSubject("Có đơn hàng từ Hanghieuorder.com")
             ->setHtmlBody($body)
             ->send();
     }
@@ -296,7 +303,7 @@ class ShoppingCartController extends Controller
     {
         $order = Order::find()
             ->andWhere(['status' => Order::STATUS_ORDERED])
-            ->orderBy(['created_at' => SORT_DESC])
+            ->orderBy(new Expression('rand()'))
             ->one();
         if ($order) {
             $message = Yii::t('app', 'Khách hàng ' . $order->name_buyer . ' địa chỉ Email ') . substr_replace($order->email_buyer, 'xx', 2, 2)
@@ -309,9 +316,9 @@ class ShoppingCartController extends Controller
     {
         $new_time = time() - $time;
         if ($new_time < 86400) {
-            $result = $new_time / 3600 + ' giờ trước';
+            $result = round($new_time / 3600) . ' giờ trước';
         } else {
-            $result = round($new_time / 86400) + ' ngày trước';
+            $result = round($new_time / 86400) . ' ngày trước';
         }
 
         return $result;

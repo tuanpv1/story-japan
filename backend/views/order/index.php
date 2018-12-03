@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             return ['class' => 'info'];
                         }
                         if ($model->status == Order::STATUS_TRANSPORT) {
-                            return ['class' => 'danger'];
+                            return ['style' => 'background-color:yellow' ];
                         }
                     },
                     'columns' => [
@@ -186,13 +186,13 @@ $this->params['breadcrumbs'][] = $this->title;
                             'value' => function ($model, $key, $index, $widget) {
                                 /** @var $model \common\models\Order */
 
-                                return $model->date_pay?date('d/m/Y H:i:s',$model->date_pay):'Chưa thiết lập';
+                                return $model->date_pay?date('d/m/Y',$model->date_pay):'Chưa thiết lập';
                             },
                             'editableOptions' => function ($model, $key, $index) {
                                 return [
                                     'header' => 'Ngày thu COD',
                                     'size' => 'md',
-                                    'inputType' => \kartik\editable\Editable::INPUT_DATETIME,
+                                    'inputType' => \kartik\editable\Editable::INPUT_DATE,
                                     'placement' => \kartik\popover\PopoverX::ALIGN_LEFT,
                                 ];
                             },

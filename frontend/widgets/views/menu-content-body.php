@@ -21,7 +21,7 @@ use yii\helpers\Url;
             foreach ($categories as $category) {
                 ?>
                 <li class="<?= $i == 1 ? 'active' : '' ?>" style="line-height: <?= $height ?>px">
-                    <a href="<?= Url::to(['category/index','id' => $category->id]) ?>"><?= $category->display_name ?></a>
+                    <a data-toggle="tab" href="#tab-<?= $category->id ?>"><?= $category->display_name ?></a>
                 </li>
                 <?php
                 $i++;
@@ -42,6 +42,7 @@ use yii\helpers\Url;
                     <div class="tab-panel <?= $i == 1 ? 'active' : '' ?>" id="tab-<?= $category->id ?>">
                         <?= ContentContentBody::widget(['id' => $category->id]) ?>
                     </div>
+                    <a href="<?= Url::to(['category/index','id' => $category->id]) ?>"> >>> Xem thêm </a>
                     <?php
                     $i++;
                 }

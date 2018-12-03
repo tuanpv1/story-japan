@@ -35,27 +35,10 @@ use yii\helpers\Url;
             <!-- Left colunm -->
             <div class="column col-xs-12 col-sm-3" id="left_column">
                 <?= \frontend\widgets\SearchPriceWidget::widget() ?>
-                <?= \frontend\widgets\WidgetSaleContent::widget() ?>
-                <?= \frontend\widgets\TagsWidget::widget() ?>
             </div>
             <!-- ./left colunm -->
             <!-- Center colunm-->
             <div class="center_column col-xs-12 col-sm-9" id="center_column">
-                <!-- category-slider -->
-                <?php if (isset($banner)) { ?>
-                    <div class="category-slider">
-                        <ul class="owl-carousel owl-style2" data-dots="false" data-loop="true" data-nav="true"
-                            data-autoplayTimeout="1000" data-autoplayHoverPause="true" data-items="1">
-                            <?php foreach ($banner as $item) {
-                                /** @var \common\models\Slide $item */ ?>
-                                <li>
-                                    <img style="height:288px;" src="<?= $item->getSlideImage() ?>"
-                                         alt="<?= $item->id ?>">
-                                </li>
-                            <?php } ?>
-                        </ul>
-                    </div>
-                <?php } ?>
                 <!-- ./category-slider -->
                 <div id="replaceHtmlContents">
                     <!-- subcategories -->

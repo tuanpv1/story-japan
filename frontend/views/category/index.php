@@ -59,12 +59,20 @@ use yii\helpers\Url;
                             <?php
                         } else {
                             $cat_parent = Category::findOne($cat->parent_id);
-                            ?>
-                            <li class="current-categorie">
-                                <a href="<?= Url::to(['category/index', 'id' => $cat_parent->id]) ?>"><?= $cat_parent->display_name ?></a>
-                            </li>
-                            <?php
-                            echo \frontend\widgets\CateRow::getCateRow($cat_parent->id);
+                            if(!empty($cat_parent)){
+                                ?>
+                                <li class="current-categorie">
+                                    <a href="<?= Url::to(['category/index', 'id' => $cat_parent->id]) ?>"><?= $cat_parent->display_name ?></a>
+                                </li>
+                                <?php
+                                echo \frontend\widgets\CateRow::getCateRow($cat_parent->id);
+                            }else{
+                                ?>
+                                <li class="current-categorie">
+                                    <a href="<?= Url::to(['category/index', 'id' => $cat->id]) ?>"><?= $cat->display_name ?></a>
+                                </li>
+                                <?php
+                            }
                         }
                         ?>
                     </ul>

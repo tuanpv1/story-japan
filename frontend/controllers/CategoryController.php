@@ -19,7 +19,8 @@ class CategoryController extends Controller
 
     public function actionIndex()
     {
-        $value_max = null;
+        $value_max = 0;
+        $is_search = false;
         $value_min = 0;
         $id = Yii::$app->request->get('id');
         $cat = Category::findOne($id);
@@ -32,6 +33,9 @@ class CategoryController extends Controller
         if (!empty(Yii::$app->request->post('value_min'))) {
             $value_min = Yii::$app->request->post('value_min');
         }
+        if (!empty(Yii::$app->request->post('is_search'))) {
+            $is_search = Yii::$app->request->post('is_search');
+        }
 
         $listCats = Category::allChildCats($cat->id);
         $listCats[] = $cat->id;
@@ -43,8 +47,12 @@ class CategoryController extends Controller
         if (!empty($keyword)) {
             $contents->andWhere(['like', 'content.display_name', $keyword]);
         }
-        if (!empty($value_max)) {
-            $contents->andWhere(['BETWEEN', 'content.price_promotion', $value_min, $value_max]);
+        if ($is_search) {
+            if($value_max == 0 && $value_min){
+                $contents->andWhere(['>=', 'content.price_promotion', $value_min]);
+            }else{
+                $contents->andWhere(['BETWEEN', 'content.price_promotion', $value_min, $value_max]);
+            }
         }
         $contents->orderBy(['content.created_at' => 'DESC']);
 
@@ -55,7 +63,7 @@ class CategoryController extends Controller
         $contents = $contents->offset($pages->offset)
             ->limit(9)->all();
 
-        if ($value_max) {
+        if ($is_search) {
             return $this->renderPartial('_contents', [
                 'contents' => $contents,
                 'cat' => $cat,

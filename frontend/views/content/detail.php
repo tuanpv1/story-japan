@@ -7,7 +7,8 @@
  */
 use common\helpers\CUtils;
 use common\models\Content;
-
+use common\models\InfoPublic;
+$info = InfoPublic::findOne(InfoPublic::ID_DEFAULT);
 ?>
 <?php /** @var \common\models\Content $content */ ?>
 <div class="columns-container">
@@ -67,7 +68,8 @@ use common\models\Content;
                                         %</span>
                                 </div>
                                 <div class="info-orther">
-                                    <p id="product_code_<?= $content->id ?>"><b><?= Yii::t('app', 'Mã sản phẩm: #') ?></b>
+                                    <p id="product_code_<?= $content->id ?>">
+                                        <b><?= Yii::t('app', 'Mã sản phẩm: #') ?></b>
                                         <span><?= $content->code ?></span></p>
                                     <p><b><?= Yii::t('app', 'Tình trạng: ') ?></b><span
                                                 class="in-stock"><?= Content::$listAvailability[$content->availability] ?></span>
@@ -118,10 +120,24 @@ use common\models\Content;
                                     <a aria-expanded="false" data-toggle="tab"
                                        href="#product-detail"><?= Yii::t('app', 'Mô tả sản phẩm') ?></a>
                                 </li>
+                                <li>
+                                    <a aria-expanded="false" data-toggle="tab"
+                                       href="#product-payment"><?= Yii::t('app', 'Phương thức thanh toán') ?></a>
+                                </li>
+                                <li>
+                                    <a aria-expanded="false" data-toggle="tab"
+                                       href="#product-address"><?= Yii::t('app', 'Địa chỉ') ?></a>
+                                </li>
                             </ul>
                             <div class="tab-container">
                                 <div id="product-detail" class="tab-panel active">
                                     <?= $content->description ? $content->description : Yii::t('app', 'Đang cập nhật') ?>
+                                </div>
+                                <div id="product-payment" class="tab-panel">
+                                    <?= $info->payment_type?$info->payment_type:'Đang cập nhật' ?>
+                                </div>
+                                <div id="product-address" class="tab-panel">
+                                    <?= $info->address?$info->address:'Đang cập nhật' ?>
                                 </div>
                             </div>
                         </div>

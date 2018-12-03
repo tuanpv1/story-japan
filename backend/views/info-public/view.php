@@ -1,14 +1,13 @@
 <?php
 
-use common\models\InfoPublic;
-use yii\helpers\Html;
 use kartik\detail\DetailView;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\InfoPublic */
 
-$this->title = Yii::t('app','Xem thông tin cấu hình');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app','QL Thông tin'), 'url' => ['index']];
+$this->title = Yii::t('app', 'Xem thông tin cấu hình');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'QL Thông tin'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
@@ -28,16 +27,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="tabbable-custom ">
 
                     <p>
-                        <?= Html::a(Yii::t('app','Cập nhật'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                        <?= Html::a(Yii::t('app', 'Cập nhật'), ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
                     </p>
 
                     <?= DetailView::widget([
                         'model' => $model,
                         'attributes' => [
                             [
-                                'attribute'=>'image_header',
+                                'attribute' => 'image_header',
                                 'format' => 'raw',
-                                'value'=>$model->image_header ? Html::img(Yii::getAlias('@web') . "/" . Yii::getAlias('@image_info') . "/" . $model->image_header, ['width' => '100px']) : '',
+                                'value' => $model->image_header ? Html::img(Yii::getAlias('@web') . "/" . Yii::getAlias('@image_info') . "/" . $model->image_header, ['width' => '100px']) : '',
                             ],
                             'email:email',
                             'phone',
@@ -47,6 +46,11 @@ $this->params['breadcrumbs'][] = $this->title;
                             'twitter',
                             'address',
                             'convert_price_vnd',
+                            [
+                                'attribute' => 'payment_type',
+                                'format' => 'html',
+                                'value' => $model->payment_type
+                            ],
                             'time_show_order',
                             [
                                 'attribute' => 'created_at',

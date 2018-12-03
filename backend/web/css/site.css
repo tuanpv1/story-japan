@@ -109,3 +109,10 @@ div.required label.control-label:after {
 .kv-editable-link{
     color: black;
 }
+.detail-view th {
+    width: 20%;
+}
+
+.detail-view td {
+    width: 80%;
+}

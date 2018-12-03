@@ -139,6 +139,7 @@ $(document).ready(function () {
                 value_min: value_min,
                 value_max: value_max,
                 category_id: category_id,
+                is_search: true,
                 keyword: keyword
             },
             function (data, status) {
@@ -146,6 +147,44 @@ $(document).ready(function () {
                 $("#my-chart").removeClass("loading");
             }
         );
+    });
+
+    $(".check-box-list input:checkbox").on('click', function() {
+        // in the handler, 'this' refers to the box clicked on
+        var $box = $(this);
+        var category_id = $('#idCategorySearch').val();
+        var keyword = $('#keywordSearch').val();
+        var price_search = $box.val();
+        if ($box.is(":checked")) {
+            // the name of the box is retrieved using the .attr() method
+            // as it is assumed and expected to be immutable
+            var group = "input:checkbox[name='" + $box.attr("name") + "']";
+            // the checked state of the group/box on the other hand will change
+            // and the current value is retrieved using .prop() method
+            $(group).prop("checked", false);
+            $box.prop("checked", true);
+            $("#my-chart").addClass("loading");
+            price_proccess = price_search.split(',');
+            value_min = price_proccess[0];
+            value_max = price_proccess[1];
+            $.post(
+                window.location,
+                {
+                    value_min: value_min,
+                    value_max: value_max,
+                    category_id: category_id,
+                    is_search: true,
+                    keyword: keyword
+                },
+                function (data, status) {
+                    $("#replaceHtmlContents").replaceWith(data);
+                    $("#my-chart").removeClass("loading");
+                }
+            );
+        } else {
+            $box.prop("checked", false);
+            window.location.reload();
+        }
     });
 });
 

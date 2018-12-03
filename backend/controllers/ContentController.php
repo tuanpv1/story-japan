@@ -672,7 +672,18 @@ class ContentController extends BaseBEController
                 $html = file_get_html($_POST['linkProcess']);
                 $display_name = $html->find('.tb-main-title', 0);
                 $image = $html->find('#J_ImgBooth', 0);
-                $price = $html->find('.tb-rmb-num', 0);
+                $price = $html->find('.tb-rmb-num');
+                $contents = $html->find('#J_UlThumb .tb-pic img');
+//                $content = iconv('gb2312', 'utf-8', $content);
+//                $content = Content::translateLanguage($content, 'zh');
+//                foreach ($content as $item){
+//                    echo $item;
+//                }
+                $arrImgSource = [];
+                foreach ($contents as $content){
+                    $arrImgSource[] = $content->{'data-src'};
+                }
+                echo"<pre>";print_r($arrImgSource);die;
             } else if ($_POST['sourceProcess'] == Content::TYPE_CRAWL_TMALL) {
                 $context = stream_context_create(array(
                     'https' => array(

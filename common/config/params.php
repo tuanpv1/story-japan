@@ -6,5 +6,6 @@ return [
     'site_id' => 5,
     'supportEmail' => 'support@example.com',
     'user.passwordResetTokenExpire' => 3600,
-    'preview_link' => 'http://gold-fe/index.php?r='
+    'preview_link' => 'http://gold-fe/index.php?r=',
+    'email_want_send_order' => 'hanghieupro0865115558@gmail.com'
 ];
