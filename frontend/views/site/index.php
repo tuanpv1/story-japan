@@ -35,12 +35,8 @@ $this->registerJs($js_toastr, View::POS_READY);
 <!-- Home slideder-->
 <?= HomeSlide::widget() ?>
 <!-- END Home slideder-->
-
+<?= \frontend\widgets\LatestDeals::widget() ?>
 <!-- end services -->
-<div class="content-page">
-    <div class="container">
-        <?= \frontend\widgets\ContentBody::widget() ?>
-    </div>
-</div>
-
+<?= \frontend\widgets\ContentBody::widget() ?>
+<!--modal-->
 <?= \frontend\widgets\CartBox::getModal() ?>

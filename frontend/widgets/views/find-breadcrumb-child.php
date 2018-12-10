@@ -16,15 +16,16 @@ use yii\helpers\Url;
     <?php if(isset($id_content)){ ?>
     <?= \frontend\widgets\FindBreadcrumb::getBreadcrumbChild1($id_content) ?>
     <?php } ?>
-<?php
-}
-if(isset($content)){
-    ?>
+<?php } if(isset($content)){ ?>
+    <?php if(!empty($content_parent)){ ?>
+        <span class="navigation-pipe">&nbsp;</span>
+        <a href="<?= Url::to(['content/detail','id'=>$content_parent->id]) ?>" title="<?= $content_parent->display_name ?>">
+            <?= $content_parent->display_name ?>
+        </a>
+    <?php } ?>
     <span class="navigation-pipe">&nbsp;</span>
     <a href="<?= Url::to(['content/detail','id'=>$content->id]) ?>" title="<?= $content->display_name ?>">
         <?= $content->display_name ?>
     </a>
-    <?php
-}
-?>
+<?php } ?>
 

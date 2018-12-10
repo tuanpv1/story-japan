@@ -1,16 +1,14 @@
 <?php
 
-use common\models\Content;
 use kartik\form\ActiveForm;
 use kartik\grid\GridView;
-use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $searchModel common\models\ContentSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app','Nội dung');
+$this->title = Yii::t('app', 'Nội dung');
 $this->params['breadcrumbs'][] = $this->title;
 $this->registerJs('UITree.init();');
 
@@ -28,8 +26,8 @@ $deleteStatus = \common\models\Content::STATUS_DELETE;
 
 <?php
 $updateLink = \yii\helpers\Url::to(['content/update-status-content']);
-$m1 = Yii::t('app','Chưa chọn nội dung! Xin vui lòng chọn ít nhất một nội dung để cập nhật.');
-$m2 = Yii::t('app','Bạn chắc chắn muốn xóa?');
+$m1 = Yii::t('app', 'Please select less than 1 content.');
+$m2 = Yii::t('app', 'Are you sure delete?');
 $js = <<<JS
     function updateStatusContent(newStatus){
 
@@ -88,14 +86,14 @@ $this->registerJs($js, \yii\web\View::POS_HEAD);
         <div class="portlet light">
             <div class="portlet-title">
                 <div class="caption">
-                    <i class="fa fa-cogs font-green-sharp"></i><?= Yii::t('app',"Tìm kiếm") ?>
+                    <i class="fa fa-cogs font-green-sharp"></i><?= Yii::t('app', "Search") ?>
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse"> </a>
                 </div>
             </div>
             <div class="portlet-body clearfix">
-                <?= $form->field($searchModel, 'keyword')->textInput(['placeholder' => Yii::t('app','Tìm kiếm theo từ khóa'), 'class' => 'input-circle']); ?>
+                <?= $form->field($searchModel, 'keyword')->textInput(['placeholder' => Yii::t('app', 'Search by keyword'), 'class' => 'input-circle']); ?>
             </div>
         </div>
 
@@ -103,7 +101,7 @@ $this->registerJs($js, \yii\web\View::POS_HEAD);
             <div class="portlet-title">
                 <div class="caption">
                     <i class="fa fa-cogs font-green-sharp"></i>
-                    <span class="caption-subject font-green-sharp bold uppercase"><?= Yii::t('app','Danh sách danh mục') ?></span>
+                    <span class="caption-subject font-green-sharp bold uppercase"><?= Yii::t('app', 'Categories') ?></span>
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse">
@@ -151,7 +149,7 @@ $this->registerJs($js, \yii\web\View::POS_HEAD);
                 <div class="caption">
                     <i class="fa fa-cogs font-green-sharp"></i>
                     <span
-                        class="caption-subject font-green-sharp bold uppercase"><?= Yii::t('app','Danh sách nội dung') ?> </span>
+                            class="caption-subject font-green-sharp bold uppercase"><?= Yii::t('app', 'Manga list') ?> </span>
                 </div>
                 <div class="tools">
                     <a href="javascript:;" class="collapse">
@@ -160,14 +158,14 @@ $this->registerJs($js, \yii\web\View::POS_HEAD);
             </div>
             <div class="portlet-body">
                 <p>
-                    <?php echo Html::a('Tạo ', Yii::$app->urlManager->createUrl(['content/create']), ['class' => 'btn btn-success']) ?>
+                    <?php echo Html::a(Yii::t('app', 'Create'), Yii::$app->urlManager->createUrl(['content/create']), ['class' => 'btn btn-success']) ?>
                 </p>
                 <?php
                 $gridColumn = [
                     [
                         'class' => '\kartik\grid\DataColumn',
                         'format' => 'raw',
-                        'label' => 'Ảnh',
+                        'attribute' => 'images',
                         'value' => function ($model, $key, $index, $widget) {
                             /** @var $model \common\models\Content */
 
@@ -179,18 +177,9 @@ $this->registerJs($js, \yii\web\View::POS_HEAD);
                     [
                         'format' => 'raw',
                         'class' => '\kartik\grid\DataColumn',
-                        'attribute' => 'link',
+                        'label' => 'Quick view',
                         'value' => function ($model, $key, $index) {
-                            return "<a href='" . $model->link. "'>Link</a>";
-                        },
-                    ],
-                    [
-                        'format' => 'raw',
-                        'class' => '\kartik\grid\DataColumn',
-                        'attribute' => 'display_name',
-                        'label' => 'Xem nhanh',
-                        'value' => function ($model, $key, $index) {
-                            return "<a target='_blank' href='" . Yii::$app->params['preview_link'].'content/preview&id='.$model->id. "'>Xem nhanh</a>";
+                            return "<a target='_blank' href='" . Yii::$app->params['preview_link'] . 'content/preview&id=' . $model->id . "'>link frontend</a>";
                         },
                     ],
                     [
@@ -218,7 +207,7 @@ $this->registerJs($js, \yii\web\View::POS_HEAD);
                         'refreshGrid' => true,
                         'editableOptions' => function ($model, $key, $index) {
                             return [
-                                'header' => Yii::t('app','Trạng thái'),
+                                'header' => Yii::t('app', 'Trạng thái'),
                                 'size' => 'md',
                                 'displayValueConfig' => \common\models\Content::getListStatus('filter'),
                                 'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
@@ -235,7 +224,7 @@ $this->registerJs($js, \yii\web\View::POS_HEAD);
                             'pluginOptions' => ['allowClear' => true],
                         ],
 
-                        'filterInputOptions' => ['placeholder' => Yii::t('app','Tất cả')],
+                        'filterInputOptions' => ['placeholder' => Yii::t('app', 'Tất cả')],
                     ],
 
                 ];
@@ -248,7 +237,7 @@ $this->registerJs($js, \yii\web\View::POS_HEAD);
                             return Html::a('<span class="glyphicon glyphicon-trash"></span>',
                                 Yii::$app->urlManager->createUrl(['content/delete', 'id' => $model->id]), [
                                     'title' => Yii::t('yii', 'Delete'),
-                                    'data-confirm' => Yii::t('app', 'Bạn có chắc chắn xóa nội dung này?'),
+                                    'data-confirm' => Yii::t('app','Are you sure delete?'),
                                     'data-method' => 'post',
                                     'data-pjax' => '0',
                                 ]);
@@ -270,7 +259,7 @@ $this->registerJs($js, \yii\web\View::POS_HEAD);
                     'hover' => true,
                     'panel' => [
                         'type' => GridView::TYPE_PRIMARY,
-                        'heading' => Yii::t('app','Danh sách Nội dung')
+                        'heading' => Yii::t('app', 'Manga list')
                     ],
                     'toolbar' => [
                         [

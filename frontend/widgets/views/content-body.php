@@ -10,40 +10,38 @@ use yii\helpers\Url;
 
 ?>
 <?php
+$i = 0;
 if (isset($category)) {
     foreach ($category as $item) {
         /** @var $item Category */
         ?>
-        <div class="category-featured fashion">
-            <nav class="navbar nav-menu show-brand">
-                <div class="container">
-                    <!-- Brand and toggle get grouped for better mobile display -->
-                    <div class="navbar-brand"><a
-                                href="<?= \yii\helpers\Url::to(['category/index', 'id' => $item->id]) ?>">
-                            <?= $item->display_name ?>
-                        </a>
-                    </div>
-                    <span class="toggle-menu"></span>
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse">
-                        <ul class="nav navbar-nav hidden-lg">
-                            <?= \frontend\widgets\MenuContentBody::widget(['id' => $item->id, 'show_phone' => $item->id]) ?>
-                        </ul>
-                    </div><!-- /.navbar-collapse -->
+        <div class="box-products new-arrivals-<?= $i ?>">
+            <div class="container">
+                <div class="box-product-head">
+                    <span class="box-title"><?= $item->display_name ?></span>
+                    <ul class="box-tabs nav-tab">
+                        <li class="active">
+                            <a href="<?= Url::to(['category/index', 'id' => $item->id]) ?>"><?= Yii::t('app', 'More') ?></a>
+                        </li>
+                    </ul>
                 </div>
-            </nav>
-            <div class="product-featured clearfix">
-                <div class="row">
-                    <div class="col-sm-4 sub-category-wapper">
-                        <div class="banner-img">
-                            <a href="<?= Url::to(['category/index','id' => $item->id]) ?>"><img  style="height: 570px" src="<?= $item->getImageLinkContentFeature() ?>" alt="<?= $item->display_name ?>"></a>
+                <div class="box-product-content">
+                    <div class="box-product-list">
+                        <div class="tab-container">
+                            <div id="tab-<?= $i ?>" class="tab-panel active">
+                                <ul class="product-list owl-carousel nav-center" data-dots="false" data-loop="true"
+                                    data-nav="true" data-margin="10"
+                                    data-responsive='{"0":{"items":2},"600":{"items":4},"1000":{"items":6}}'>
+                                    <?= \frontend\widgets\ContentContentBody::widget(['id' => $item->id]) ?>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                    <?= \frontend\widgets\MenuContentBody::widget(['id' => $item->id]) ?>
                 </div>
             </div>
         </div>
         <?php
+        $i++;
     }
 }
 ?>

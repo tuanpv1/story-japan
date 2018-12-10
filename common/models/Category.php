@@ -4,7 +4,6 @@ namespace common\models;
 
 use common\helpers\CUtils;
 use Yii;
-use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 use yii\web\NotFoundHttpException;
@@ -116,20 +115,20 @@ class Category extends \yii\db\ActiveRecord
     {
         return [
             'id' => Yii::t('app', 'ID'),
-            'display_name' => Yii::t('app', 'Tên danh mục'),
+            'display_name' => Yii::t('app', 'Name'),
             'ascii_name' => Yii::t('app', 'Ascii Name'),
-            'description' => Yii::t('app', 'Mô tả'),
-            'status' => Yii::t('app', 'Trạng thái'),
-            'order_number' => Yii::t('app', 'Sắp xếp'),
-            'parent_id' => Yii::t('app', 'Danh mục cha'),
+            'description' => Yii::t('app', 'Description'),
+            'status' => Yii::t('app', 'Status'),
+            'order_number' => Yii::t('app', 'Order'),
+            'parent_id' => Yii::t('app', 'Parent'),
             'path' => Yii::t('app', 'Path'),
             'level' => Yii::t('app', 'Level'),
             'child_count' => Yii::t('app', 'Child Count'),
-            'images' => Yii::t('app', 'Ảnh đại diện'),
-            'created_at' => Yii::t('app', 'Ngày tạo'),
-            'updated_at' => Yii::t('app', 'Ngày thay đổi thông tin'),
-            'type' => Yii::t('app', 'Kiểu menu'),
-            'location_image' => Yii::t('app', 'Ảnh hiện trang chủ'),
+            'images' => Yii::t('app', 'Thumnail'),
+            'created_at' => Yii::t('app', 'Created date'),
+            'updated_at' => Yii::t('app', 'Updated date'),
+            'type' => Yii::t('app', 'Type menu'),
+            'location_image' => Yii::t('app', 'Show in home page'),
             'hide' => Yii::t('app', 'Không hiện trên trang chủ chỉ hiện trên menu'),
             'is_news' => Yii::t('app', 'Danh mục dành riêng cho loại tin tức'),
         ];
@@ -159,25 +158,6 @@ class Category extends \yii\db\ActiveRecord
         return $this->hasMany(Category::className(), ['parent_id' => 'id'])
             ->orderBy(['order_number' => SORT_DESC])->all();
 
-    }
-
-    public static function getListType()
-    {
-        return $getListType = [
-            self::TYPE_NONE => Yii::t('app', 'Menu bình thường'),
-            self::TYPE_MENU_ABOVE => Yii::t('app', 'Menu trên'),
-            self::TYPE_MENU_RIGHT => Yii::t('app', 'Menu trái'),
-        ];
-    }
-
-    public static function getLocationImage()
-    {
-        return $getLocationImage = [
-            self::NO_IMAGE => Yii::t('app', 'Không có ảnh'),
-            self::LOCATION_TOP => Yii::t('app', 'Hiển thị bên trên'),
-            self::LOCATION_LEFT => Yii::t('app', 'Hiển thị bên trái'),
-            self::LOCATION_BOTTOM => Yii::t('app', 'Hiển thị bên dưới'),
-        ];
     }
 
 
@@ -244,8 +224,8 @@ class Category extends \yii\db\ActiveRecord
     public static function getListStatus()
     {
         return [
-            self::STATUS_ACTIVE => 'Đang hoạt động',
-            self::STATUS_INACTIVE => 'Tạm khóa',
+            self::STATUS_ACTIVE => Yii::t('app','Active'),
+            self::STATUS_INACTIVE => Yii::t('app','Inactive'),
         ];
     }
 
@@ -271,8 +251,7 @@ class Category extends \yii\db\ActiveRecord
 
     public static function getImageLinkFE($images)
     {
-        $link = $images ? Url::to('@web/staticdata/category_image/' . $images, true) : '';;
-        $link = str_replace('/staticdata/', '/admin/staticdata/', $link);
+        $link = $images ? Url::to('@web/staticdata/category_image/' . $images, true) : '';
         return $link;
     }
 
@@ -467,14 +446,17 @@ class Category extends \yii\db\ActiveRecord
         return $listCat;
     }
 
-    public function getImageLinkContentFeature()
+    public function getImageLinkContentFeature($image_default)
     {
-        $image_default = 'banner-product1.jpg';
+        if (!$this->location_image) {
+            return Url::to(Url::base() . '/' . Yii::getAlias('data/option4/') . $image_default, true);
+        }
         /** @var Content $content */
-        if (!empty($this->location_image)) {
-            return static::getImageLinkFE($this->location_image);
+        $link = Url::to('@web/staticdata/category_image/' . $this->location_image, true);
+        if (file_exists($link)) {
+            return $link;
         } else {
-            return Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
+            return Url::to(Url::base() . '/' . Yii::getAlias('data/option4/') . $image_default, true);
         }
     }
 

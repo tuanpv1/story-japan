@@ -10,7 +10,7 @@ use yii\helpers\Url;
 
 ?>
 <div class="breadcrumb clearfix">
-    <a class="home" href="<?= Url::to(['site/index']) ?>" title="Pando Shop"><?= Yii::t('app','Trang chủ') ?></a>
+    <a class="home" href="<?= Url::to(['site/index']) ?>" title="<?= Yii::$app->name ?>"><?= Yii::t('app','Home') ?></a>
     <?php if(isset($cat_parent)){ /** @var \common\models\Category $cat_parent */?>
     <span class="navigation-pipe">&nbsp;</span>
     <a href="<?= Url::to(['category/index','id'=>$cat_parent->id ]) ?>" title="<?= $cat_parent->display_name ?>"><?= $cat_parent->display_name ?></a>

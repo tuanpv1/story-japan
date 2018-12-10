@@ -52,50 +52,20 @@ $this->registerJs($js, \yii\web\View::POS_END);
 <div class="form-body">
     <ul class="nav nav-tabs nav-justified">
         <li class="active">
-            <a href="#tab_info" data-toggle="tab">
-                Thông tin</a>
+            <a href="#tab_info" data-toggle="tab"><?= Yii::t('app','Thông tin') ?></a>
         </li>
         <li>
-            <a href="#tab_images" data-toggle="tab">Ảnh </a>
+            <a href="#tab_images" data-toggle="tab"><?= Yii::t('app','Ảnh') ?></a>
         </li>
-        <li>
-            <a href="#tab_prices" data-toggle="tab">Giá và khuyễn mại</a>
-        </li>
-        <li>
-            <a href="#tab_attributes" data-toggle="tab">Thuộc tính</a>
-        </li>
+        <?php if(empty($parent)){ ?>
+            <li>
+                <a href="#tab_attributes" data-toggle="tab"><?= Yii::t('app','Nội dung truyện') ?></a>
+            </li>
+        <?php } ?>
     </ul>
     <div class="tab-content">
 
         <div class="tab-pane active" id="tab_info">
-            <?php
-            if($model->isNewRecord){
-                ?>
-                <div class="row">
-                    <form action="<?= \yii\helpers\Url::to(['content/process']) ?>" method="post">
-                        <div class="col-md-2 text-right">
-                            <label for="linkProcess">Link: </label>
-                        </div>
-                        <div class="col-md-6">
-                            <input required type="text" name="linkProcess" id="linkProcess" class="form-control"
-                                   placeholder="Nhập link sản phẩm">
-                        </div>
-                        <div class="col-md-2">
-                            <select name="sourceProcess" class="form-control">
-                                <option selected="selected">Chọn nguồn</option>
-                                <?php foreach (Content::$list_type_crawl as $key => $type) { ?>
-                                    <option value="<?= $key ?>"><?= $type ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <input type="submit" id="btProcess" class="btn btn-success" value="Phân tích sản phẩm">
-                        </div>
-                    </form>
-                </div>
-                <?php
-            }
-            ?>
 
             <?php $form = ActiveForm::begin([
                 'options' => ['enctype' => 'multipart/form-data'],
@@ -106,12 +76,27 @@ $this->registerJs($js, \yii\web\View::POS_END);
                 'action' => $model->isNewRecord ? Url::to(['content/create']) : Url::to(['content/update', 'id' => $model->id])
             ]); ?>
 
-            <h3 class="form-section"><?= Yii::t('app', 'Thông tin nội dung') ?></h3>
+            <h3 class="form-section"><?= Yii::t('app', 'Info Content') ?></h3>
             <div class="row">
                 <div class="col-md-12">
                     <?= $form->field($model, 'display_name')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle']) ?>
                 </div>
             </div>
+            <?php
+            echo $parent ? $form->field($model, 'parent_id')->hiddenInput(['value' => $parent])->label(false) : '';
+            ?>
+            <?php
+            if($model->isNewRecord && !$parent){
+                echo $form->field($model, 'is_series')->checkbox(['label' => Yii::t('app','Is Series')])->label(false);
+            }
+            ?>
+            <?php
+            if ($model->parent_id) { ?>
+                <div class="col-md-12">
+                    <?= $form->field($model, 'episode_order')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle'])->label(Yii::t('app','Order')) ?>
+                </div>
+            <?php }
+            ?>
             <div class="row">
                 <div class="col-md-12">
                     <?= $form->field($model, 'title_short')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle']) ?>
@@ -119,25 +104,14 @@ $this->registerJs($js, \yii\web\View::POS_END);
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <?php $listCheckbox = Content::$list_type; ?>
-                    <?= $form->field($model, 'type')->dropDownList($listCheckbox, ['prompt' => 'Chọn kiểu sản phẩm'])->label(Yii::t('app', 'Kiểu sản phẩm')) ?>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <?php $listCheckbox = Content::$listAvailability; ?>
-                    <?= $form->field($model, 'availability')->dropDownList($listCheckbox)->label(Yii::t('app', 'Tình trạng hàng')) ?>
+                    <?php $listCheckbox = Content::getListType(); ?>
+                    <?= $form->field($model, 'type')->dropDownList($listCheckbox, ['prompt' => Yii::t('app','Select type manga')])->label(Yii::t('app', 'Kiểu sản phẩm')) ?>
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-12">
                     <?= $form->field($model, 'code')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle', 'readonly' => true]) ?>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <?= $form->field($model, 'is_feature')->checkbox() ?>
                 </div>
             </div>
 
@@ -374,75 +348,9 @@ $this->registerJs($js, \yii\web\View::POS_END);
 
                 </div>
             </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <?=
-                    $form->field($model, 'screenshoot[]')->widget(\kartik\widgets\FileInput::classname(), [
-                        'options' => [
-                            'multiple' => true,
-                            'accept' => 'image/png,image/jpg,image/jpeg,image/gif',
-                            'id' => 'content-screenshoot'
-                        ],
-                        'pluginOptions' => [
-                            'uploadUrl' => $upload_url,
-                            'uploadExtraData' => [
-                                'type' => \common\models\Content::IMAGE_TYPE_SCREENSHOOT,
-                                'screenshots_old' => $model->screenshoot
-                            ],
-                            'maxFileCount' => 20,
-                            'showUpload' => false,
-                            'initialPreview' => $screenshootPreview,
-                            'initialPreviewConfig' => $screenshootInit,
-                            'maxFileSize' => 1024 * 1024 * 10,
-                        ],
-                        'pluginEvents' => [
-                            "fileuploaded" => "function(event, data, previewId, index) {
-                            var response=data.response;
-                            if(response.success){
-                                var current_screenshots=response.output;
-                                var old_value_text=$('#images_tmp').val();
-                                if(old_value_text !=null && old_value_text !='' && old_value_text !=undefined)
-                                {
-                                    var old_value=jQuery.parseJSON(old_value_text);
-                                    if(jQuery.isArray(old_value)){
-                                        console.log(old_value);
-                                        old_value.push(current_screenshots);
-                                    }
-                                }
-                                else{
-                                    var old_value= [current_screenshots];
-                                }
-                                console.log(old_value);
-                                $('#images_tmp').val(JSON.stringify(old_value));
-                                console.log($('#images_tmp').val());
-                            }
-                        }",
-                            "filedeleted" => "function(event, data) {
-                            var response = data.response
-                        }",
-                        ],
-
-                    ]) ?>
-
-                </div>
-            </div>
         </div>
 
-        <div class="tab-pane" id="tab_prices">
-            <div class="row">
-                <div class="col-md-12">
-                    <?= $form->field($model, 'price')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle']) ?>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <?= $form->field($model, 'price_promotion')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle']) ?>
-                </div>
-            </div>
-        </div>
-
+        <?php if(empty($parent)){ ?>
         <div class="tab-pane" id="tab_attributes">
             <div class="row">
                 <div class="col-md-12">
@@ -462,6 +370,7 @@ $this->registerJs($js, \yii\web\View::POS_END);
                 </div>
             </div>
         </div>
+        <?php } ?>
         <?php if ($model->isNewRecord): ?>
             <?= $form->field($model, 'images')->hiddenInput(['id' => 'images_tmp'])->label(false) ?>
         <?php endif; ?>

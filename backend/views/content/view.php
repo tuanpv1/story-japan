@@ -11,6 +11,9 @@ use yii\widgets\DetailView;
 
 $this->title = $model->display_name;
 $this->params['breadcrumbs'][] = ['label' => 'Content', 'url' => Yii::$app->urlManager->createUrl(['content/index'])];
+if($model->parent){
+    $this->params['breadcrumbs'][] = ['label' => $model->parent->display_name, 'url' => Yii::$app->urlManager->createUrl(['content/view', 'id' => $model->parent_id])];
+}
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <p>
@@ -36,13 +39,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="tabbable-custom nav-justified">
                     <ul class="nav nav-tabs nav-justified">
                         <li class="<?php echo $active==1? 'active':'';?>">
-                            <a href="#tab_info" data-toggle="tab">
-                                Thông tin</a>
+                            <a href="#tab_info" data-toggle="tab"><?= Yii::t('app','Information') ?></a>
                         </li>
                         <li class="<?php echo $active==2? 'active':'';?>">
-                            <a href="#tab_images" data-toggle="tab">
-                                Ảnh </a>
+                            <a href="#tab_images" data-toggle="tab"><?= Yii::t('app','Images') ?></a>
                         </li>
+                        <?php if ($model->is_series) { ?>
+                        <li class="<?php echo $active==3? 'active':'';?>">
+                            <a href="#tab_episodes" data-toggle="tab"><?= Yii::t('app','Episodes') ?></a>
+                        </li>
+                        <?php } ?>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane <?php echo $active==1? 'active':'';?>" id="tab_info">
@@ -59,7 +65,17 @@ $this->params['breadcrumbs'][] = $this->title;
 
                             ]) ?>
                         </div>
+                        <?php if ($model->is_series) { ?>
+                            <div class="tab-pane <?php echo $active==3? 'active':'';?>" id="tab_episodes">
+                                <?= Yii::$app->controller->renderPartial('_episode', [
+                                    'model' => $model,
+                                    'episode' => $episodeModel,
+                                    'episodeProvider' => $episodeProvider,
+                                    'episodeSearch'=>$episodeSearch
 
+                                ]) ?>
+                            </div>
+                        <?php } ?>
                     </div>
                 </div>
             </div>

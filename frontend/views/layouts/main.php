@@ -21,16 +21,16 @@ ToastAssetFe::config($this, [
 $time = InfoPublic::findOne(InfoPublic::ID_DEFAULT)->time_show_order * 60000;
 $orderUrl = Url::to(['shopping-cart/get-order']);
 $js = <<<JS
-    setInterval(
-        function(){
-            jQuery.post(
-                '{$orderUrl}'
-                )
-                .done(function(result) {
-                     toastr.info(result);
-                })
-        }, {$time}
-    );
+//    setInterval(
+//        function(){
+//            jQuery.post(
+//                '{$orderUrl}'
+//                )
+//                .done(function(result) {
+//                     toastr.info(result);
+//                })
+//        }, {$time}
+//    );
     
 JS;
 $this->registerJs($js, View::POS_END);
@@ -45,7 +45,7 @@ $this->registerJs($js, View::POS_END);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body class="option2">
+<body class="option5">
 <div id="my-chart"></div>
 <?php $this->beginBody() ?>
 

@@ -17,33 +17,56 @@ use yii\helpers\Url;
         <div class="container">
             <div class="nav-top-links">
                 <a class="first-item" href="#"><img alt="phone" src="/images/phone.png"/><?= $info->phone ?></a>
-                <a href="<?= Url::to(['site/contact']) ?>">Liên hệ</a>
+                <a href="<?= Url::to(['site/contact']) ?>"><?= Yii::t('app', 'Contact') ?></a>
             </div>
+            <div class="language ">
+                <div class="dropdown">
+                    <a class="current-open" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
+                        <img alt="email" src="/images/en.jpg"/>English
 
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#"><img alt="email" src="/images/en.jpg"/>English</a></li>
+                        <li><a href="#"><img alt="email" src="/images/fr.jpg"/>Japan</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="support-link">
+                <a href="#"><?= Yii::t('app', 'About Us') ?></a>
+                <a href="#"><?= Yii::t('app', 'Support') ?></a>
+            </div>
             <div id="user-info-top" class="user-info pull-right">
                 <div class="dropdown">
                     <a class="current-open" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                       href="#"><span>Tài khoản</span></a>
+                       href="#"><span><?= Yii::t('app', 'Account') ?></span></a>
                     <ul class="dropdown-menu mega_dropdown" role="menu">
                         <?php
                         if (Yii::$app->user->isGuest) {
                             ?>
-                            <li><a data-toggle="modal" data-target="#myModal" href="javascript:void(0)">Đăng nhập</a>
+                            <li><a data-toggle="modal" data-target="#myModal"
+                                   href="javascript:void(0)"><?= Yii::t('app', 'Login') ?></a>
                             </li>
                             <?php
                         } else {
                             ?>
-                            <li><a class="uppercase"
-                                   href="<?= Url::to(['subscriber/info']) ?>"><?= Yii::$app->user->identity->full_name ? Yii::$app->user->identity->full_name : Yii::$app->user->identity->username ?></a>
+                            <li>
+                                <a href="<?= Url::to(['subscriber/info']) ?>">
+                                    <?= Yii::$app->user->identity->full_name ? Yii::$app->user->identity->full_name : Yii::$app->user->identity->username ?>
+                                </a>
                             </li>
-                            <li><a class="uppercase" href="<?= Url::to(['subscriber/info']) ?>">Đơn hàng</a></li>
+                            <li>
+                                <a href="<?= Url::to(['subscriber/favourite']) ?>">
+                                    <?= Yii::t('app', 'Favourite') ?>
+                                </a>
+                            </li>
                             <?php
                         }
                         ?>
                         <?php
                         if (!Yii::$app->user->isGuest) {
                             ?>
-                            <li><a class="uppercase" href="<?= Url::to(['site/logout']) ?>" data-method="post">Đăng xuất</a>
+                            <li><a class="uppercase" href="<?= Url::to(['site/logout']) ?>"
+                                   data-method="post"><?= Yii::t('app', 'Logout') ?></a>
                             </li>
                             <?php
                         }
@@ -57,17 +80,16 @@ use yii\helpers\Url;
     <!-- MAIN HEADER -->
     <div class="container main-header">
         <div class="row">
-            <div class="col-xs-12 col-sm-3 logo">
+            <?= \frontend\widgets\SearchCategory::widget() ?>
+            <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 logo">
                 <a href="<?= Url::home() ?>">
                     <img id="fix-logo-header" alt="<?= Yii::$app->name ?>"
                          src="<?= \common\models\InfoPublic::getImageFe($info->image_header) ?>"/></a>
             </div>
-            <?= \frontend\widgets\SearchCategory::widget() ?>
             <div id="tp_id_reload">
                 <?= \frontend\widgets\CartBox::widget() ?>
             </div>
         </div>
-
     </div>
     <!-- END MANIN HEADER -->
     <div id="nav-top-menu" class="nav-top-menu">

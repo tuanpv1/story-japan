@@ -68,14 +68,6 @@ use yii\widgets\ActiveForm;
     <div class="col-sm-6">
         <div class="box-authentication">
             <div class="row">
-                <div class="col-md-2 col-sm-4 col-xs-4">
-                    <?= yii\authclient\widgets\AuthChoice::widget([
-                        'baseAuthUrl' => ['site/auth'],
-                    ]) ?>
-                </div>
-                <div class="col-md-10 col-sm-8 col-xs-8">
-                    <p class="tp_login_facebook" style="color: #176281">Đăng nhập bằng facebook</p>
-                </div>
                 <div class="col-xs-12">
                     <?= Html::a('Quên mật khẩu, cấp lại mật khẩu', ['site/request-password-reset']) ?>.
                 </div>

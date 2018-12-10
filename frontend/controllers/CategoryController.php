@@ -43,6 +43,7 @@ class CategoryController extends Controller
             ->select('content.id,content.display_name,content.type,content.short_description,content.price,content.images,content.price_promotion,content.code')
             ->innerJoin('content_category_asm', 'content_category_asm.content_id = content.id')
             ->andWhere(['content.status' => Content::STATUS_ACTIVE])
+            ->andWhere(['content.parent_id' => null])
             ->andWhere(['content_category_asm.category_id' => $cat->id]);
         if (!empty($keyword)) {
             $contents->andWhere(['like', 'content.display_name', $keyword]);
@@ -105,6 +106,7 @@ class CategoryController extends Controller
             ->select('content.id,content.display_name,content.type,content.short_description,content.price,content.images,content.price_promotion,content.code')
             ->innerJoin('content_category_asm', 'content_category_asm.content_id = content.id')
             ->andWhere(['content.status' => Content::STATUS_ACTIVE])
+            ->andWhere(['content.parent_id' => null])
             ->andWhere(['content_category_asm.category_id' => $cat->id]);
         if (!empty($keyword)) {
             $contents->andWhere(['like', 'content.display_name', $keyword]);

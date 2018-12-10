@@ -689,7 +689,7 @@
 	.top-header .nav-top-links,
 	.top-header .user-info,
 	.top-header .support-link{
-		width: auto;
+		/*width: 100%;*/
 		float: left;
 	}
 	.main-header .logo{
@@ -700,7 +700,7 @@
 		width: 100%;
 		padding-left: 15px;
 		padding-right: 15px;
-		margin-top: 30px;
+		margin-top: 15px;
 	}
 	.main-header .header-search-box .form-inline .form-category{
 		display: none;
@@ -994,6 +994,7 @@
 		padding: 0 15px;
 		margin-left: 15px;
 		margin-right: 0px;
+		background: #eee;
 	}
 	#main-menu .container-fluid{
 		padding-right: 15px;

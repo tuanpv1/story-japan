@@ -5,6 +5,7 @@
  * Date: 12/2/2016
  * Time: 11:20 PM
  */
+use common\models\Content;
 use frontend\widgets\UserWidget;
 use yii\helpers\Url;
 
@@ -15,14 +16,14 @@ use yii\helpers\Url;
     <div class="container" id="columns">
         <!-- breadcrumb -->
         <div class="breadcrumb clearfix">
-            <a class="home" href="<?= Url::to(['site/index']) ?>" title="Return to Home">Home</a>
+            <a class="home" href="<?= Url::to(['site/index']) ?>" title="Return to Home"><?= Yii::t('app','Home') ?></a>
             <span class="navigation-pipe">&nbsp;</span>
             <span class="navigation_page"><?= $model->full_name ? $model->full_name : $model->username ?></span>
         </div>
         <!-- ./breadcrumb -->
         <!-- page heading-->
         <h2 class="page-heading">
-            <span class="page-heading-title2">Thông tin cá nhân</span>
+            <span class="page-heading-title2"><?= Yii::t('app','info') ?></span>
         </h2>
         <!-- ../page heading-->
         <div class="page-content">
@@ -35,56 +36,57 @@ use yii\helpers\Url;
                         <div class="subcategories">
                             <ul>
                                 <li class="current-categorie">
-                                    <a href="#">Đơn hàng</a>
+                                    <a href="#"><?= Yii::t('app','History') ?></a>
                                 </li>
                                 <li>
-                                    <a href="#">Danh sách đơn hàng của tài khoản <?= $model->username ?></a>
+                                    <a href="#"><?= Yii::t('app','History of ') ?><?= $model->username ?></a>
                                 </li>
                             </ul>
                         </div>
-                        <div class="heading-counter warning">Tổng số đơn hàng:
-                            <span><?= $orders ? count($orders) . ' Đơn hàng' : 'Hiện bạn chưa có đơn hàng' ?></span>
+                        <div class="heading-counter warning"><?= Yii::t('app','Total manga') ?>:
+                            <span><?= $histories ? count($histories): '0' ?></span>
                         </div>
                         <div class="order-detail-content">
                             <?php
-                            if ($orders) {
+                            if ($histories) {
                                 ?>
                                 <table class="table table-bordered table-responsive cart_summary">
                                     <thead>
                                     <tr>
-                                        <th class="cart_product">Mã</th>
-                                        <th>Trạng thái</th>
-                                        <th>Số lượng SP</th>
-                                        <th>Số tiền thanh toán</th>
-                                        <th>Ngày tạo</th>
-                                        <th>Xem</th>
+                                        <th class="cart_product"><?= Yii::t('app','Code') ?></th>
+                                        <th></th>
+                                        <th><?= Yii::t('app','Name') ?></th>
+                                        <th><?= Yii::t('app','In series') ?></th>
+                                        <th><?= Yii::t('app','Date start read') ?></th>
+                                        <th><?= Yii::t('app','Date read latest') ?></th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <?php
-                                    /** @var \common\models\Order $order */
-                                    foreach ($orders as $order) {
+                                    /** @var \common\models\SubscriberHistory $history */
+                                    foreach ($histories as $history) {
                                         ?>
                                         <tr>
                                             <td class="cart_product">
-                                                <a href="<?= Url::to(['subscriber/order-detail']) ?>">#<?= $order->id ?></a>
+                                                <a href="<?= Url::to(['content/detail','id' => $history->content_id]) ?>">#<?= $history->code ?></a>
                                             </td>
                                             <td class="cart_avail">
-                                                <span class="label label-success"><?= $order->getStatusName() ?></span>
+                                                <a href="<?= Url::to(['content/detail', 'id' => $history->content_id]) ?>">
+                                                    <img src="<?= \common\models\Content::getFirstImageLinkFeStatic($history->images) ?>"
+                                                         alt="<?= $history->display_name ?>">
+                                                </a>
                                             </td>
                                             <td class="qty">
-                                                <span><?= $order->total_number ?></span>
+                                                <?= $history->display_name ?>
                                             </td>
                                             <td class="price">
-                                                <span><?= \common\helpers\CUtils::formatNumber($order->total) ?> Đ</span>
+                                                <?= $history->parent_id?Content::findOne($history->parent_id)->display_name:'' ?>
                                             </td>
                                             <td class="text-center">
-                                                <?= date('d/m/Y H:i:s', $order->created_at) ?>
+                                                <?= date('d/m/Y H:i:s', $history->time_read) ?>
                                             </td>
                                             <td class="text-center">
-                                                <a type="button"
-                                                   href="<?= Url::to(['subscriber/order-detail', 'id' => $order->id]) ?>"><i
-                                                            class="fa fa-eye"></i></a>
+                                                <?= date('d/m/Y H:i:s', $history->time_again) ?>
                                             </td>
                                         </tr>
                                         <?php

@@ -53,7 +53,13 @@ use yii\helpers\Url;
  * @property int $type_status
  * @property int $availability
  * @property int $is_feature
+ * @property int $is_series
+ * @property int $parent_id
+ * @property int $created_user_id
+ * @property int $episode_order
+ * @property int $episode_count
  * @property string $link
+ * @property string $author
  *
  * @property ContentCategoryAsm[] $contentCategoryAsms
  */
@@ -61,14 +67,13 @@ class Content extends \yii\db\ActiveRecord
 {
     const IMAGE_TYPE_SLIDECATEGORY = 1;
     const IMAGE_TYPE_THUMBNAIL = 2;
-    const IMAGE_TYPE_SCREENSHOOT = 3;
+//    const IMAGE_TYPE_SCREENSHOOT = 3;
     const IMAGE_TYPE_SLIDE = 4;
     const IMAGE_TYPE_THUMBNAIL_EPG = 5;
 
     public $logo;
     public $thumbnail;
     public $slide_category;
-    public $screenshoot;
     public $slide;
     public $image_tmp;
     public $started_at;
@@ -88,6 +93,7 @@ class Content extends \yii\db\ActiveRecord
     const STATUS_INACTIVE = 0; // khóa
     const STATUS_DELETE = 2; // Xóa
     const STATUS_PENDING = 3; // CHỜ DUYỆT
+    const STATUS_INVISIBLE = 4; // ẨN
 
     const ORDER_NEWEST = 1;
     const HONOT_NORMAL = 0;
@@ -108,11 +114,24 @@ class Content extends \yii\db\ActiveRecord
 
     const MAX_SIZE_UPLOAD = 10485760; // 10 * 1024 * 1024
 
-    public static $list_type = [
-        self::TYPE_SELLER => 'Bán chạy nhất',
-        self::TYPE_NEWEST => 'Mới nhất',
-        self::TYPE_PRICEPROMO => 'Giảm giá',
-    ];
+    public static function getListType($type = 'all')
+    {
+        return [
+            self::TYPE_SELLER => Yii::t('app', 'Hot'),
+            self::TYPE_NEWEST => Yii::t('app', 'Top favorite'),
+            self::TYPE_PRICEPROMO => Yii::t('app', 'New'),
+        ];
+    }
+
+    public function getTypeName()
+    {
+        $listStatus = self::getListType();
+        if (isset($listStatus[$this->type])) {
+            return $listStatus[$this->type];
+        }
+
+        return '';
+    }
 
     public static $list_honor = [
         self::HONOR_HOT => 'Sản phẩm hot nhất',
@@ -127,16 +146,6 @@ class Content extends \yii\db\ActiveRecord
         self::HONOR_NEWEST => 'Sản phẩm mới nhất',
         self::HONOR_PRICE => 'Giá tốt nhất',
         self::HONOR_FORYOU => 'Dành cho bạn',
-    ];
-
-    const TYPE_CRAWL_TAOBAO = 1;
-    const TYPE_CRAWL_TMALL = 2;
-    const TYPE_CRAWL_1688 = 3;
-
-    public static $list_type_crawl = [
-        self::TYPE_CRAWL_TAOBAO => 'Tao Bao',
-        self::TYPE_CRAWL_TMALL => 'Tmall',
-//        self::TYPE_CRAWL_1688 => '1688',
     ];
 
     public static $listAvailability = [
@@ -195,28 +204,30 @@ class Content extends \yii\db\ActiveRecord
                     'order',
                     'type_status',
                     'availability',
-                    'is_feature'
+                    'is_feature',
+                    'created_user_id',
+                    'parent_id',
+                    'episode_order',
+                    'episode_count',
+                    'is_series'
                 ], 'integer',
             ],
             [['description', 'url_thumbnail', 'url_slide', 'content', 'condition', 'images', 'short_description', 'images', 'highlight', 'title_short'], 'string'],
             [['rating'], 'number'],
             [['display_name', 'ascii_name', 'country'], 'string', 'max' => 128],
             [['code'], 'string', 'max' => 20],
-            [['tags', 'address'], 'string', 'max' => 500],
+            [['tags', 'address','author'], 'string', 'max' => 500],
             [['version'], 'string', 'max' => 64],
             [['language'], 'string', 'max' => 10],
             [['code'], 'unique', 'message' => Yii::t('app', '{attribute} đã tồn tại trên hệ thống. Vui lòng thử lại')],
-            [['thumbnail', 'screenshoot', 'slide', 'slide_category'],
+            [['thumbnail', 'slide', 'slide_category'],
                 'file',
                 'tooBig' => Yii::t('app', '{attribute} vượt quá dung lượng cho phép. Vui lòng thử lại'),
                 'wrongExtension' => Yii::t('app', '{attribute} không đúng định dạng'),
                 'extensions' => 'png, jpg, jpeg, gif',
                 'maxSize' => self::MAX_SIZE_UPLOAD],
             [['thumbnail', 'slide_category'], 'validateThumb', 'on' => ['adminModify', 'adminModifyLiveContent']],
-            [['screenshoot'], 'validateScreen', 'on' => 'adminModify'],
-            [['thumbnail', 'screenshoot', 'slide', 'slide_category'], 'image', 'extensions' => 'png,jpg,jpeg,gif',
-//                'minWidth' => 1, 'maxWidth' => 512,
-//                'minHeight' => 1, 'maxHeight' => 512,
+            [['thumbnail', 'slide', 'slide_category'], 'image', 'extensions' => 'png,jpg,jpeg,gif',
                 'maxSize' => 1024 * 1024 * 10, 'tooBig' => Yii::t('app', 'Ảnh show  vượt quá dung lượng cho phép. Vui lòng thử lại'),
             ],
             [['image_tmp', 'list_cat_id'], 'safe'],
@@ -245,26 +256,6 @@ class Content extends \yii\db\ActiveRecord
         });
 
         if (count($thumb) === 0) {
-            $this->addError($attribute, str_replace('(*)', '', $this->attributeLabels()[$attribute]) . ' không được để trống');
-            return false;
-        }
-    }
-
-
-    public function validateScreen($attribute, $params)
-    {
-        if (empty($this->images)) {
-            $this->addError($attribute, str_replace('(*)', '', $this->attributeLabels()[$attribute]) . ' không được để trống');
-            return false;
-        }
-
-        $images = $this->convertJsonToArray($this->images, true);
-
-        $screenshoot = array_filter($images, function ($v) {
-            return $v['type'] == self::IMAGE_TYPE_SCREENSHOOT;
-        });
-
-        if (count($screenshoot) === 0) {
             $this->addError($attribute, str_replace('(*)', '', $this->attributeLabels()[$attribute]) . ' không được để trống');
             return false;
         }
@@ -301,54 +292,53 @@ class Content extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'display_name' => Yii::t('app', 'Tên hiển thị'),
-            'code' => Yii::t('app', 'Mã code'),
+            'display_name' => Yii::t('app', 'Title'),
+            'code' => Yii::t('app', 'Code'),
             'ascii_name' => Yii::t('app', 'Ascii Name'),
-            'title_short' => Yii::t('app', 'Tên hiển thị ngắn'),
+            'title_short' => Yii::t('app', 'Short name'),
             'type' => Yii::t('app', 'Kiểu hàng sắp xếp'),
-            'tags' => Yii::t('app', 'Tối ưu từ khoá google seo'),
-            'type_status' => Yii::t('app', 'Tình trạng hàng'),
-            'availability' => Yii::t('app', 'Trạng thái hàng'),
-            'short_description' => Yii::t('app', 'Mô tả ngắn'),
-            'highlight' => Yii::t('app', 'Điểm nổi bật'),
-            'condition' => Yii::t('app', 'Điều kiện sử dụng'),
-            'price_promotion' => Yii::t('app', 'Giá khuyến mãi'),
-            'price' => Yii::t('app', 'Giá gốc'),
-            'description' => Yii::t('app', 'Mô tả'),
-            'content' => Yii::t('app', 'Nội dung'),
+            'tags' => Yii::t('app', 'Tags'),
+//            'type_status' => Yii::t('app', 'Tình trạng hàng'),
+//            'availability' => Yii::t('app', 'Trạng thái hàng'),
+            'short_description' => Yii::t('app', 'Short description'),
+//            'highlight' => Yii::t('app', 'Điểm nổi bật'),
+//            'condition' => Yii::t('app', 'Điều kiện sử dụng'),
+//            'price_promotion' => Yii::t('app', 'Giá khuyến mãi'),
+//            'price' => Yii::t('app', 'Giá gốc'),
+            'description' => Yii::t('app', 'Description'),
             'urls' => Yii::t('app', 'Urls'),
             'version_code' => Yii::t('app', 'Phiên bản code'),
             'version' => Yii::t('app', 'Phiên bản'),
-            'view_count' => Yii::t('app', 'Tổng lượt xem'),
-            'download_count' => Yii::t('app', 'Download Count'),
-            'like_count' => Yii::t('app', 'Tổng lượt thích'),
-            'dislike_count' => Yii::t('app', 'Tổng lượt ko thích'),
-            'rating' => Yii::t('app', 'Đánh giá'),
-            'rating_count' => Yii::t('app', 'Tổng lượt đánh giá'),
-            'expired_at' => Yii::t('app', 'Ngày hết hạn'),
-            'comment_count' => Yii::t('app', 'Tổng số nhận xét'),
-            'favorite_count' => Yii::t('app', 'Tổng lượt thích'),
-            'is_catchup' => Yii::t('app', 'Truyền hình xem lại'),
-            'images' => Yii::t('app', 'Hình ảnh'),
-            'status' => Yii::t('app', 'Trạng thái'),
-            'created_at' => Yii::t('app', 'Ngày tạo'),
-            'updated_at' => Yii::t('app', 'Ngày cập nhật'),
-            'honor' => Yii::t('app', 'Loại nội dung'),
-            'address' => Yii::t('app', 'Địa chỉ'),
-            'approved_at' => Yii::t('app', 'Ngày phê duyệt'),
-            'parent_id' => Yii::t('app', 'Cha'),
-            'country' => Yii::t('app', 'Nước'),
-            'language' => Yii::t('app', 'Ngôn ngữ'),
-            'thumbnail' => Yii::t('app', 'Ảnh đại diện (*)'),
-            'screenshoot' => Yii::t('app', 'Ảnh screen show (*)'),
-            'slide' => Yii::t('app', 'Ảnh slide trang chủ '),
-            'list_cat_id' => Yii::t('app', 'Danh mục  nội dung'),
-            'started_at' => Yii::t('app', 'Thời gian bắt đầu'),
-            'ended_at' => Yii::t('app', 'Thời gian kết thúc'),
-            'order' => Yii::t('app', 'Sắp xếp'),
-            'slide_category' => Yii::t('app', 'Ảnh slide Danh mục'),
+            'view_count' => Yii::t('app', 'View total'),
+//            'download_count' => Yii::t('app', 'Download Count'),
+            'like_count' => Yii::t('app', 'Like total'),
+//            'dislike_count' => Yii::t('app', 'Tổng lượt ko thích'),
+            'rating' => Yii::t('app', 'Rating'),
+            'rating_count' => Yii::t('app', 'Rating total'),
+            'expired_at' => Yii::t('app', 'expire'),
+//            'comment_count' => Yii::t('app', 'Tổng số nhận xét'),
+            'favorite_count' => Yii::t('app', 'Favorite total'),
+            'images' => Yii::t('app', 'Images'),
+            'status' => Yii::t('app', 'Status'),
+            'created_at' => Yii::t('app', 'Created date'),
+            'updated_at' => Yii::t('app', 'Updated date'),
+//            'honor' => Yii::t('app', 'Loại nội dung'),
+//            'address' => Yii::t('app', 'Địa chỉ'),
+            'approved_at' => Yii::t('app', 'Approve date'),
+            'country' => Yii::t('app', 'Country'),
+            'language' => Yii::t('app', 'Language'),
+            'thumbnail' => Yii::t('app', 'Thumnail(*)'),
+            'slide' => Yii::t('app', 'Home slide image'),
+            'list_cat_id' => Yii::t('app', 'Categories'),
+//            'started_at' => Yii::t('app', 'Thời gian bắt đầu'),
+//            'ended_at' => Yii::t('app', 'Thời gian kết thúc'),
+            'order' => Yii::t('app', 'Order'),
+            'slide_category' => Yii::t('app', 'Categories slide'),
             'is_feature' => Yii::t('app', 'Feature'),
-            'link' => Yii::t('app', 'Ngồn hàng'),
+            'parent_id' => Yii::t('app', 'Parent'),
+            'is_series' => Yii::t('app', 'Series'),
+            'created_user_id' => Yii::t('app', 'User created'),
+            'episode_order' => Yii::t('app', 'Order Episode'),
         ];
     }
 
@@ -384,14 +374,16 @@ class Content extends \yii\db\ActiveRecord
     public static function getListStatus($type = 'all')
     {
         return ['all' => [
-            self::STATUS_ACTIVE => 'Hoạt động',
-            self::STATUS_PENDING => 'Chờ duyệt',
-            self::STATUS_INACTIVE => 'Khóa',
+            self::STATUS_ACTIVE => Yii::t('app', 'Active'),
+            self::STATUS_PENDING => Yii::t('app', 'Waiting approve'),
+            self::STATUS_INACTIVE => Yii::t('app', 'Block'),
+            self::STATUS_INVISIBLE => Yii::t('app', 'hidden'),
         ],
             'filter' => [
-                self::STATUS_ACTIVE => 'Hoạt động',
-                self::STATUS_PENDING => 'Chờ duyệt',
-                self::STATUS_INACTIVE => 'Khóa',
+                self::STATUS_ACTIVE => Yii::t('app', 'Active'),
+                self::STATUS_PENDING => Yii::t('app', 'Waiting approve'),
+                self::STATUS_INACTIVE => Yii::t('app', 'Block'),
+                self::STATUS_INVISIBLE => Yii::t('app', 'hidden'),
             ],
         ][$type];
     }
@@ -450,7 +442,6 @@ class Content extends \yii\db\ActiveRecord
     {
         return [
             self::IMAGE_TYPE_SLIDECATEGORY => 'Slide Category',
-            self::IMAGE_TYPE_SCREENSHOOT => 'Screenshoot',
             self::IMAGE_TYPE_THUMBNAIL => 'Thumbnail',
             self::IMAGE_TYPE_SLIDE => 'Slide',
             self::IMAGE_TYPE_THUMBNAIL_EPG => 'Thumbnail_epg',
@@ -594,13 +585,11 @@ class Content extends \yii\db\ActiveRecord
                 $link = Url::to(Url::base() . '/' . Yii::getAlias('@content_images') . '/' . $row['name'], true);
             }
         }
-        $link = str_replace('/staticdata/', '/admin/staticdata/', $link);
-        return $link;
-//        if (file_exists($link)) {
-//            return $link;
-//        } else {
-//            return Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
-//        }
+        if (file_exists($link)) {
+            return $link;
+        } else {
+            return Url::to(Url::base() . '/' . Yii::getAlias('data/option4/') . '/' . $image_default, true);
+        }
     }
 
     public static function getFirstImageLinkFeStatic($image, $image_default = '')
@@ -616,10 +605,9 @@ class Content extends \yii\db\ActiveRecord
                 $link = Url::to(Url::base() . '/' . Yii::getAlias('@content_images') . '/' . $row['name'], true);
             }
         }
-        $link = str_replace('/staticdata/', '/admin/staticdata/', $link);
-//        if(!file_exists($link)){
-//            $link = Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
-//        }
+        if (!file_exists($link)) {
+            $link = Url::to(Url::base() . '/' . Yii::getAlias('data/option4/') . '/' . $image_default, true);
+        }
 
         return $link;
     }
@@ -633,20 +621,11 @@ class Content extends \yii\db\ActiveRecord
         }
         $listImages = self::convertJsonToArray($this->images);
         foreach ($listImages as $key => $row) {
-            if ($row['type'] == self::IMAGE_TYPE_SCREENSHOOT) {
-                $link1 = Url::to(Url::base() . '/' . Yii::getAlias('@content_images') . '/' . $row['name'], true);
-                $link1 = str_replace('/staticdata/', '/admin/staticdata/', $link1);
-//                if (!file_exists($link1)) {
-//                    $link1 = Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
-//                }
-                $link[] = $link1;
-            }
             if ($row['type'] == self::IMAGE_TYPE_THUMBNAIL) {
                 $link1 = Url::to(Url::base() . '/' . Yii::getAlias('@content_images') . '/' . $row['name'], true);
-                $link1 = str_replace('/staticdata/', '/admin/staticdata/', $link1);
-//                if (!file_exists($link1)) {
-//                    $link1 = Url::to(Url::base() . '/' . Yii::getAlias('data') . '/' . $image_default, true);
-//                }
+                if (!file_exists($link1)) {
+                    $link1 = Url::to(Url::base() . '/' . Yii::getAlias('data/option4/') . '/' . $image_default, true);
+                }
                 $link[] = $link1;
             }
         }
@@ -709,42 +688,6 @@ class Content extends \yii\db\ActiveRecord
         $this->price = $price * $convert_price;
     }
 
-    public function processImage($image, $type)
-    {
-        if ($type == self::TYPE_CRAWL_TAOBAO || $type == self::TYPE_CRAWL_TMALL) {
-            $image = str_replace('//', 'http://', $image);
-        }
-        $arrayNameImg = explode('.', $image);
-        $total = count($arrayNameImg);
-        $ext = $arrayNameImg[$total - 1];
-        $number = substr_count($image, $ext);
-        if ($number > 1) {
-            $imageNew = $arrayNameImg[0];
-            for ($i = 1; $i <= $total - 1; $i++) {
-                if ($i == $total - 2) {
-                    continue;
-                }
-                $imageNew .= '.' . $arrayNameImg[$i];
-            }
-            $image = $imageNew;
-        }
-        $file_name = uniqid() . time() . '.' . $ext;
-        $uploadPath = Yii::getAlias('@webroot') . DIRECTORY_SEPARATOR . Yii::getAlias('@content_images') . DIRECTORY_SEPARATOR . $file_name;;
-        if (copy($image, $uploadPath)) {
-            $size = filesize($uploadPath);
-            $new_file['name'] = $file_name;
-            $new_file['type'] = self::IMAGE_TYPE_THUMBNAIL;
-            $new_file['size'] = $size;
-            $imageFile[] = $new_file;
-
-            $new_file['name'] = $file_name;
-            $new_file['type'] = self::IMAGE_TYPE_SCREENSHOOT;
-            $new_file['size'] = $size;
-            $imageFile[] = $new_file;
-            $this->images = json_encode($imageFile);
-        }
-    }
-
     public function beforeValidate()
     {
         foreach (array_keys($this->getAttributes()) as $attr) {
@@ -753,5 +696,26 @@ class Content extends \yii\db\ActiveRecord
             }
         }
         return parent::beforeValidate();// to keep parent validator available
+    }
+
+    public function updateEpisodeCount()
+    {
+        $this->parent->episode_count = Content::find()
+            ->andWhere(['parent_id' => $this->parent_id,'status' => self::STATUS_ACTIVE])
+            ->count();
+        $this->parent->update(false);
+    }
+
+
+    public function updateEpisodeOrder()
+    {
+        $max = self::find()->andWhere(['parent_id' => $this->parent_id])
+            ->orderBy(['episode_order' => SORT_DESC])->one();
+        if($max){
+            $this->episode_order = $max->episode_order + 1;
+        }else{
+            $this->episode_order = 0;
+        }
+        $this->update(false);
     }
 }

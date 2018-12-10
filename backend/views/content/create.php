@@ -30,9 +30,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     'slideInit' => $slideInit,
                     'slidePreview' => $slidePreview,
                     'thumbnailPreview' => $thumbnailPreview,
-                    'screenshootInit' => $screenshootInit,
-                    'screenshootPreview' => $screenshootPreview,
                     'selectedCats' => $selectedCats,
+                    'parent' => $parent,
                 ]) ?>
             </div>
         </div>

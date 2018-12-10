@@ -7,6 +7,7 @@
  */
 namespace frontend\widgets;
 
+use common\models\SubscriberFavorite;
 use common\models\User;
 use yii\base\Widget;
 use Yii;
@@ -23,8 +24,10 @@ class UserWidget extends Widget{
 
     public  function run()
     {
+        $favourite_count = SubscriberFavorite::find()->andWhere(['subscriber_id' => $this->model->id])->count();
         return $this->render('user-widget',[
-            'model'=>$this->model
+            'model'=>$this->model,
+            'favourite_count' => $favourite_count
         ]);
     }
 }

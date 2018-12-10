@@ -8,24 +8,29 @@ use kartik\detail\DetailView;
 ?>
 <?php
 $grid = [
-    [
-        'attribute' => 'display_name',
-    ],
+    'display_name',
     'title_short',
-    'short_description:html',
-    'description:html',
-    'content:html',
     [
         'attribute' => 'status',
         'format' => 'html',
         'value' => "<span class='" . $model->getCssStatus() . "'>" . $model->getStatusName() . "</span>"
     ],
-    [
-        'attribute' => 'link',
-        'format' => 'html',
-        'value' => "<a href='" . $model->link . "'>Xem nguồn hàng</a>"
-    ],
     'tags',
+    [
+        'attribute' => 'type',
+        'format' => 'html',
+        'value' => "<span class='label label-primary'>" . $model->getTypeName() . "</span>"
+    ],
+    'order',
+    [
+        'attribute' => 'episode_count',
+        'visible' => $model->is_series?true:false,
+    ],
+    [
+        'attribute' => 'episode_order',
+        'visible' => $model->parent_id?true:false,
+    ],
+    'author',
     [
         'attribute' => 'created_at',
         'value' => date('d-m-Y H:i:s', $model->created_at)
@@ -35,25 +40,11 @@ $grid = [
         'value' => date('d-m-Y H:i:s', $model->updated_at)
     ],
     [
-        'attribute' => 'honor',
-        'format' => 'html',
-        'value' => "<span class='label label-primary'>" . Content::$list_honorDetail[$model->honor] . "</span>"
-    ],
-    [
-        'attribute' => 'type',
-        'format' => 'html',
-        'value' => "<span class='label label-primary'>" . Content::$list_type[$model->type] . "</span>"
-    ],
-    [
-        'attribute' => 'availability',
-        'format' => 'html',
-        'value' => "<span class='label label-primary'>" . Content::$listAvailability[$model->availability] . "</span>"
-    ],
-    'order',
-    [
-        'label' => Yii::t('app', 'Ngày phê duyệt'),
+        'attribute' => 'approved_at',
         'value' => $model->approved_at ? date('d-m-Y H:i:s', $model->approved_at) : ''
     ],
+    'short_description:html',
+    'description:html'
 ];
 
 

@@ -101,13 +101,11 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        $this->layout = 'main-home';
         return $this->render('index');
     }
 
     public function actionLogin()
     {
-        $this->layout = 'main-home';
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
@@ -138,7 +136,6 @@ class SiteController extends Controller
 
     public function actionLogout()
     {
-        $this->layout = 'main-home';
         Yii::$app->user->logout();
         $message = Yii::t('app', 'Đăng xuất tài khoản thành công');
         return $this->render('index', ['message' => $message, 'success' => true]);
@@ -146,7 +143,6 @@ class SiteController extends Controller
 
     public function actionSignup()
     {
-        $this->layout = 'main-home';
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {

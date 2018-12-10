@@ -364,6 +364,66 @@ function IsEmail(email) {
     }
 }
 
+function addFavourite(id,url_post) {
+    $("#my-chart").addClass("loading");
+    $.ajax({
+        url: url_post,
+        data: {
+            'content_id': id,
+        },
+        type: "POST",
+        crossDomain: true,
+        dataType: "text",
+        success: function (result) {
+            $("#my-chart").removeClass("loading");
+            result = JSON.parse(result);
+            if(result.success){
+                toastr.info(result.message);
+                $('#tp_id_reload').load(window.location.href + ' #tp_id_reload');
+                $('#replaceContentChapter').load(window.location.href + ' #replaceContentChapter');
+            }else{
+                toastr.error(result.message);
+            }
+            return;
+        },
+        error: function (result) {
+            $("#my-chart").removeClass("loading");
+            toastr.error(result.message);
+            return;
+        }
+    });//end jQuery.ajax
+}
+
+function removeFavourite(id,url_post) {
+    $("#my-chart").addClass("loading");
+    $.ajax({
+        url: url_post,
+        data: {
+            'content_id': id,
+        },
+        type: "POST",
+        crossDomain: true,
+        dataType: "text",
+        success: function (result) {
+            $("#my-chart").removeClass("loading");
+            result = JSON.parse(result);
+            if(result.success){
+                toastr.info(result.message);
+                $('#tp_id_reload').load(window.location.href + ' #tp_id_reload');
+                $('#replaceContentChapter').load(window.location.href + ' #replaceContentChapter');
+            }else{
+                toastr.error(result.message);
+            }
+            return;
+        },
+        error: function (result) {
+            $("#my-chart").removeClass("loading");
+            toastr.error(result.message);
+            return;
+        }
+    });//end jQuery.ajax
+}
+
 function loadMore(url) {
     $("#my-chart").addClass("loading");
 
@@ -407,6 +467,58 @@ function loadMore(url) {
             $("#my-chart").removeClass("loading");
             alert('Không thành công. Quý khách vui lòng thử lại sau ít phút.');
             $('#last-mark').html('');
+            return;
+        }
+    });//end jQuery.ajax
+}
+
+function nextEpisode(id,url) {
+    $("#my-chart").addClass("loading");
+    $.ajax({
+        url: url,
+        data: {
+            id:id
+        },
+        type: "POST",
+        crossDomain: true,
+        dataType: "text",
+        success: function (result) {
+            $("#my-chart").removeClass("loading");
+            $("#replaceContentChapter").replaceWith(result);
+            new_url = $('#url_new_chapter').attr('href');
+            name = $('#product_name').val();
+            window.history.pushState(name, name, new_url);
+            return;
+        },
+        error: function (result) {
+            $("#my-chart").removeClass("loading");
+            toastr.error('Không thành công. Quý khách vui lòng thử lại sau ít phút.');
+            return;
+        }
+    });//end jQuery.ajax
+}
+
+function preEpisode(id,url) {
+    $("#my-chart").addClass("loading");
+    $.ajax({
+        url: url,
+        data: {
+            id:id
+        },
+        type: "POST",
+        crossDomain: true,
+        dataType: "text",
+        success: function (result) {
+            $("#my-chart").removeClass("loading");
+            $("#replaceContentChapter").replaceWith(result);
+            new_url = $('#url_new_chapter').attr('href');
+            name = $('#product_name').val();
+            window.history.pushState(name, name, new_url);
+            return;
+        },
+        error: function (result) {
+            $("#my-chart").removeClass("loading");
+            toastr.error('Không thành công. Quý khách vui lòng thử lại sau ít phút.');
             return;
         }
     });//end jQuery.ajax

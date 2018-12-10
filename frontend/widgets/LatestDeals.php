@@ -25,11 +25,10 @@ class LatestDeals extends Widget{
     public  function run()
     {
         $contents = Content::find()
-            ->select('content.*')
-            ->innerJoin('order_detail','order_detail.content_id = content.id')
-            ->andWhere(['content.status' => Category::STATUS_ACTIVE])
-            ->orderBy(['order_detail.created_at' => SORT_DESC])
-            ->limit(5)
+            ->andWhere(['status' => Category::STATUS_ACTIVE])
+            ->andWhere(['parent_id' => null])
+            ->orderBy(['view_count' => SORT_DESC])
+            ->limit(6)
             ->all();
         return $this->render('latest-deals',[
             'contents'=>$contents

@@ -124,6 +124,14 @@ class ContentController extends BaseBEController
             ],
         ]);
 
+        // episode
+        $searchEpisodeModel = new ContentSearch();
+        $episodeModel = new Content();
+        $episodeModel->parent_id = $model->id;
+        $episodeModel->type = $model->type;
+        $params = Yii::$app->request->queryParams;
+        $episodeProvider = $searchEpisodeModel->filterEpisode($params, $id);
+
 
         return $this->render('view', [
             'model' => $model,
@@ -131,6 +139,9 @@ class ContentController extends BaseBEController
             'imageModel' => $imageModel,
             'imageProvider' => $imageProvider,
             'active' => $active,
+            'episodeProvider' => $episodeProvider,
+            'episodeSearch' => $searchEpisodeModel,
+            'episodeModel' => $episodeModel,
         ]);
     }
 
@@ -140,11 +151,9 @@ class ContentController extends BaseBEController
      *
      * @return mixed
      */
-    public function actionCreate($model = null)
+    public function actionCreate($parent = null)
     {
-        if (!$model) {
-            $model = new Content();
-        }
+        $model = new Content();
         $model->loadDefaultValues();
         $model->code = rand(10000, 99999);
         $model->setScenario('adminModify');
@@ -175,6 +184,11 @@ class ContentController extends BaseBEController
             }
             if ($model->save()) {
                 $model->createCategoryAsm();
+                if ($model->parent_id) {
+                    // update episode order
+                    $model->updateEpisodeCount();
+                    $model->updateEpisodeOrder();
+                }
 
                 // lÆ°u loáº¡i is_slide Ä‘á»ƒ lá»c bÃªn quáº£n lÃ½ slide
                 $image_slide = Content::convertJsonToArray($model->images);
@@ -201,12 +215,10 @@ class ContentController extends BaseBEController
         $logoInit = [];
         $thumbnail_epgInit = [];
         $thumbnailInit = [];
-        $screenshootInit = [];
         $slideInit = [];
         $logoPreview = [];
         $thumbnail_epgPreview = [];
         $thumbnailPreview = [];
-        $screenshootPreview = [];
         $slidePreview = [];
         $tags = explode(';', $model->tags);
         $thumb_epg = [];
@@ -232,11 +244,6 @@ class ContentController extends BaseBEController
                     $thumbnail_epgPreview[] = $preview;
                     $thumb_epg[] = $name;
                     break;
-                case Content::IMAGE_TYPE_SCREENSHOOT:
-                    $screenshootPreview[] = $preview;
-                    $screenshootInit[] = $value;
-                    $screenshoot[] = $name;
-                    break;
                 case Content::IMAGE_TYPE_THUMBNAIL:
                     $thumbnailPreview[] = $preview;
                     $thumbnailInit[] = $value;
@@ -252,7 +259,6 @@ class ContentController extends BaseBEController
         }
         $model->thumbnail = $thumb;
         $model->slide = $slide;
-        $model->screenshoot = $screenshoot;
         return $this->render('create', [
             'model' => $model,
             'logoInit' => $logoInit,
@@ -261,12 +267,11 @@ class ContentController extends BaseBEController
             'thumbnail_epgInit' => $thumbnail_epgInit,
             'thumbnailInit' => $thumbnailInit,
             'thumbnailPreview' => $thumbnailPreview,
-            'screenshootInit' => $screenshootInit,
-            'screenshootPreview' => $screenshootPreview,
             'slideInit' => $slideInit,
             'slidePreview' => $slidePreview,
             'selectedCats' => $selectedCats,
             'tags' => $tags,
+            'parent' => $parent,
         ]);
     }
 
@@ -316,7 +321,10 @@ class ContentController extends BaseBEController
                         $model->is_slide_category = 1;
                     }
                 }
-                $model->save(false);
+                if ($model->parent_id) {
+                    // update episode order
+                    $model->updateEpisodeCount();
+                }
                 \Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Cập nhật nội dung thành công'));
                 return $this->redirect(['view', 'id' => $model->id]);
             } else {
@@ -362,11 +370,6 @@ class ContentController extends BaseBEController
                     $thumbnail_epgPreview[] = $preview;
                     $thumb_epg[] = $name;
                     break;
-                case Content::IMAGE_TYPE_SCREENSHOOT:
-                    $screenshootPreview[] = $preview;
-                    $screenshootInit[] = $value;
-                    $screenshoot[] = $name;
-                    break;
                 case Content::IMAGE_TYPE_THUMBNAIL:
                     $thumbnailPreview[] = $preview;
                     $thumbnailInit[] = $value;
@@ -383,7 +386,6 @@ class ContentController extends BaseBEController
         }
         $model->thumbnail = $thumb;
         $model->slide = $slide;
-        $model->screenshoot = $screenshoot;
 
         $selectedCats = $model->getListCatIds();
         $model->list_cat_id = implode(',', $selectedCats);
@@ -401,8 +403,6 @@ class ContentController extends BaseBEController
             'slideInit' => $slideInit,
             'slidePreview' => $slidePreview,
             'thumbnailPreview' => $thumbnailPreview,
-            'screenshootInit' => $screenshootInit,
-            'screenshootPreview' => $screenshootPreview,
             'selectedCats' => $selectedCats,
         ]);
     }
@@ -680,10 +680,12 @@ class ContentController extends BaseBEController
 //                    echo $item;
 //                }
                 $arrImgSource = [];
-                foreach ($contents as $content){
+                foreach ($contents as $content) {
                     $arrImgSource[] = $content->{'data-src'};
                 }
-                echo"<pre>";print_r($arrImgSource);die;
+                echo "<pre>";
+                print_r($arrImgSource);
+                die;
             } else if ($_POST['sourceProcess'] == Content::TYPE_CRAWL_TMALL) {
                 $context = stream_context_create(array(
                     'https' => array(
@@ -742,6 +744,83 @@ class ContentController extends BaseBEController
         } else {
             Yii::$app->session->setFlash('error', Yii::t('app', 'Không thể phân tích sản phẩm, Vui lòng thử lại!'));
             return $this->redirect(['create']);
+        }
+    }
+
+    public function actionUpdateOrderView($id)
+    {
+        $model = $this->findModel($id);
+        // $oldStatus = $model->status;
+        // if ($oldStatus == Content::STATUS_PENDING) {
+        //     echo \yii\helpers\Json::encode(['output' => '', 'message' => 'Bạn không có quyền cập nhật trạng thái chờ duyệt']);
+        //     return;
+        // }
+        if (isset($_POST['hasEditable'])) {
+            // read your posted model attributes
+            $post = Yii::$app->request->post();
+            if ($post['editableKey']) {
+                // read or convert your posted information
+                $content = Content::findOne($post['editableKey']);
+                $index = $post['editableIndex'];
+                if (preg_match('/[\'\/\^£$%&*()}{@#~?><>,.|=_+¬-]/', $post['Content'][$index]['episode_order'])) {
+                    echo \yii\helpers\Json::encode(['output' => '', 'message' => 'Dữ liệu không hợp lệ']);
+                } else {
+                    $contentParent = Content::find()->andWhere(['parent_id' => $content->parent_id, 'episode_order' => (int)$post['Content'][$index]['episode_order'],])
+                        ->andWhere(['<>', 'status', Content::STATUS_DELETE])->one();
+                    if ($contentParent) {
+                        echo \yii\helpers\Json::encode(['output' => '', 'message' => 'Thứ tự tập đã tồn tại']);
+                    } else {
+                        if ($content || $model->id != $content->id) {
+                            $content->load($post['Content'][$index], '');
+                            if (is_numeric($content->episode_order) && !is_float($content->episode_order) && $content->episode_order > 0) {
+                                if ($content->save(false)) {
+                                    echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
+                                } else {
+                                    echo \yii\helpers\Json::encode(['output' => '', 'message' => \Yii::t('app', 'Dữ liệu không hợp lệ')]);
+                                }
+                            } else {
+                                echo \yii\helpers\Json::encode(['output' => '', 'message' => \Yii::t('app', 'Dữ liệu không hợp lệ')]);
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
+            }
+
+            return;
+        }
+    }
+
+    public
+    function actionUpdateStatusEpisode()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $post = Yii::$app->request->post();
+        $cp = Yii::$app->user->id;
+        if (isset($post['ids']) && isset($post['newStatus'])) {
+            $ids = $post['ids'];
+            $newStatus = $post['newStatus'];
+            $contents = Content::findAll($ids);
+            $count = 0;
+            foreach ($contents as $content) {
+                $content->status = $newStatus;
+                if($content->update()){
+                    $content->updateEpisodeCount();
+                    $count++;
+                }
+            }
+            $successMess = \Yii::t('app', 'Cập nhật ') . $count . Yii::t('app', ' content thành công');
+            return [
+                'success' => true,
+                'message' => $successMess,
+            ];
+        } else {
+            return [
+                'success' => false,
+                'message' => \Yii::t('app', 'Không thành công. Vui lòng thử'),
+            ];
         }
     }
 }

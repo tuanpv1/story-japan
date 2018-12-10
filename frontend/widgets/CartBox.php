@@ -9,6 +9,7 @@ namespace frontend\widgets;
 
 use common\models\Category;
 use common\models\Content;
+use common\models\SubscriberFavorite;
 use DateTime;
 use yii\base\Widget;
 use Yii;
@@ -24,23 +25,15 @@ class CartBox extends Widget{
 
     public  function run()
     {
-        $session = Yii::$app->session;
-        $cartInfo = $session['cart'];
-        $total_price = $totalAmount = 0;
-        if(isset($cartInfo)){
-            foreach($cartInfo as $key => $value){
-                $totalAmount += $value['amount'];
-                if($value['price_promotion'] == 0) {
-                    $total_price += $value['price'] * $value['amount'];
-                }else {
-                    $total_price += $value['price_promotion'] * $value['amount'];
-                }
-            }
+        if(Yii::$app->user->isGuest){
+            $total_favourite = 0;
+        }else{
+            $total_favourite = SubscriberFavorite::find()
+                ->andWhere(['subscriber_id' => Yii::$app->user->id])
+                ->count();
         }
         return $this->render('cart-box',[
-            'cartInfo'=>$cartInfo,
-            'total_price'=>$total_price,
-            'totalAmount'=>$totalAmount,
+            'total_favourite' => $total_favourite
         ]);
     }
 

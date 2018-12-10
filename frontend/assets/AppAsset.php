@@ -29,7 +29,7 @@ class AppAsset extends AssetBundle
         'css/reset.css',
         'css/style.css',
         'css/responsive.css',
-        'css/option2.css',
+        'css/option5.css',
         'css/site.css',
     ];
     public $js = [
@@ -44,6 +44,7 @@ class AppAsset extends AssetBundle
         'lib/fancyBox/jquery.fancybox.js',
         'js/jquery.actual.min.js',
         'js/theme-script.js',
+//        'js/option4.js',
         'js/tp.js',
     ];
     public $depends = [

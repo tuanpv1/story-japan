@@ -14,18 +14,18 @@ use common\models\Slide;
         <div class="row">
             <div class="header-top-right">
                 <div class="homeslider">
-                        <ul id="contenhomeslider">
-                            <?php
-                                if(isset($slide)){
-                                    foreach($slide as $item){
-                                        /** @var  $item \common\models\Slide*/
-                                        ?>
-                                        <li><img class="fix-width" alt="<?= $item->des ?>" src="<?= Slide::getSlideHomeFe($item->content_id) ?>" title="<?= $item->des ?>" /></li>
-                                        <?php
-                                    }
-                                }
-                            ?>
-                        </ul>
+                    <ul id="contenhomeslider">
+                        <?php
+                        if(isset($slide)){
+                            foreach($slide as $item){
+                                /** @var  $item \common\models\Slide*/
+                                ?>
+                                <li><img class="fix-width" alt="<?= $item->des ?>" src="<?= Slide::getSlideHomeFe($item->content_id) ?>" title="<?= $item->des ?>" /></li>
+                                <?php
+                            }
+                        }
+                        ?>
+                    </ul>
                 </div>
             </div>
         </div>

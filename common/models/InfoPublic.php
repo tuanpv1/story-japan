@@ -126,8 +126,10 @@ class InfoPublic extends \yii\db\ActiveRecord
     {
         if ($image) {
             $link = Url::to('@web/staticdata/image_info/' . $image, true);
-            $link = str_replace('/staticdata/', '/admin/staticdata/', $link);
-            return $link;
+            if(file_exists($link)){
+                return $link;
+            }
+            return Url::to('@web/images/logobook.png');
         }
     }
 

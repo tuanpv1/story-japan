@@ -48,7 +48,7 @@ NavBar::begin([
 if (Yii::$app->user->isGuest) {
     $rightItems[] = [
         'encode' => false,
-        'label' => '<i class="icon-user"></i><span class="username username-hide-on-mobile">'.Yii::t('app','Đăng nhập').'</span>',
+        'label' => '<i class="icon-user"></i><span class="username username-hide-on-mobile">'.Yii::t('app','Login').'</span>',
         'url' => Yii::$app->urlManager->createUrl("site/login"),
         'options' => [
             'class' => 'dropdown dropdown-user'
@@ -73,12 +73,12 @@ if (Yii::$app->user->isGuest) {
         'items' => [
             [
                 'encode' => false,
-                'label' => '<i class="icon-user"></i> '.Yii::t('app','Thông tin tài khoàn').' </a>',
+                'label' => '<i class="icon-user"></i> '.Yii::t('app','Account').' </a>',
                 'url' => ['user/info']
             ],
             [
                 'encode' => false,
-                'label' => '<i class="icon-key"></i> '.Yii::t('app','Đăng xuất'),
+                'label' => '<i class="icon-key"></i> '.Yii::t('app','Logout'),
                 'url' => ['/site/logout'],
                 'linkOptions' => ['data-method' => 'post'],
             ],
@@ -110,67 +110,57 @@ NavBar::begin([
 ]);
 $menuItems = [
     [
-        'label' => 'Quản lý nội dung',
+        'label' => Yii::t('app','Manager content'),
         'url' => 'javascript:;',
         'options' => ['class' => 'menu-dropdown mega-menu-dropdown'],
         'linkOptions' => ['data-hover' => 'megamenu-dropdown', 'data-close-others' => 'true'],
         'items' => [
             [
                 'encode' => false,
-                'label' => '<i class="fa fa-server"></i>'. Yii::t('app','Sản phẩm'),
+                'label' => '<i class="fa fa-server"></i>'. Yii::t('app','Manga'),
                 'url' => ['content/index'],
                 'require_auth' => true,
             ],
             [
                 'encode' => false,
-                'label' => '<i class="fa fa-server"></i>'. Yii::t('app','Thông tin giới thiệu'),
+                'label' => '<i class="fa fa-server"></i>'. Yii::t('app','About'),
                 'url' => ['news/index','type' => \common\models\News::TYPE_ABOUT],
                 'require_auth' => true,
             ],
             [
                 'encode' => false,
-                'label' => '<i class="fa fa-server"></i>'. Yii::t('app','Thông tin liên hệ'),
+                'label' => '<i class="fa fa-server"></i>'. Yii::t('app','Contact'),
                 'url' => ['news/index','type' => \common\models\News::TYPE_CONTACT],
                 'require_auth' => true,
             ],
             [
                 'encode' => false,
-                'label' => '<i class="fa fa-server"></i>'. Yii::t('app','Quản  lý thông tin tĩnh'),
+                'label' => '<i class="fa fa-server"></i>'. Yii::t('app','Statics information'),
                 'url' => ['info-public/index'],
                 'require_auth' => true,
             ],
         ]
     ],
     [
-        'label' => 'Quản lý Danh mục',
-        'url' => 'javascript:;',
-        'options' => ['class' => 'menu-dropdown mega-menu-dropdown'],
-        'linkOptions' => ['data-hover' => 'megamenu-dropdown', 'data-close-others' => 'true'],
-        'items' => [
-            [
-                'encode' => false,
-                'label' => '<i class="fa fa-server"></i>'.Yii::t('app','Danh mục'),
-                'url' => ['category/index'],
-                'require_auth' => true,
-            ],
-
-        ]
+        'label' => Yii::t('app','Categories'),
+        'url' => ['category/index'],
+        'require_auth' => true,
     ],
     [
-        'label' => 'Quản lý slide',
+        'label' => Yii::t('app','Manager slide'),
         'url' => 'javascript:;',
         'options' => ['class' => 'menu-dropdown mega-menu-dropdown'],
         'linkOptions' => ['data-hover' => 'megamenu-dropdown', 'data-close-others' => 'true'],
         'items' => [
             [
                 'encode' => false,
-                'label' => '<i class="fa fa-server"></i> '.Yii::t('app','Slide trang chủ'),
+                'label' => '<i class="fa fa-server"></i> '.Yii::t('app','Home slide'),
                 'url' => ['slide/index','type'=>\common\models\Slide::SLIDE_HOME],
                 'require_auth' => true,
             ],
             [
                 'encode' => false,
-                'label' => '<i class="fa fa-gift"></i>'.Yii::t('app',' Slide trang danh mục'),
+                'label' => '<i class="fa fa-gift"></i>'.Yii::t('app',' Categories slide'),
                 'url' => ['slide/index','type'=>\common\models\Slide::SLIDE_CATEGORY],
                 'require_auth' => true,
             ],
@@ -178,62 +168,34 @@ $menuItems = [
         ]
     ],
     [
-        'label' => 'Thống kê báo cáo',
+        'label' => Yii::t('app','System'),
         'url' => 'javascript:;',
         'options' => ['class' => 'menu-dropdown mega-menu-dropdown'],
         'linkOptions' => ['data-hover' => 'megamenu-dropdown', 'data-close-others' => 'true'],
         'items' => [
             [
                 'encode' => false,
-                'label' => 'Thống kê đơn hàng',
-                'url' => ['order/index'],
-            ],
-            [
-                'encode' => false,
-                'label' => 'Báo cáo',
-                'url' => ['report/product'],
-            ],
-        ]
-    ],
-    [
-        'label' => Yii::t('app','Hệ thống'),
-        'url' => 'javascript:;',
-        'options' => ['class' => 'menu-dropdown mega-menu-dropdown'],
-        'linkOptions' => ['data-hover' => 'megamenu-dropdown', 'data-close-others' => 'true'],
-        'items' => [
-            [
-                'encode' => false,
-                'label' => '<i class="icon-users"></i> '.Yii::t('app','QL người dùng'),
+                'label' => '<i class="icon-users"></i> '.Yii::t('app','Users'),
                 'url' => ['user/index'],
                 'require_auth' => true,
             ],
             [
                 'encode' => false,
-                'label' => '<i class="icon-users"></i> '.Yii::t('app','QL khách hàng'),
+                'label' => '<i class="icon-users"></i> '.Yii::t('app','Subscribers'),
                 'url' => ['subscriber/index'],
                 'require_auth' => true,
             ],
             [
-                'label' => Yii::t('app','QL quyền'),
-                'items' => [
-                    [
-                        'encode' => false,
-                        'label' => '<i class="icon-key"></i>'.Yii::t('app','QL quyền trang backend'),
-                        'url' => ['rbac-backend/permission'],
-                        'require_auth' => true,
-                    ],
-                ]
+                'encode' => false,
+                'label' => '<i class="icon-key"></i>'.Yii::t('app','Permission'),
+                'url' => ['rbac-backend/permission'],
+                'require_auth' => true,
             ],
             [
-                'label' => Yii::t('app','QL nhóm quyền'),
-                'items' => [
-                    [
-                        'encode' => false,
-                        'label' => '<i class="icon-lock-open"></i>'.Yii::t('app','QL nhóm quyền trang backend'),
-                        'url' => ['rbac-backend/role'],
-                        'require_auth' => true,
-                    ],
-                ]
+                'encode' => false,
+                'label' => '<i class="icon-key"></i>'.Yii::t('app','Role'),
+                'url' => ['rbac-backend/role'],
+                'require_auth' => true,
             ],
         ]
     ],

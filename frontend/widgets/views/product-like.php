@@ -11,7 +11,7 @@ use yii\helpers\Url;
 
 ?>
 <div class="page-product-box">
-    <h3 class="heading"><?= Yii::t('app','Sản phẩm tương tự') ?></h3>
+    <h3 class="heading"><?= Yii::t('app','Manga Related') ?></h3>
     <ul class="product-list owl-carousel" data-dots="false" data-loop="true" data-nav = "true" data-margin = "30" data-autoplayTimeout="1000" data-autoplayHoverPause = "true" data-responsive='{"0":{"items":1},"600":{"items":3},"1000":{"items":4}}'>
         <?php if(isset($content)){ ?>
         <?php foreach($content as $item){ /** @var \common\models\Content $item */ ?>
@@ -21,11 +21,11 @@ use yii\helpers\Url;
                     <a href="<?= Url::to(['content/detail','id'=>$item->id]) ?>">
                         <img style="height: 300px" class="img-responsive" alt="product" src="<?= $item->getFirstImageLinkFE() ?>" />
                     </a>
-                    <div class="quick-view">
-                        <a title="Quick view" class="search" href="<?= Url::to(['content/detail','id'=>$item->id]) ?>"></a>
-                    </div>
                     <div class="add-to-cart">
-                        <a title="Xem chi tiết" href="<?= Url::to(['content/detail','id'=>$item->id]) ?>"><?= Yii::t('app','Xem chi tiết') ?></a>
+                        <a title="<?= Yii::t('app','Read more') ?>" href="<?= Url::to(['content/detail','id'=>$item->id]) ?>"><?= Yii::t('app','Read more') ?></a>
+                    </div>
+                    <div class="price-percent-reduction2">
+                        <?= $item->getTypeName() ?>
                     </div>
                 </div>
                 <div class="right-block">
@@ -35,12 +35,7 @@ use yii\helpers\Url;
                         </a>
                     </h5>
                     <div class="content_price">
-                        <?php if($item->price_promotion && $item->price_promotion != $item->price){ ?>
-                        <span class="price product-price"><?= CUtils::formatNumber($item->price_promotion) ?> VND</span>
-                        <span class="price old-price"><?= CUtils::formatNumber($item->price) ?> VND</span>
-                        <?php } else { ?>
-                        <span class="price product-price"><?= CUtils::formatNumber($item->price) ?> VND</span>
-                        <?php } ?>
+                        <span class="price product-price"><?= Yii::t('app', 'Code: ') ?>#<?= $item->code ?></span>
                     </div>
                 </div>
             </div>

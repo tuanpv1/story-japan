@@ -156,7 +156,23 @@ a.desc:after {
     height: 450px;
 }
 
+.btn-own-css{
+    background-color: #219948;
+    padding: 10px;
+    color: white;
+}
+
 @media (min-width: 768px) {
+    .prev-btn{
+        position: absolute;
+        left: 20px;
+    }
+
+    .next-btn{
+        position: absolute;
+        right: 20px;
+    }
+
     .sub-category-list > li{
         width: 96px;
         border: 1px solid #eaeaea;
@@ -178,7 +194,7 @@ a.desc:after {
     }
 
     #fix-logo-header {
-        height: 100px;
+        height: 60px;
         width: auto;
         padding-left: 100px;
     }
@@ -207,11 +223,6 @@ a.desc:after {
         height: 130px;
     }
 
-    .top-header a {
-        padding-right: 4px;
-        margin-left: 4px;
-    }
-
     .show-brand .navbar-brand a {
         font-size: 15px;
     }
@@ -220,4 +231,9 @@ a.desc:after {
         width: 100%;
         height: auto;
     }
+}
+
+.btn-own-css:hover{
+    background-color: #00742f;
+    color: white;
 }

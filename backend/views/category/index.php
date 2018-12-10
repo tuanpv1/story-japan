@@ -8,7 +8,7 @@ use kartik\grid\GridView;
 /* @var $searchModel common\models\CategorySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app','Quản lý danh mục ');
+$this->title = Yii::t('app','Categories');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <div class="portlet-body">
                 <p>
-                    <?php  echo Html::a("Tạo danh mục ", Yii::$app->urlManager->createUrl(['/category/create']), ['class' => 'btn btn-success']) ?>
+                    <?php  echo Html::a("Create", Yii::$app->urlManager->createUrl(['/category/create']), ['class' => 'btn btn-success']) ?>
                 </p>
 
                 <?= GridView::widget([
@@ -40,7 +40,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         [
                             'class' => '\kartik\grid\DataColumn',
                             'attribute' => 'path_name',
-                            'label' => Yii::t('app','Tên danh mục'),
                             'value'=>function ($model, $key, $index, $widget) {
                                 /** @var $model \common\models\Category */
                                 return $model->path_name;
@@ -52,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'refreshGrid' => true,
                             'editableOptions' => function ($model, $key, $index) {
                                 return [
-                                    'header' => Yii::t('app','Trạng thái'),
+                                    'header' => Yii::t('app','Status'),
                                     'size' => 'md',
                                     'displayValueConfig' => $model->listStatus,
                                     'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
@@ -65,11 +64,10 @@ $this->params['breadcrumbs'][] = $this->title;
                             'filterWidgetOptions' => [
                                 'pluginOptions' => ['allowClear' => true],
                             ],
-                            'filterInputOptions' => ['placeholder' => Yii::t('app','Tất cả')],
+                            'filterInputOptions' => ['placeholder' => Yii::t('app','All')],
                         ],
                         [
                             'format'=>'raw',
-                            'label'=>Yii::t('app','Sắp xếp'),
                             'attribute' => 'order_number',
                             'value'=>function ($model, $key, $index, $widget) {
                                 /** @var $model \common\models\Category */
@@ -98,7 +96,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'delete' => function ($url, $model) {
                                     return Html::a('<span class="glyphicon glyphicon-trash"></span>', Yii::$app->urlManager->createUrl(['category/delete','id'=>$model->id]), [
                                         'title' => Yii::t('yii', 'Delete'),
-                                        'data-confirm' => Yii::t('app', 'Bạn có chắc chắn xóa danh mục này?'),
+                                        'data-confirm' => Yii::t('app', 'Are you sure delete?'),
                                         'data-method' => 'post',
                                         'data-pjax' => '0',
                                     ]);
