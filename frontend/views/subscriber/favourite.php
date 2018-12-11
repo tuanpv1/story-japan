@@ -25,7 +25,7 @@ use yii\helpers\Url;
         <!-- ./breadcrumb -->
         <!-- page heading-->
         <h2 class="page-heading">
-            <span class="page-heading-title2"><?= Yii::t('app', 'info') ?></span>
+            <span class="page-heading-title2"><?= Yii::t('app', 'information') ?></span>
         </h2>
         <!-- ../page heading-->
         <div class="page-content">
@@ -75,8 +75,11 @@ use yii\helpers\Url;
                                                         <a title="<?= Yii::t('app', 'Read more') ?>"
                                                            href="<?= Url::to(['content/detail', 'id' => $item->id]) ?>"><?= Yii::t('app', 'Read more') ?></a>
                                                     </div>
+                                                    <div class="price-percent-reduction2">
+                                                        <?= $item->getTypeName() ?>
+                                                    </div>
                                                     <div class="group-price">
-                                                        <span class="product-sale"><?= $item->getTypeName() ?></span>
+                                                        <span class="product-sale"><?= $item->view_count?$item->view_count:0 ?> <i class="glyphicon glyphicon-eye-open"></i></span>
                                                     </div>
                                                 </div>
                                                 <div class="right-block">

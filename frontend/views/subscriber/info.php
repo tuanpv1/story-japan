@@ -23,7 +23,7 @@ use yii\helpers\Url;
         <!-- ./breadcrumb -->
         <!-- page heading-->
         <h2 class="page-heading">
-            <span class="page-heading-title2"><?= Yii::t('app','info') ?></span>
+            <span class="page-heading-title2"><?= Yii::t('app','Information') ?></span>
         </h2>
         <!-- ../page heading-->
         <div class="page-content">
@@ -97,7 +97,7 @@ use yii\helpers\Url;
                                 <?php
                             } else {
                                 ?>
-                                <a href="<?= Url::home() ?>" type="button" class="button"> Tạo đơn hàng ngay</a>
+                                <a href="<?= Url::home() ?>" type="button" class="button"> <?= Yii::t('app','Read now ... ') ?></a>
                                 <?php
                             }
                             ?>

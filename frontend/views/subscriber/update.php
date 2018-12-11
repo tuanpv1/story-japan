@@ -8,8 +8,6 @@
 use common\models\Subscriber;
 use common\models\User;
 use frontend\widgets\UserWidget;
-use kartik\date\DatePicker;
-use kartik\widgets\FileInput;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -22,7 +20,7 @@ $avatarPreview = $model->isNewRecord;
     <div class="container" id="columns">
         <!-- breadcrumb -->
         <div class="breadcrumb clearfix">
-            <a class="home" href="<?= Url::to(['site/index']) ?>" title="Trang chủ">Home</a>
+            <a class="home" href="<?= Url::to(['site/index']) ?>" title="Trang chủ"><?= Yii::t('app', 'Home') ?></a>
             <span class="navigation-pipe">&nbsp;</span>
             <span class="navigation_page">
                 <a class="home" href="<?= Url::to(['subscriber/info']) ?>" title="Trang cá nhân">
@@ -30,12 +28,12 @@ $avatarPreview = $model->isNewRecord;
                 </a>
             </span>
             <span class="navigation-pipe">&nbsp;</span>
-            <span class="navigation_page">Cập nhật</span>
+            <span class="navigation_page"><?= Yii::t('app', 'Update') ?></span>
         </div>
         <!-- ./breadcrumb -->
         <!-- page heading-->
         <h2 class="page-heading">
-            <span class="page-heading-title2">Cập nhật thông tin cá nhân</span>
+            <span class="page-heading-title2"><?= Yii::t('app', 'Update information') ?></span>
         </h2>
         <!-- ../page heading-->
         <div class="page-content">
@@ -48,10 +46,10 @@ $avatarPreview = $model->isNewRecord;
                         <div class="subcategories">
                             <ul>
                                 <li class="current-categorie">
-                                    <a href="#">Cập nhật thông tin </a>
+                                    <a href="#"><?= Yii::t('app', 'Update information') ?></a>
                                 </li>
                                 <li>
-                                    <a href="#">Tài khoản <b><?= $model->username ?></b></a>
+                                    <a href="#"><?= Yii::t('app', 'Account: ') ?><b><?= $model->username ?></b></a>
                                 </li>
                             </ul>
                         </div>
@@ -66,27 +64,27 @@ $avatarPreview = $model->isNewRecord;
                                 <img style="width: 80px" src="<?= Subscriber::getImageLink() ?>"><br>
                             </div>
 
-                            <?= $form->field($model, 'full_name')->textInput(['placeholder' => 'Họ và Tên', 'maxlength' => 100]) ?>
+                            <?= $form->field($model, 'full_name')->textInput(['placeholder' => Yii::t('app', 'Full name'), 'maxlength' => 100]) ?>
 
-                            <?= $form->field($model, 'address')->textInput(['placeholder' => 'Địa chỉ', 'maxlength' => 100]) ?>
+                            <?= $form->field($model, 'address')->textInput(['placeholder' => Yii::t('app', 'Address'), 'maxlength' => 100]) ?>
 
-                            <?= $form->field($model, 'email')->textInput(['placeholder' => 'Email', 'maxlength' => 100]) ?>
+                            <?= $form->field($model, 'email')->textInput(['placeholder' => Yii::t('app', 'Email'), 'maxlength' => 100]) ?>
 
-                            <?= $form->field($model, 'phone')->textInput(['placeholder' => 'Số điện thoại', 'maxlength' => 100]) ?>
+                            <?= $form->field($model, 'phone')->textInput(['placeholder' => Yii::t('app', 'Phone number'), 'maxlength' => 100]) ?>
 
                             <?=
                             $form->field($model, 'gender')->dropDownList([
-                                'Chọn giới tính' => User::listGender(),
+                                Yii::t('app', 'select your gender') => User::listGender(),
                             ])
                             ?>
 
                             <?php
-//                            $form->field($model, 'birthday')->widget(DatePicker::classname(), [
-//                                'options' => ['placeholder' => 'Chọn ngày sinh'],
-//                                'pluginOptions' => [
-//                                    'autoclose' => true
-//                                ]
-//                            ])
+                            //                            $form->field($model, 'birthday')->widget(DatePicker::classname(), [
+                            //                                'options' => ['placeholder' => 'Chọn ngày sinh'],
+                            //                                'pluginOptions' => [
+                            //                                    'autoclose' => true
+                            //                                ]
+                            //                            ])
                             ?>
 
                             <div class="text-center">

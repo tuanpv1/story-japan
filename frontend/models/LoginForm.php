@@ -26,8 +26,8 @@ class LoginForm extends Model
     {
         return [
             // username and password are both required
-            [['username'], 'required', 'message' => 'Tên đăng nhập không được để trống'],
-            [['password'], 'required', 'message' => 'mật khẩu không được để trống'],
+            [['username'], 'required', 'message' => Yii::t('app','{attribute} cannot be null!')],
+            [['password'], 'required', 'message' => Yii::t('app','{attribute} cannot be null!')],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
             // password is validated by validatePassword()
@@ -38,9 +38,9 @@ class LoginForm extends Model
     public function attributeLabels()
     {
         return [
-            'username' => 'Tên đăng nhập',
-            'password' => 'Mật khẩu',
-            'rememberMe' => 'Ghi nhớ mật khẩu',
+            'username' => Yii::t('app','Username'),
+            'password' => Yii::t('app','Password'),
+            'rememberMe' => Yii::t('app','Remember'),
         ];
     }
 
@@ -56,7 +56,7 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Tên đăng nhập hoặc mật khẩu sai!.');
+                $this->addError($attribute, Yii::t('app','username or password not correct!'));
             }
         }
     }

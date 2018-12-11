@@ -22,7 +22,7 @@ use yii\widgets\ActiveForm;
  */
 class SiteController extends Controller
 {
-
+//    public $enableCsrfValidation = false;
     public $successUrl = 'Success';
 
     /**
@@ -118,10 +118,10 @@ class SiteController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->login()) {
-                $message = Yii::t('app', 'Đăng nhập thành công');
+                $message = Yii::t('app', 'Login success');
                 return $this->render('index', ['message' => $message, 'success' => true]);
             } else {
-                $message = Yii::t('app', 'Đăng nhập không thành công');
+                $message = Yii::t('app', 'Login failed');
                 Yii::error($model->getErrors());
                 return $this->render('index', [
                     'model' => $model,
@@ -137,7 +137,7 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
-        $message = Yii::t('app', 'Đăng xuất tài khoản thành công');
+        $message = Yii::t('app', 'Logout success');
         return $this->render('index', ['message' => $message, 'success' => true]);
     }
 
@@ -147,7 +147,7 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) {
                 if (Yii::$app->getUser()->login($user)) {
-                    $message = Yii::t('app', 'Đăng kí thành công');
+                    $message = Yii::t('app', 'Register success');
                     return $this->render('index', [
                         'message' => $message,
                         'success' => true

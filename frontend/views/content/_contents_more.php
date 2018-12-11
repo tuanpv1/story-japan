@@ -25,8 +25,11 @@ use yii\helpers\Url;
                 <div class="add-to-cart">
                     <a title="<?= Yii::t('app','Read more') ?>" href="<?= Url::to(['content/detail', 'id' => $item->id]) ?>"><?= Yii::t('app','Read more') ?></a>
                 </div>
+                <div class="price-percent-reduction2">
+                    <?= $item->getTypeName() ?>
+                </div>
                 <div class="group-price">
-                    <span class="product-sale"><?= $item->getTypeName() ?></span>
+                    <span class="product-sale"><?= $item->view_count?$item->view_count:0 ?> <i class="glyphicon glyphicon-eye-open"></i></span>
                 </div>
             </div>
             <div class="right-block">

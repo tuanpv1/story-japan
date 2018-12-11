@@ -57,12 +57,14 @@ class Subscriber extends \yii\db\ActiveRecord implements IdentityInterface
 
     const GENDER_MALE = 1;
     const GENDER_FEMALE = 2;
+    const GENDER_OTHER = 3;
 
     public static function listGender()
     {
         $gender = [
-            self::GENDER_MALE => Yii::t('app', 'Nam'),
-            self::GENDER_FEMALE => Yii::t('app', 'Nữ'),
+            self::GENDER_MALE => Yii::t('app', 'Male'),
+            self::GENDER_FEMALE => Yii::t('app', 'Female'),
+            self::GENDER_OTHER => Yii::t('app', 'Other'),
         ];
         return $gender;
     }
@@ -155,7 +157,7 @@ class Subscriber extends \yii\db\ActiveRecord implements IdentityInterface
 //        $pathLink = Yii::getAlias('@web') . '/' . Yii::getAlias('@image_avatar') . '/';
 //        $filename = null;
 //        if (!$filename) {
-        $pathLink = Url::base()  . '/images/avt_df.png';
+        $pathLink = Url::base() . '/images/avt_df.png';
 //        }
         $link = Url::to($pathLink);
         return $link;
@@ -251,8 +253,8 @@ class Subscriber extends \yii\db\ActiveRecord implements IdentityInterface
 
     public function beforeValidate()
     {
-        foreach (array_keys($this->getAttributes()) as $attr){
-            if(!empty($this->$attr)){
+        foreach (array_keys($this->getAttributes()) as $attr) {
+            if (!empty($this->$attr)) {
                 $this->$attr = \yii\helpers\HtmlPurifier::process($this->$attr);
             }
         }

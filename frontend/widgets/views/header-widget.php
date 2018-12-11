@@ -65,7 +65,7 @@ use yii\helpers\Url;
                         <?php
                         if (!Yii::$app->user->isGuest) {
                             ?>
-                            <li><a class="uppercase" href="<?= Url::to(['site/logout']) ?>"
+                            <li><a href="<?= Url::to(['site/logout']) ?>"
                                    data-method="post"><?= Yii::t('app', 'Logout') ?></a>
                             </li>
                             <?php

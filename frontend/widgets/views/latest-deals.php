@@ -39,6 +39,9 @@ use yii\helpers\Url;
                                         <div class="price-percent-reduction2">
                                             <?= $content->getTypeName() ?>
                                         </div>
+                                        <div class="group-price">
+                                            <span class="product-sale"><?= $content->view_count?$content->view_count:0 ?> <i class="glyphicon glyphicon-eye-open"></i></span>
+                                        </div>
                                     </div>
                                     <div class="right-block">
                                         <h5 class="product-name">
