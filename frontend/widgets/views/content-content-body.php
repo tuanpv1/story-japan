@@ -40,7 +40,7 @@ if ($contents) {
                 <?= $content->getTypeName() ?>
             </div>
             <div class="group-price">
-                <span class="product-sale"><?= $content->view_count?$item->view_count:0 ?> <i class="glyphicon glyphicon-eye-open"></i></span>
+                <span class="product-sale"><?= $content->view_count?$content->view_count:0 ?> <i class="glyphicon glyphicon-eye-open"></i></span>
             </div>
         </li>
         <?php

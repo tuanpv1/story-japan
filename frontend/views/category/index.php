@@ -121,6 +121,9 @@ use yii\helpers\Url;
                                             <div class="content_price">
                                                 <?= Yii::t('app','Code: ') ?>#<span
                                                         id="product_code_<?= $item->id ?>"><?= $item->code ?></span>
+                                                <span class="price old-price">
+                                                    <?= Yii::t('app','Author:') ?> <?= $item->author?$item->author:Yii::t('app','updating...') ?>
+                                                </span>
                                             </div>
                                         </div>
                                     </li>

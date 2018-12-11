@@ -2070,7 +2070,7 @@ span.notify-right{
     color: #219948;
 }
 .product-list li .old-price{
-    text-decoration:line-through;
+    /*text-decoration:line-through;*/
     margin-left: 11px;
     line-height: 25px;
     color: #666;
@@ -2080,7 +2080,6 @@ span.notify-right{
   line-height: 28px;
 }
 .product-list li .group-price{
-  position: absolute;
   position: absolute;
   top: 10px;
   left: 10px;

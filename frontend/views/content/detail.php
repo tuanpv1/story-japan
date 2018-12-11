@@ -46,17 +46,30 @@ $info = InfoPublic::findOne(InfoPublic::ID_DEFAULT);
                                         <p><b><?= Yii::t('app', 'Type: ') ?></b><span
                                                     class="in-stock"><?= $content->getTypeName() ?></span>
                                         </p>
+                                        <p><b><?= Yii::t('app', 'Author: ') ?></b><span
+                                                    class="in-stock"><?= $content->author ? $content->author : Yii::t('app', 'Updating ... ') ?></span>
+                                        </p>
+                                        <p><b><?= Yii::t('app', 'Total favourite: ') ?></b><span
+                                                    class="in-stock">
+                                                <?= $content->favorite_count ? $content->favorite_count : 0 ?></span>
+                                            <i style="color:red; margin-top: 6px;" class="glyphicon glyphicon-heart"></i>
+                                        </p>
+                                        <p><b><?= Yii::t('app', 'Total read: ') ?></b><span
+                                                    class="in-stock">
+                                                <?= $content->view_count ? $content->view_count : 0 ?></span>
+                                            <i style="margin-top: 6px;" class="glyphicon glyphicon-eye-open"></i>
+                                        </p>
                                     </div>
                                     <div class="product-desc">
                                         <?= $content->short_description ? $content->short_description : Yii::t('app', 'Đang cập nhật') ?>
                                     </div>
                                     <div class="form-action">
                                         <div class="button-group">
-                                            <?php if($favourite){ ?>
+                                            <?php if ($favourite) { ?>
                                                 <a class="btn-own-css" href="javascript:void(0)"
                                                    onclick="removeFavourite(<?= $content->id ?>,'<?= Url::to(['subscriber/remove-favourite']) ?>')">
                                                     <?= Yii::t('app', 'Remove favourite') ?></a>
-                                            <?php }else{ ?>
+                                            <?php } else { ?>
                                                 <a class="btn-own-css" href="javascript:void(0)"
                                                    onclick="addFavourite(<?= $content->id ?>,'<?= Url::to(['subscriber/add-favourite']) ?>')">
                                                     <?= Yii::t('app', 'Add to my favourite') ?></a>

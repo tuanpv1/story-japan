@@ -80,6 +80,7 @@ use yii\helpers\Url;
                                                     </div>
                                                     <div class="group-price">
                                                         <span class="product-sale"><?= $item->view_count?$item->view_count:0 ?> <i class="glyphicon glyphicon-eye-open"></i></span>
+                                                        <span class="price old-price"><?= Yii::t('app','Author:') ?> <?= $item->author?$item->author:Yii::t('app','updating...') ?></span>
                                                     </div>
                                                 </div>
                                                 <div class="right-block">
