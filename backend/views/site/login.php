@@ -7,7 +7,7 @@ use kartik\form\ActiveForm;
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model LoginForm */
 
-$this->title =Yii::t('app', 'Đăng nhập');
+$this->title =Yii::t('app', 'Login');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 

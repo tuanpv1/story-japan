@@ -25,7 +25,7 @@ class CategoryController extends Controller
         $id = Yii::$app->request->get('id');
         $cat = Category::findOne($id);
         if (!$cat) {
-            throw new NotFoundHttpException(Yii::t('app', 'Không tìm thấy danh mục'));
+            throw new NotFoundHttpException(Yii::t('app', 'Invalid category'));
         }
         if (!empty(Yii::$app->request->post('value_max'))) {
             $value_max = Yii::$app->request->post('value_max');
@@ -91,7 +91,7 @@ class CategoryController extends Controller
         $id = Yii::$app->request->post('category_id');
         $cat = Category::findOne($id);
         if (!$cat) {
-            throw new NotFoundHttpException(Yii::t('app', 'Không tìm thấy danh mục'));
+            throw new NotFoundHttpException(Yii::t('app', 'Invalid category'));
         }
         if (!empty(Yii::$app->request->post('value_max'))) {
             $value_max = Yii::$app->request->post('value_max');

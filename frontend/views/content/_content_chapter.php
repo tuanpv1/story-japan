@@ -35,7 +35,7 @@ use yii\helpers\Url;
                 </p>
             </div>
             <div class="product-desc">
-                <?= $content->short_description ? $content->short_description : Yii::t('app', 'Đang cập nhật') ?>
+                <?= $content->short_description ? $content->short_description : Yii::t('app', 'Updating ...') ?>
             </div>
             <div class="form-action">
                 <div class="button-group">
@@ -60,7 +60,7 @@ use yii\helpers\Url;
             </ul>
             <div class="tab-container">
                 <div id="product-detail" class="tab-panel active">
-                    <?= $content->description ? $content->description : Yii::t('app', 'Đang cập nhật') ?>
+                    <?= $content->description ? $content->description : Yii::t('app', 'Updating ...') ?>
                 </div>
             </div>
         </div>

@@ -3,7 +3,7 @@
 
 $config = [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
-    'language' => 'vi', /**  set target language to be vi */
+    'language' => 'en', /**  set target language to be en */
     'aliases' => [
         '@cat_image' => 'static/content_images',
         '@content_images' => 'staticdata/content_images',
@@ -21,25 +21,6 @@ $config = [
                 [
                     'class' => 'yii\log\FileTarget',
                     'levels' => ['info', 'error', 'warning'],
-                ],
-            ],
-        ],
-        'i18n' => [
-            'translations' => [
-                'app*' => [
-                    'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => '@common/messages',
-//                    'forceTranslation' => true
-                ],
-                'yii*' => [
-                    'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => '@common/messages',
-//                    'forceTranslation' => true
-                ],
-                'zii*' => [
-                    'class' => 'yii\i18n\PhpMessageSource',
-                    'basePath' => '@common/messages',
-//                    'forceTranslation' => true
                 ],
             ],
         ],

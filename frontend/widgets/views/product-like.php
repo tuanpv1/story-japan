@@ -12,7 +12,7 @@ use yii\helpers\Url;
 ?>
 <div class="page-product-box">
     <h3 class="heading"><?= Yii::t('app','Manga Related') ?></h3>
-    <ul class="product-list owl-carousel" data-dots="false" data-loop="true" data-nav = "true" data-margin = "30" data-autoplayTimeout="1000" data-autoplayHoverPause = "true" data-responsive='{"0":{"items":1},"600":{"items":3},"1000":{"items":4}}'>
+    <ul class="product-list owl-carousel" data-dots="false" data-loop="true" data-nav = "true" data-margin = "30" data-autoplayTimeout="1000" data-autoplayHoverPause = "true" data-responsive='{"0":{"items":1},"600":{"items":2},"1000":{"items":3}}'>
         <?php if(isset($content)){ ?>
         <?php foreach($content as $item){ /** @var \common\models\Content $item */ ?>
         <li>

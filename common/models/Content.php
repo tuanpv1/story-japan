@@ -114,7 +114,7 @@ class Content extends \yii\db\ActiveRecord
 
     const MAX_SIZE_UPLOAD = 10485760; // 10 * 1024 * 1024
 
-    public static function getListType($type = 'all')
+    public static function getListType()
     {
         return [
             self::TYPE_SELLER => Yii::t('app', 'Hot'),

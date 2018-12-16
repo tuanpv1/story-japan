@@ -51,6 +51,7 @@ class SiteController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'logout' => ['post'],
+                    'switch-language' => ['post'],
                 ],
             ],
         ];
@@ -202,7 +203,7 @@ class SiteController extends Controller
     {
         $new = News::findOne(['type' => News::TYPE_ABOUT, 'status' => News::STATUS_ACTIVE]);
         if (!$new) {
-            \Yii::$app->session->setFlash('error', Yii::t('app', 'Chưa cập nhật thông tin'));
+            \Yii::$app->session->setFlash('error', Yii::t('app', 'Not yet update info'));
             return $this->redirect(['site/index']);
         }
         return $this->render('detail', [
@@ -214,11 +215,24 @@ class SiteController extends Controller
     {
         $new = News::findOne(['type' => News::TYPE_CONTACT, 'status' => News::STATUS_ACTIVE]);
         if (!$new) {
-            \Yii::$app->session->setFlash('error', Yii::t('app', 'Chưa cập nhật thông tin'));
+            \Yii::$app->session->setFlash('error', Yii::t('app', 'Not yet update info'));
             return $this->redirect(['site/index']);
         }
         return $this->render('detail', [
             'new' => $new,
         ]);
+    }
+
+    public function actionSwitchLanguage(){
+        $language = Yii::$app->request->post('language');
+        if($language){
+            Yii::$app->language = $language;
+            $cookies = Yii::$app->response->cookies;
+            $cookies->add(new \yii\web\Cookie([
+                'name' => 'language',
+                'value' => $language,
+            ]));
+            return true;
+        }
     }
 }

@@ -28,7 +28,7 @@ class SearchPriceWidget extends Widget{
     {
         $info = InfoPublic::findOne(InfoPublic::ID_DEFAULT);
         if (!$info) {
-            throw new NotFoundHttpException(Yii::t('app', 'Chưa được cài đặt thông số tĩnh xin cập nhật từ trang quản trị'));
+            throw new NotFoundHttpException(Yii::t('app', 'Not yet setup statics information'));
         }
         return $this->render('search-price',[
             'info' => $info

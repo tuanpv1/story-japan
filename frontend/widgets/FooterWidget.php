@@ -28,7 +28,7 @@ class FooterWidget extends Widget
     {
         $info = InfoPublic::findOne(InfoPublic::ID_DEFAULT);
         if (!$info) {
-            throw new NotFoundHttpException(Yii::t('app', 'Chưa được cài đặt thông số tĩnh xin cập nhật từ trang quản trị'));
+            throw new NotFoundHttpException(Yii::t('app', 'Not yet setup statics information'));
         }
         $cats = Category::findAll(['parent_id' => null, 'status' => Category::STATUS_ACTIVE]);
         return $this->render('footer-widget', ['info' => $info, 'cats' => $cats]);

@@ -20,8 +20,11 @@ $info = InfoPublic::findOne(InfoPublic::ID_DEFAULT);
         <!-- ./breadcrumb -->
         <!-- row -->
         <div class="row">
+            <div class="column col-xs-12 col-sm-3" id="left_column">
+                <?= \frontend\widgets\WidgetSaleContent::widget() ?>
+            </div>
             <!-- Center colunm-->
-            <div class="center_column col-xs-12 col-sm-12" id="center_column">
+            <div class="center_column col-xs-12 col-sm-9" id="center_column">
                 <!-- Product -->
                 <?php if (isset($content)) { ?>
                     <div id="product">
@@ -61,7 +64,7 @@ $info = InfoPublic::findOne(InfoPublic::ID_DEFAULT);
                                         </p>
                                     </div>
                                     <div class="product-desc">
-                                        <?= $content->short_description ? $content->short_description : Yii::t('app', 'Đang cập nhật') ?>
+                                        <?= $content->short_description ? $content->short_description : Yii::t('app', 'Updating ...') ?>
                                     </div>
                                     <div class="form-action">
                                         <div class="button-group">
@@ -93,7 +96,7 @@ $info = InfoPublic::findOne(InfoPublic::ID_DEFAULT);
                                     </ul>
                                     <div class="tab-container">
                                         <div id="product-detail" class="tab-panel active">
-                                            <?= $content->description ? $content->description : Yii::t('app', 'Đang cập nhật') ?>
+                                            <?= $content->description ? $content->description : Yii::t('app', 'Updating ...') ?>
                                         </div>
                                     </div>
                                 </div>
@@ -127,5 +130,3 @@ $info = InfoPublic::findOne(InfoPublic::ID_DEFAULT);
         <!-- ./row-->
     </div>
 </div>
-
-<?= \frontend\widgets\CartBox::getModal() ?>

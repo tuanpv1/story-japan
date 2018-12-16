@@ -17,6 +17,9 @@ return [
         '@category_image'=>'staticdata\category_image',
     ],
     'components' => [
+        'request' => [
+            'enableCsrfValidation' => false,
+        ],
         'user' => [
             'identityClass' => 'common\models\Subscriber',
             'enableAutoLogin' => true,
@@ -49,6 +52,23 @@ return [
                 ],
             ],
         ],
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+//                    'basePath' => '@common/messages',
+//                    'forceTranslation' => true
+                    'sourceLanguage' => 'en',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/error' => 'error.php'
+                    ]
+                ],
+            ],
+        ],
+    ],
+    'as beforeRequest' => [
+        'class' => 'frontend\models\CheckLanguage'
     ],
     'params' => $params,
 ];

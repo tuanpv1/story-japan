@@ -51,8 +51,7 @@ use yii\helpers\Url;
                                         </h5>
                                         <input type="hidden" class="product_amount_<?= $content->id ?>" value="1">
                                         <div class="content_price">
-                                            <span class="price product-price"
-                                                    id="product_code_<?= $content->id ?>"><?= Yii::t('app', 'Code : ') ?> #<?= $content->code ?></span>
+                                            <span class="price product-price"><?= Yii::t('app', 'Author: ') ?><?= $content->author ? $content->author : Yii::t('app', 'Updating...') ?></span>
                                         </div>
                                     </div>
                                 </li>

@@ -21,19 +21,39 @@ use yii\helpers\Url;
             </div>
             <div class="language ">
                 <div class="dropdown">
-                    <a class="current-open" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
-                        <img alt="email" src="/images/en.jpg"/>English
-
-                    </a>
+                    <?php
+                    $cookies = Yii::$app->request->cookies;
+                    if (isset($cookies['language'])) {
+                        $language = $cookies['language']->value;
+                        ?>
+                        <a class="current-open" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
+                            <img alt="email" src="/images/<?= $language ?>.jpg"/><?= Yii::$app->params['languages'][$language] ?>
+                        </a>
+                        <?php
+                    } else {
+                        ?>
+                        <a class="current-open" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
+                            <img alt="<?= Yii::t('app','English') ?>" src="/images/en.jpg"/><?= Yii::t('app','English') ?>
+                        </a>
+                        <?php
+                    }
+                    ?>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#"><img alt="email" src="/images/en.jpg"/>English</a></li>
-                        <li><a href="#"><img alt="email" src="/images/fr.jpg"/>Japan</a></li>
+                        <?php foreach (Yii::$app->params['languages'] as $key => $language) {
+                            ?>
+                            <li>
+                                <a href="javascript:void(0)"
+                                   onclick="changeLanguages('<?= $key ?>','<?= Url::to(['site/switch-language']) ?>')">
+                                    <img alt="<?= $language ?>" src="/images/<?= $key ?>.jpg"/><?= $language ?>
+                                </a>
+                            </li>
+                            <?php
+                        } ?>
                     </ul>
                 </div>
             </div>
             <div class="support-link">
-                <a href="#"><?= Yii::t('app', 'About Us') ?></a>
-                <a href="#"><?= Yii::t('app', 'Support') ?></a>
+                <a href="<?= Url::to(['site/about']) ?>"><?= Yii::t('app', 'About Us') ?></a>
             </div>
             <div id="user-info-top" class="user-info pull-right">
                 <div class="dropdown">

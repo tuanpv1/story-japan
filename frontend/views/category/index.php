@@ -22,7 +22,6 @@ use yii\helpers\Url;
         <div class="row">
             <!-- Left colunm -->
             <div class="column col-xs-12 col-sm-3" id="left_column">
-                <?= \frontend\widgets\SearchPriceWidget::widget() ?>
                 <?= \frontend\widgets\WidgetSaleContent::widget() ?>
             </div>
             <!-- ./left colunm -->
@@ -161,4 +160,3 @@ use yii\helpers\Url;
         <!-- ./row-->
     </div>
 </div>
-<?= \frontend\widgets\CartBox::getModal() ?>

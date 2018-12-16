@@ -163,7 +163,7 @@ class News extends \yii\db\ActiveRecord
     {
         $user = User::findOne($this->created_user_id);
         if (!$user) {
-            return 'Đang cập nhật';
+            return Yii::t('app','Updating ...');
         }
         return $user->username;
     }

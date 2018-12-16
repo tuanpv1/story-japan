@@ -39,4 +39,3 @@ $this->registerJs($js_toastr, View::POS_READY);
 <!-- end services -->
 <?= \frontend\widgets\ContentBody::widget() ?>
 <!--modal-->
-<?= \frontend\widgets\CartBox::getModal() ?>
