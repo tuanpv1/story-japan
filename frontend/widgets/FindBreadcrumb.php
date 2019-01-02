@@ -40,13 +40,15 @@ class FindBreadcrumb extends Widget{
 
     public static function getBreadcrumb($id){
         $cat = ContentCategoryAsm::findOne(['content_id'=>$id]);
-        $cat_parent = FindBreadcrumb::getCateParent($cat->category_id);
-        if(isset($cat_parent) && !empty($cat_parent)) {
-            $st = new FindBreadcrumb();
-            return $st->render('find-breadcrumb', [
-                'cat_parent' => $cat_parent,
-                'id_content'=>$id,
-            ]);
+        if($cat){
+            $cat_parent = FindBreadcrumb::getCateParent($cat->category_id);
+            if(isset($cat_parent) && !empty($cat_parent)) {
+                $st = new FindBreadcrumb();
+                return $st->render('find-breadcrumb', [
+                    'cat_parent' => $cat_parent,
+                    'id_content'=>$id,
+                ]);
+            }
         }
     }
 
