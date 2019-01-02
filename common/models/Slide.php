@@ -290,10 +290,11 @@ class Slide extends \yii\db\ActiveRecord
                 $link = Url::to('@web/staticdata/content_images/'. $row['name'], true);
             }
         }
-        if(file_exists($link)){
-            return $link;
-        }else{
-            return Url::to(Url::base() . '/' . Yii::getAlias('data/option5/') . '/' . $image_default, true);
+        return $link;
+
+//        if(file_exists($link)){
+//        }else{
+//            return Url::to(Url::base() . '/' . Yii::getAlias('data/option5/') . '/' . $image_default, true);
         }
     }
 

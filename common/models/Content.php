@@ -585,11 +585,12 @@ class Content extends \yii\db\ActiveRecord
                 $link = Url::to(Url::base() . '/' . Yii::getAlias('@content_images') . '/' . $row['name'], true);
             }
         }
-        if (file_exists($link)) {
-            return $link;
-        } else {
-            return Url::to(Url::base() . '/' . Yii::getAlias('data/option4/') . '/' . $image_default, true);
-        }
+        return $link;
+
+//        if (file_exists($link)) {
+//        } else {
+//            return Url::to(Url::base() . '/' . Yii::getAlias('data/option4/') . '/' . $image_default, true);
+//        }
     }
 
     public static function getFirstImageLinkFeStatic($image, $image_default = '')
