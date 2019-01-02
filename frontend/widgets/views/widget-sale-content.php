@@ -16,12 +16,17 @@ use yii\helpers\Url;
     <div class="block_content product-onsale">
         <ul class="product-list owl-carousel" data-loop="true" data-nav = "false" data-margin = "0" data-autoplayTimeout="1000" data-autoplayHoverPause = "true" data-items="1" data-autoplay="true">
             <?php foreach($product_sales as $item){ /** @var  \common\models\Content $item */ ?>
-            <li>
-                <div class="product-container">
+                <li>
                     <div class="left-block">
-                        <a href="<?= Url::to(['content/detail','id'=>$item->id]) ?>">
-                            <img class="img-responsive" alt="product" src="<?= $item->getFirstImageLinkFE() ?>" />
+                        <a href="<?= Url::to(['content/detail', 'id' => $item->id]) ?>">
+                            <img style="height: 250px" class="img-responsive product_image_<?= $item->id ?>" alt="product"
+                                 src="<?= $item->getFirstImageLinkFE('p14.jpg') ?>"/>
                         </a>
+                        <div class="add-to-cart">
+                            <a title="<?= $item->display_name ?>" href="<?= Url::to(['content/detail', 'id' => $item->id]) ?>">
+                                <?= Yii::t('app', 'Read more') ?>
+                            </a>
+                        </div>
                         <div class="price-percent-reduction2">
                             <?= $item->getTypeName() ?>
                         </div>
@@ -31,13 +36,16 @@ use yii\helpers\Url;
                     </div>
                     <div class="right-block">
                         <h5 class="product-name">
-                            <a href="<?= Url::to(['content/detail','id'=>$item->id]) ?>">
-                                <?= $item->display_name ?>
+                            <a href="<?= Url::to(['content/detail', 'id' => $item->id]) ?>">
+                                <span id="product_name_<?= $item->id ?>"><?= CUtils::substr($item->display_name, 25) ?></span><br>
                             </a>
                         </h5>
+                        <input type="hidden" class="product_amount_<?= $item->id ?>" value="1">
+                        <div class="content_price">
+                            <span class="price product-price"><?= Yii::t('app', 'Author: ') ?><?= $item->author ? $item->author : Yii::t('app', 'Updating...') ?></span>
+                        </div>
                     </div>
-                </div>
-            </li>
+                </li>
             <?php } ?>
         </ul>
     </div>

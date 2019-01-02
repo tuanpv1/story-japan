@@ -18,7 +18,7 @@ if ($contents) {
         <li>
             <div class="left-block">
                 <a href="<?= Url::to(['content/detail', 'id' => $content->id]) ?>">
-                    <img class="img-responsive" alt="product"
+                    <img style="height: 200px" class="img-responsive" alt="product"
                          src="<?= $content->getFirstImageLinkFE('p14.jpg') ?>"/></a>
                 <div class="add-to-cart">
                     <a title="Add to Cart" href="<?= Url::to(['content/detail', 'id' => $content->id]) ?>">
