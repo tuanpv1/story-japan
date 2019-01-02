@@ -52,10 +52,12 @@ class FindBreadcrumb extends Widget{
 
     public static function getCateParent($id_cat){
         $cat = Category::findOne(['id'=>$id_cat]);
-        if($cat->parent_id != null){
-            return FindBreadcrumb::getCateParent($cat->parent_id);
-        }else{
-            return $cat;
+        if($cat){
+            if($cat->parent_id != null){
+                return FindBreadcrumb::getCateParent($cat->parent_id);
+            }else{
+                return $cat;
+            }
         }
     }
 
