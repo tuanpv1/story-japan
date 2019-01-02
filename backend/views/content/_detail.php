@@ -23,7 +23,7 @@ $grid = [
     ],
     [
         'attribute' => 'language',
-        'value' => Yii::$app->params['languages'][$model->language]
+        'value' => $model->language?Yii::$app->params['languages'][$model->language]:''
     ],
     'order',
     [
