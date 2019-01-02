@@ -21,6 +21,10 @@ $grid = [
         'format' => 'html',
         'value' => "<span class='label label-primary'>" . $model->getTypeName() . "</span>"
     ],
+    [
+        'attribute' => 'language',
+        'value' => Yii::$app->params['languages'][$model->language]
+    ],
     'order',
     [
         'attribute' => 'episode_count',

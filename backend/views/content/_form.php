@@ -101,6 +101,7 @@ $this->registerJs($js, \yii\web\View::POS_END);
                 </div>
             <?php }
             ?>
+            <?= $form->field($model, 'language')->dropDownList(Yii::$app->params['languages']) ?>
             <div class="row">
                 <div class="col-md-12">
                     <?= $form->field($model, 'title_short')->textInput(['maxlength' => 128, 'class' => 'form-control  input-circle']) ?>
