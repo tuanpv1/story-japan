@@ -20,11 +20,8 @@ $info = InfoPublic::findOne(InfoPublic::ID_DEFAULT);
         <!-- ./breadcrumb -->
         <!-- row -->
         <div class="row">
-            <div class="column col-xs-12 col-sm-3" id="left_column">
-                <?= \frontend\widgets\WidgetSaleContent::widget() ?>
-            </div>
             <!-- Center colunm-->
-            <div class="center_column col-xs-12 col-sm-9" id="center_column">
+            <div class="center_column col-xs-12 col-sm-12" id="center_column">
                 <!-- Product -->
                 <?php if (isset($content)) { ?>
                     <div id="product">
@@ -64,11 +61,11 @@ $info = InfoPublic::findOne(InfoPublic::ID_DEFAULT);
                                         </p>
                                     </div>
                                     <div class="product-desc">
-                                        <?= $content->short_description ? $content->short_description : Yii::t('app', 'Updating ...') ?>
+                                        <?= $content->short_description ? $content->short_description : Yii::t('app', 'Đang cập nhật') ?>
                                     </div>
                                     <div class="form-action">
                                         <div class="button-group">
-                                            <?php if ($favourite) { ?>
+                                            <?php if (!empty($favourite)) { ?>
                                                 <a class="btn-own-css" href="javascript:void(0)"
                                                    onclick="removeFavourite(<?= $content->id ?>,'<?= Url::to(['subscriber/remove-favourite']) ?>')">
                                                     <?= Yii::t('app', 'Remove favourite') ?></a>
@@ -96,7 +93,7 @@ $info = InfoPublic::findOne(InfoPublic::ID_DEFAULT);
                                     </ul>
                                     <div class="tab-container">
                                         <div id="product-detail" class="tab-panel active">
-                                            <?= $content->description ? $content->description : Yii::t('app', 'Updating ...') ?>
+                                            <?= $content->description ? $content->description : Yii::t('app', 'Đang cập nhật') ?>
                                         </div>
                                     </div>
                                 </div>
@@ -130,3 +127,5 @@ $info = InfoPublic::findOne(InfoPublic::ID_DEFAULT);
         <!-- ./row-->
     </div>
 </div>
+
+<?= \frontend\widgets\CartBox::getModal() ?>

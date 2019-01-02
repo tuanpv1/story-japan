@@ -11,7 +11,7 @@ use yii\helpers\Url;
 
 ?>
 <div class="block left-module">
-    <p class="title_block"><?= Content::getListType()[Content::TYPE_NEWEST] ?></p>
+    <p class="title_block"><?= Yii::t('app','Sản phẩm mới') ?></p>
     <div class="block_content">
         <div class="owl-carousel owl-best-sell" data-loop="true" data-nav = "false" data-margin = "0" data-autoplayTimeout="1000" data-autoplay="true" data-autoplayHoverPause = "true" data-items="1">
             <?php

@@ -31,7 +31,7 @@ $tilte = Yii::t('app',"Shop - Đăng nhập");
 <?php $this->beginBody() ?>
 <div class="logo">
     <a href="index.html">
-        <img style="height: 80px" src="<?= Url::to("@web/img/logo-big.png"); ?>" alt=""/>
+        <img src="<?= Url::to("@web/img/logo-big.png"); ?>" alt=""/>
     </a>
 </div>
 <div class="menu-toggler sidebar-toggler">

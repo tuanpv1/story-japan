@@ -2,7 +2,6 @@
 
 use common\models\Content;
 use common\models\Site;
-use common\widgets\CKEditor;
 use kartik\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -48,9 +47,6 @@ $(document).ready(function() {
 });
 JS;
 $this->registerJs($js, \yii\web\View::POS_END);
-//$kcfOptions = array_merge(\common\widgets\CKEditor::$kcfDefaultOptions, [
-//    'uploadURL' =>
-//]);
 ?>
 
 <div class="form-body">
@@ -368,13 +364,10 @@ $this->registerJs($js, \yii\web\View::POS_END);
 
             <div class="row">
                 <div class="col-md-12">
-                    <?= $form->field($model, 'description')->widget(CKEditor::className(), [
+                    <?= $form->field($model, 'description')->widget(\dosamigos\ckeditor\CKEditor::className(), [
                         'options' => ['rows' => 8],
                         'preset' => 'full'
-                    ]);
-                    $_SESSION['KCFINDER'] = array(
-                        'disabled' => false
-                    );?>
+                    ]) ?>
                 </div>
             </div>
         </div>

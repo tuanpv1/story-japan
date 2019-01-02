@@ -93,7 +93,7 @@ class ContentController extends Controller
                 $category_id = $_POST['category_id'];
                 $category = Category::findOne($category_id);
                 if (!$category) {
-                    throw new NotFoundHttpException(Yii::t('app', 'Invalid category'));
+                    throw new NotFoundHttpException(Yii::t('app', 'Không tìm thấy danh mục'));
                 }
                 $listCats = Category::allChildCats($category_id);
                 $listCats[] = $category->id;
@@ -155,7 +155,7 @@ class ContentController extends Controller
                 $category_id = $_POST['category_id'];
                 $category = Category::findOne($category_id);
                 if (!$category) {
-                    throw new NotFoundHttpException(Yii::t('app', 'Invalid category'));
+                    throw new NotFoundHttpException(Yii::t('app', 'Không tìm thấy danh mục'));
                 }
                 $listCats = Category::allChildCats($category_id);
                 $listCats[] = $category->id;

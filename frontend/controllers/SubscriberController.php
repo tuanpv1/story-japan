@@ -94,7 +94,7 @@ class SubscriberController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $model->birthday = $model->birthday ? date('Y-m-d H:i:s', strtotime(DateTime::createFromFormat("d/m/Y", $model->birthday)->setTime(0, 0)->format('Y-m-d H:i:s'))) : '';
             $model->save(false);
-            Yii::$app->getSession()->setFlash('success', 'Updated information');
+            Yii::$app->getSession()->setFlash('success', 'Cập nhật thành công thông tin người dùng');
             return $this->redirect(['info']);
         } else {
             return $this->render('update', [

@@ -21,39 +21,19 @@ use yii\helpers\Url;
             </div>
             <div class="language ">
                 <div class="dropdown">
-                    <?php
-                    $cookies = Yii::$app->request->cookies;
-                    if (isset($cookies['language'])) {
-                        $language = $cookies['language']->value;
-                        ?>
-                        <a class="current-open" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
-                            <img alt="email" src="/images/<?= $language ?>.jpg"/><?= Yii::$app->params['languages'][$language] ?>
-                        </a>
-                        <?php
-                    } else {
-                        ?>
-                        <a class="current-open" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
-                            <img alt="<?= Yii::t('app','English') ?>" src="/images/en.jpg"/><?= Yii::t('app','English') ?>
-                        </a>
-                        <?php
-                    }
-                    ?>
+                    <a class="current-open" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="#">
+                        <img alt="email" src="/images/en.jpg"/>English
+
+                    </a>
                     <ul class="dropdown-menu" role="menu">
-                        <?php foreach (Yii::$app->params['languages'] as $key => $language) {
-                            ?>
-                            <li>
-                                <a href="javascript:void(0)"
-                                   onclick="changeLanguages('<?= $key ?>','<?= Url::to(['site/switch-language']) ?>')">
-                                    <img alt="<?= $language ?>" src="/images/<?= $key ?>.jpg"/><?= $language ?>
-                                </a>
-                            </li>
-                            <?php
-                        } ?>
+                        <li><a href="#"><img alt="email" src="/images/en.jpg"/>English</a></li>
+                        <li><a href="#"><img alt="email" src="/images/fr.jpg"/>Japan</a></li>
                     </ul>
                 </div>
             </div>
             <div class="support-link">
-                <a href="<?= Url::to(['site/about']) ?>"><?= Yii::t('app', 'About Us') ?></a>
+                <a href="#"><?= Yii::t('app', 'About Us') ?></a>
+                <a href="#"><?= Yii::t('app', 'Support') ?></a>
             </div>
             <div id="user-info-top" class="user-info pull-right">
                 <div class="dropdown">

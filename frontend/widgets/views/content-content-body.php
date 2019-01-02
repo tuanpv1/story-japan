@@ -33,20 +33,19 @@ if ($contents) {
                     </a>
                 </h5>
                 <div class="content_price">
-                    <span class="price product-price"><?= Yii::t('app', 'Author: ') ?><?= $content->author ? $content->author : Yii::t('app', 'Updating...') ?></span>
+                    <span class="price product-price"><?= Yii::t('app', 'Code: ') ?>#<?= $content->code ?></span>
                 </div>
             </div>
             <div class="price-percent-reduction2">
                 <?= $content->getTypeName() ?>
             </div>
             <div class="group-price">
-                <span class="product-sale"><?= $content->view_count ? $content->view_count : 0 ?> <i
-                            class="glyphicon glyphicon-eye-open"></i></span>
+                <span class="product-sale"><?= $content->view_count?$content->view_count:0 ?> <i class="glyphicon glyphicon-eye-open"></i></span>
             </div>
         </li>
         <?php
     }
 } else {
-    echo Yii::t('app', 'Not content to show');
+    echo Yii::t('app','Not content to show');
 }
 ?>

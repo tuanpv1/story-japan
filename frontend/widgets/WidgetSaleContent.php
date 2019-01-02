@@ -25,11 +25,12 @@ class WidgetSaleContent extends Widget
     {
         // sản phẩm sale
         $product_sales = Content::find()
-            ->select('content.id,content.display_name,content.type,content.short_description,content.images')
+            ->select('content.id,content.display_name,content.type,content.short_description,content.price,content.images,content.price_promotion')
             ->andWhere(['content.status' => Content::STATUS_ACTIVE])
-            ->andWhere(['content.type' => Content::TYPE_NEWEST])
+            ->andWhere(['content.type' => Content::TYPE_PRICEPROMO])
+            ->andWhere(['<>', 'content.id', $this->id])
             ->orderBy(['content.created_at' => 'DESC'])
-            ->limit(5)
+            ->limit(3)
             ->all();
         return $this->render('widget-sale-content', [
             'product_sales' => $product_sales,

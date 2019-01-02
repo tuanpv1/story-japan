@@ -472,25 +472,6 @@ function loadMore(url) {
     });//end jQuery.ajax
 }
 
-function changeLanguages(id,url) {
-    $.ajax({
-        url: url,
-        data: {
-            'language': id
-        },
-        type: "POST",
-        crossDomain: true,
-        dataType: "text",
-        success: function (result) {
-            location.reload();
-            return;
-        },
-        error: function (result) {
-            alert('Không thành công. Quý khách vui lòng thử lại sau ít phút.');
-            return;
-        }
-    });//end jQuery.ajax
-}
 function nextEpisode(id,url) {
     $("#my-chart").addClass("loading");
     $.ajax({

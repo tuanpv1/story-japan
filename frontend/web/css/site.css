@@ -188,8 +188,9 @@ a.desc:after {
     }
 
     #fix-logo-footer {
-        height: 50px;
-        /*display: none;*/
+        /*height: 121px;*/
+        /*margin-left: 50px;*/
+        display: none;
     }
 
     #fix-logo-header {
@@ -215,9 +216,7 @@ a.desc:after {
     }
 
     #fix-logo-header {
-        height: 46px;
-        margin-top: 11px;
-        margin-left: 56px;
+        height: 83px;
     }
 
     #fix-logo-footer {

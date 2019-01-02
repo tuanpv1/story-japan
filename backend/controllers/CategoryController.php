@@ -55,10 +55,10 @@ class CategoryController extends BaseBEController
                     if ($cat->update()) {
                         echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
                     } else {
-                        echo \yii\helpers\Json::encode(['output' => '', 'message' => Yii::t('app', 'Invalid data')]);
+                        echo \yii\helpers\Json::encode(['output' => '', 'message' => Yii::t('app', 'Dữ liệu không hợp lệ')]);
                     }
                 } else {
-                    echo \yii\helpers\Json::encode(['output' => '', 'message' => Yii::t('app', 'Invalid category')]);
+                    echo \yii\helpers\Json::encode(['output' => '', 'message' => Yii::t('app', 'Danh mục không tồn tại')]);
                 }
             } // else if nothing to do always return an empty JSON encoded output
             else {
@@ -170,7 +170,7 @@ class CategoryController extends BaseBEController
 
                 Yii::info($model->getErrors());
 
-                \Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Created'));
+                \Yii::$app->getSession()->setFlash('success', Yii::t('app', 'Thêm mới thành công'));
 
                 return $this->redirect(['index']);
             } else {

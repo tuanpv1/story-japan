@@ -11,7 +11,7 @@ use common\models\Category;
 <div class="container">
     <div class="brand-showcase">
         <h2 class="brand-showcase-title">
-            <?= Yii::t('app','For you') ?>
+            <?= Yii::t('app','Dành cho bạn') ?>
         </h2>
         <div class="brand-showcase-box">
             <ul class="brand-showcase-logo owl-carousel" data-loop="true" data-nav = "true" data-dots="false" data-margin = "1" data-autoplayTimeout="1000" data-autoplayHoverPause = "true" data-responsive='{"0":{"items":2},"600":{"items":5},"1000":{"items":8}}'>

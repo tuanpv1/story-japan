@@ -12,7 +12,7 @@ use yii\helpers\Url;
 ?>
 <?php if(isset($product_sales) && !empty($product_sales)){ ?>
 <div class="block left-module">
-    <p class="title_block"><?= Content::getListType()[Content::TYPE_NEWEST] ?></p>
+    <p class="title_block"><?= Yii::t('app','Đang giảm giá') ?></p>
     <div class="block_content product-onsale">
         <ul class="product-list owl-carousel" data-loop="true" data-nav = "false" data-margin = "0" data-autoplayTimeout="1000" data-autoplayHoverPause = "true" data-items="1" data-autoplay="true">
             <?php foreach($product_sales as $item){ /** @var  \common\models\Content $item */ ?>
@@ -22,12 +22,7 @@ use yii\helpers\Url;
                         <a href="<?= Url::to(['content/detail','id'=>$item->id]) ?>">
                             <img class="img-responsive" alt="product" src="<?= $item->getFirstImageLinkFE() ?>" />
                         </a>
-                        <div class="price-percent-reduction2">
-                            <?= $item->getTypeName() ?>
-                        </div>
-                        <div class="group-price">
-                            <span class="product-sale"><?= $item->view_count?$item->view_count:0 ?> <i class="glyphicon glyphicon-eye-open"></i></span>
-                        </div>
+                        <div class="price-percent-reduction2">-<?= round (((($item->price - $item->price_promotion)/($item->price))*100),1) ?> % </div>
                     </div>
                     <div class="right-block">
                         <h5 class="product-name">
@@ -35,6 +30,17 @@ use yii\helpers\Url;
                                 <?= $item->display_name ?>
                             </a>
                         </h5>
+                        <div class="product-star">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-half-o"></i>
+                        </div>
+                        <div class="content_price">
+                            <span class="price"><?= CUtils::formatNumber($item->price_promotion) ?> VND</span>
+                            <span class="old-price"><?= CUtils::formatNumber($item->price) ?> VND</span>
+                        </div>
                     </div>
                 </div>
             </li>
