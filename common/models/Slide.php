@@ -295,7 +295,7 @@ class Slide extends \yii\db\ActiveRecord
 //        if(file_exists($link)){
 //        }else{
 //            return Url::to(Url::base() . '/' . Yii::getAlias('data/option5/') . '/' . $image_default, true);
-        }
+//        }
     }
 
     public static function getSlider($sp){
