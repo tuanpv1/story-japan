@@ -28,7 +28,7 @@ use yii\helpers\Url;
                                 <li>
                                     <div class="left-block">
                                         <a href="<?= Url::to(['content/detail', 'id' => $content->id]) ?>">
-                                            <img class="img-responsive product_image_<?= $content->id ?>" alt="product"
+                                            <img style="height: 250px" class="img-responsive product_image_<?= $content->id ?>" alt="product"
                                                  src="<?= $content->getFirstImageLinkFE('p14.jpg') ?>"/>
                                         </a>
                                         <div class="add-to-cart">
