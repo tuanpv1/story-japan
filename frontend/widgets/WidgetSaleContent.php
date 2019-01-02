@@ -27,7 +27,7 @@ class WidgetSaleContent extends Widget
         $product_sales = Content::find()
             ->select('content.id,content.display_name,content.type,content.short_description,content.price,content.images,content.price_promotion')
             ->andWhere(['content.status' => Content::STATUS_ACTIVE])
-            ->andWhere(['content.type' => Content::TYPE_PRICEPROMO])
+            ->andWhere(['content.type' => Content::TYPE_NEWEST])
             ->andWhere(['<>', 'content.id', $this->id])
             ->orderBy(['content.created_at' => 'DESC'])
             ->limit(3)

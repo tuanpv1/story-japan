@@ -22,8 +22,7 @@ use yii\helpers\Url;
         <div class="row">
             <!-- Left colunm -->
             <div class="column col-xs-12 col-sm-3" id="left_column">
-                <?= \frontend\widgets\SearchPriceWidget::widget() ?>
-                <?= \frontend\widgets\WidgetSaleContent::widget() ?>
+                <?= \frontend\widgets\WidgetSaleContent::widget(['id' => 0]) ?>
             </div>
             <!-- ./left colunm -->
             <!-- Center colunm-->
