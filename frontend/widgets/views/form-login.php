@@ -52,14 +52,6 @@ use yii\widgets\ActiveForm;
 
                 <?= $form->field($model_register, 'address')->textInput(['placeholder' => Yii::t('app','Address')]) ?>
 
-                <?= $form->field($model_register, 'captcha')->widget(Captcha::className(), [
-                    'template' => '<div class="row"><div class="col-lg-5">{image}</div><div class="col-lg-7">{input}</div></div>',
-                ]) ?>
-
-                <div class="re-and-log re-and-log2">
-                    <?= $form->field($model_register, 'accept')->checkbox() ?>
-                </div>
-
                 <button name="signup-button" class="button"><i class="fa fa-user"></i> <?= Yii::t('app', 'Register') ?>
                 </button>
                 <?php ActiveForm::end(); ?>

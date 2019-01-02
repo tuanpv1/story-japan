@@ -115,4 +115,5 @@ return [
     'username' => 'ユーザー名',
     'username or password not correct!' => 'ユーザー名またはパスワードが正しくありません！',
     '{attribute} cannot be null!' => 'ヌルにすることはできません！',
+    'Captcha' => 'キャプチャ',
 ];

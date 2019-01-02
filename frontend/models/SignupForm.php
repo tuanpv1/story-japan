@@ -38,7 +38,7 @@ class SignupForm extends Model
             ['email', 'required','message'=>'Tên đăng nhập không được để trống.'],
             ['birthday', 'default', 'value' => null],
             ['email', 'email', 'message' => 'Địa chỉ email không hợp lệ!'],
-            ['captcha', 'required', 'message' => 'Mã captcha không được để trống.'],
+//            ['captcha', 'required', 'message' => 'Mã captcha không được để trống.'],
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Tài khoản email của bạn đã được đăng ký trên hệ thống!'],
             ['password', 'string', 'min' => 6, 'tooShort' => 'Mật khẩu phải tối thiểu 6 ký tự'],
@@ -52,9 +52,9 @@ class SignupForm extends Model
                 'message' => 'Xác nhận mật khẩu không khớp',
 
             ],
-            ['accept', 'compare', 'compareValue' => 1, 'message' => ''],
+//            ['accept', 'compare', 'compareValue' => 1, 'message' => ''],
             [['address'], 'safe'],
-            [['captcha'], 'captcha'],
+//            [['captcha'], 'captcha'],
             [['phone_number'], 'integer', 'message' => 'Số điện thoại phải là kiểu số'],
         ];
     }
@@ -62,14 +62,14 @@ class SignupForm extends Model
     public function attributeLabels()
     {
         return [
-            'username' => 'Tên đăng nhập',
-            'phone_number' => 'Số điện thoại',
-            'email' => 'Email',
-            'address' => 'Địa chỉ',
-            'password' => 'Mật khẩu',
-            'confirm_password' => 'Xác nhận mật khẩu',
-            'captcha' =>'Mã captcha',
-            'accept' => 'Vui lòng đồng ý với quy định và điều khoản của trang (*)'
+            'username' => Yii::t('app','Username'),
+            'phone_number' =>  Yii::t('app','Phone'),
+            'email' => Yii::t('app','Email'),
+            'address' => Yii::t('app','Address'),
+            'password' => Yii::t('app','Password'),
+            'confirm_password' => Yii::t('app','Confirm password'),
+            'captcha' =>Yii::t('app','Captcha'),
+//            'accept' => 'Vui lòng đồng ý với quy định và điều khoản của trang (*)'
         ];
     }
 
