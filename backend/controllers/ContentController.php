@@ -456,9 +456,6 @@ class ContentController extends BaseBEController
         if ($type == Content::IMAGE_TYPE_THUMBNAIL) {
             $old_value = Yii::$app->request->post('thumbnail_old');
             $attribute = 'thumbnail';
-        } elseif ($type == Content::IMAGE_TYPE_SCREENSHOOT) {
-            $old_value = Yii::$app->request->post('screenshots_old');
-            $attribute = 'screenshoot';
         } elseif ($type == Content::IMAGE_TYPE_SLIDE) {
             $old_value = Yii::$app->request->post('slide_old');
             $attribute = 'slide';
@@ -784,8 +781,7 @@ class ContentController extends BaseBEController
                         }
                     }
                 }
-            }
-            else {
+            } else {
                 echo \yii\helpers\Json::encode(['output' => '', 'message' => '']);
             }
 
@@ -806,7 +802,7 @@ class ContentController extends BaseBEController
             $count = 0;
             foreach ($contents as $content) {
                 $content->status = $newStatus;
-                if($content->update()){
+                if ($content->update()) {
                     $content->updateEpisodeCount();
                     $count++;
                 }
